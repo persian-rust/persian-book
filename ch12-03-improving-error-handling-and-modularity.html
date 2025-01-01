@@ -1,0 +1,850 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>بازسازی برای بهبود ماژولاریت و مدیریت خطا - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، crateها، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و crateها</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html" class="active"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گرهای هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گرهای هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از انواع مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناامن</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> صفت‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-types.html"><strong aria-hidden="true">20.3.</strong> انواع پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closureهای پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-06-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور تک‌نخی</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div dir="rtl">
+<h2 id="بازسازی-برای-بهبود-ماژولار-بودن-و-مدیریت-خطاها"><a class="header" href="#بازسازی-برای-بهبود-ماژولار-بودن-و-مدیریت-خطاها">بازسازی برای بهبود ماژولار بودن و مدیریت خطاها</a></h2>
+<p>برای بهبود برنامه خود، چهار مشکلی که به ساختار برنامه و نحوه مدیریت خطاهای بالقوه مربوط می‌شوند را رفع خواهیم کرد.</p>
+<ul dir="rtl">
+  <li>
+    <strong>تک‌مسئولیتی کردن تابع <code>main</code></strong>:  
+    در حال حاضر، تابع <code>main</code> دو وظیفه را انجام می‌دهد: تجزیه آرگومان‌ها و خواندن فایل‌ها. با رشد برنامه، تعداد وظایف جداگانه‌ای که تابع <code>main</code> باید مدیریت کند افزایش خواهد یافت. هرچه یک تابع مسئولیت‌های بیشتری داشته باشد، درک آن سخت‌تر می‌شود، تست کردن آن پیچیده‌تر خواهد شد و تغییر آن بدون آسیب به بخش‌های دیگر دشوارتر می‌شود. بهتر است قابلیت‌ها را جدا کنیم تا هر تابع فقط مسئول یک وظیفه باشد.
+  </li>
+  <li>
+    <strong>گروه‌بندی متغیرهای پیکربندی</strong>:  
+    متغیرهایی مانند <code>query</code> و <code>file_path</code> متغیرهای پیکربندی برای برنامه ما هستند، در حالی که متغیرهایی مانند <code>contents</code> برای اجرای منطق برنامه استفاده می‌شوند. هرچه تابع <code>main</code> طولانی‌تر شود، به متغیرهای بیشتری نیاز خواهد داشت که وارد دامنه شوند؛ و هرچه تعداد متغیرها بیشتر شود، پیگیری هدف هر متغیر دشوارتر خواهد شد. بهتر است متغیرهای پیکربندی را در یک ساختار گروه‌بندی کنیم تا هدف آن‌ها واضح‌تر باشد.
+  </li>
+  <li>
+    <strong>بهبود پیام‌های خطا</strong>:  
+    هنگام شکست در خواندن فایل، از <code>expect</code> برای چاپ پیام خطا استفاده کرده‌ایم، اما پیام خطا فقط <code>Should have been able to read the file</code> را چاپ می‌کند. خواندن یک فایل می‌تواند به دلایل مختلفی شکست بخورد: مثلاً ممکن است فایل وجود نداشته باشد یا ممکن است اجازه دسترسی به آن را نداشته باشیم. در حال حاضر، بدون توجه به شرایط، همان پیام خطا برای همه چیز چاپ می‌شود که اطلاعاتی به کاربر نمی‌دهد.
+  </li>
+  <li>
+    <strong>یکپارچه‌سازی مدیریت خطاها</strong>:  
+    اگر کاربر برنامه ما را بدون مشخص کردن تعداد کافی آرگومان اجرا کند، یک خطای <code>index out of bounds</code> از Rust دریافت می‌کنند که به وضوح مشکل را توضیح نمی‌دهد. بهتر است تمام کد مدیریت خطاها در یک مکان قرار گیرد تا نگهداری‌کنندگان آینده تنها یک مکان را برای بررسی تغییرات در منطق مدیریت خطا داشته باشند. این کار همچنین اطمینان حاصل می‌کند که پیام‌هایی که چاپ می‌شوند برای کاربران نهایی معنادار هستند.
+  </li>
+</ul>
+<h3 id="جداسازی-وظایف-برای-پروژههای-دودویی"><a class="header" href="#جداسازی-وظایف-برای-پروژههای-دودویی">جداسازی وظایف برای پروژه‌های دودویی</a></h3>
+<p>مشکل تخصیص مسئولیت‌های چندگانه به تابع <code>main</code> در بسیاری از پروژه‌های دودویی رایج است. به همین دلیل، جامعه Rust دستورالعمل‌هایی برای تقسیم دغدغه‌های جداگانه یک برنامه دودویی ارائه داده است. این فرایند شامل مراحل زیر است:</p>
+<ul dir="rtl">
+<li> برنامه خود را به فایل‌های _main.rs_ و _lib.rs_ تقسیم کرده و منطق برنامه را به _lib.rs_ منتقل کنید. </li>
+<li> تا زمانی که منطق تجزیه آرگومان‌های خط فرمان کوچک است، می‌تواند در _main.rs_ باقی بماند. </li>
+<li> وقتی منطق تجزیه آرگومان‌ها پیچیده شد، آن را از _main.rs_ جدا کرده و به _lib.rs_ منتقل کنید. </li>
+</ul>
+<p>وظایفی که پس از این فرایند در تابع <code>main</code> باقی می‌مانند باید محدود به موارد زیر باشند:</p>
+<ul dir="rtl">
+<li> فراخوانی منطق تجزیه آرگومان‌های خط فرمان با مقادیر آرگومان‌ها </li>
+<li> تنظیم هرگونه پیکربندی دیگر </li>
+<li> فراخوانی یک تابع `run` در _lib.rs_ </li>
+<li> مدیریت خطاها در صورت بازگرداندن خطا توسط `run` </li>
+</ul>
+<p>این الگو درباره جداسازی وظایف است: <em>main.rs</em> اجرای برنامه را مدیریت می‌کند و <em>lib.rs</em> تمام منطق مربوط به کار مورد نظر را مدیریت می‌کند. از آنجا که نمی‌توان تابع <code>main</code> را مستقیماً تست کرد، این ساختار به شما اجازه می‌دهد تمام منطق برنامه خود را با انتقال آن به توابع در <em>lib.rs</em> تست کنید. کدی که در <em>main.rs</em> باقی می‌ماند به اندازه کافی کوچک خواهد بود که با خواندن آن از صحت آن اطمینان حاصل کنید. بیایید برنامه خود را با پیروی از این فرایند بازسازی کنیم.</p>
+<h4 id="استخراج-تجزیهکننده-آرگومانها"><a class="header" href="#استخراج-تجزیهکننده-آرگومانها">استخراج تجزیه‌کننده آرگومان‌ها</a></h4>
+<p>ما قابلیت تجزیه آرگومان‌ها را به یک تابع جداگانه استخراج می‌کنیم که تابع <code>main</code> آن را فراخوانی خواهد کرد تا برای انتقال منطق تجزیه آرگومان خط فرمان به فایل <em>src/lib.rs</em> آماده شویم. لیست ۱۲-۵ شروع جدید تابع <code>main</code> را نشان می‌دهد که یک تابع جدید به نام <code>parse_config</code> را فراخوانی می‌کند، که در حال حاضر در <em>src/main.rs</em> تعریف خواهیم کرد.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let (query, file_path) = parse_config(&amp;args);
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!("Searching for {query}");
+</span><span class="boring">    println!("In file {file_path}");
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(file_path)
+</span><span class="boring">        .expect("Should have been able to read the file");
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span>}
+
+fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
+    let query = &amp;args[1];
+    let file_path = &amp;args[2];
+
+    (query, file_path)
+}</code></pre>
+<figcaption>Listing 12-5: استخراج تابع <code>parse_config</code> از <code>main</code></figcaption>
+</figure>
+<p>ما همچنان آرگومان‌های خط فرمان را به یک بردار جمع‌آوری می‌کنیم، اما به جای اینکه مقدار آرگومان در اندیس (index)۱ را به متغیر <code>query</code> و مقدار آرگومان در اندیس (index)۲ را به متغیر <code>file_path</code> در تابع <code>main</code> اختصاص دهیم، کل بردار را به تابع <code>parse_config</code> ارسال می‌کنیم. تابع <code>parse_config</code> سپس منطق مشخص می‌کند که کدام آرگومان در کدام متغیر قرار می‌گیرد و مقادیر را به تابع <code>main</code> بازمی‌گرداند. ما همچنان متغیرهای <code>query</code> و <code>file_path</code> را در <code>main</code> ایجاد می‌کنیم، اما <code>main</code> دیگر مسئول تعیین ارتباط آرگومان‌های خط فرمان و متغیرها نیست.</p>
+<p>این تغییر ممکن است برای برنامه کوچک ما زیاده‌روی به نظر برسد، اما ما در حال بازسازی کد به صورت گام‌های کوچک و تدریجی هستیم. پس از اعمال این تغییر، دوباره برنامه را اجرا کنید تا اطمینان حاصل کنید که تجزیه آرگومان همچنان کار می‌کند. بررسی مداوم پیشرفت کد کمک می‌کند تا در صورت بروز مشکلات، علت آن‌ها را سریع‌تر شناسایی کنید.</p>
+<h4 id="گروهبندی-مقادیر-پیکربندی"><a class="header" href="#گروهبندی-مقادیر-پیکربندی">گروه‌بندی مقادیر پیکربندی</a></h4>
+<p>می‌توانیم یک گام کوچک دیگر برای بهبود بیشتر تابع <code>parse_config</code> برداریم. در حال حاضر، ما یک tuple بازمی‌گردانیم، اما بلافاصله آن tuple را به قسمت‌های جداگانه تقسیم می‌کنیم. این نشانه‌ای است که شاید هنوز انتزاع درستی نداریم.</p>
+<p>نشانه دیگری که نشان می‌دهد جا برای بهبود وجود دارد، قسمت <code>config</code> در <code>parse_config</code> است، که نشان می‌دهد دو مقداری که بازمی‌گردانیم به هم مرتبط هستند و هر دو بخشی از یک مقدار پیکربندی هستند. ما در حال حاضر این معنا را در ساختار داده‌ها به جز با گروه‌بندی دو مقدار در یک tuple منتقل نمی‌کنیم؛ در عوض، این دو مقدار را در یک struct قرار می‌دهیم و به هر یک از فیلدهای struct نامی معنادار می‌دهیم. انجام این کار درک نحوه ارتباط مقادیر مختلف و هدف آن‌ها را برای نگهداری‌کنندگان آینده این کد آسان‌تر می‌کند.</p>
+<p>لیست ۱۲-۶ بهبودهای تابع <code>parse_config</code> را نشان می‌دهد.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = parse_config(&amp;args);
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span>}
+
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+fn parse_config(args: &amp;[String]) -&gt; Config {
+    let query = args[1].clone();
+    let file_path = args[2].clone();
+
+    Config { query, file_path }
+}</code></pre>
+<figcaption>Listing 12-6: بازسازی <code>parse_config</code> برای بازگرداندن یک نمونه از struct <code>Config</code></figcaption>
+</figure>
+<p>ما یک ساختار جدید به نام <code>Config</code> تعریف کرده‌ایم که دارای فیلدهایی با نام‌های <code>query</code> و <code>file_path</code> است. امضای تابع <code>parse_config</code> اکنون نشان می‌دهد که این تابع یک مقدار <code>Config</code> را بازمی‌گرداند. در بدنه تابع <code>parse_config</code>، جایی که قبلاً اسلایس‌های رشته‌ای را که به مقادیر <code>String</code> در <code>args</code> اشاره می‌کردند بازمی‌گرداندیم، اکنون <code>Config</code> را طوری تعریف می‌کنیم که دارای مقادیر <code>String</code> متعلق به خود باشد.</p>
+<p>متغیر <code>args</code> در تابع <code>main</code> مالک مقادیر آرگومان است و فقط به تابع <code>parse_config</code> اجازه قرض گرفتن آن‌ها را می‌دهد، به این معنی که اگر <code>Config</code> بخواهد مالک مقادیر در <code>args</code> شود، قوانین قرض‌گیری Rust را نقض می‌کنیم.</p>
+<p>چندین روش برای مدیریت داده‌های <code>String</code> وجود دارد؛ ساده‌ترین و شاید ناکارآمدترین روش، فراخوانی متد <code>clone</code> روی مقادیر است. این کار یک کپی کامل از داده‌ها برای نمونه <code>Config</code> ایجاد می‌کند که مالک آن است. این روش زمان و حافظه بیشتری نسبت به ذخیره یک مرجع به داده‌ها نیاز دارد. با این حال، کپی کردن داده‌ها باعث می‌شود که کد ما بسیار ساده شود زیرا نیازی به مدیریت طول عمر مراجع نداریم؛ در این شرایط، از دست دادن کمی کارایی برای دستیابی به سادگی ارزشمند است.</p>
+<section class="note" aria-role="note">
+<h3 id="هزینهها-و-مزایای-استفاده-از-clone"><a class="header" href="#هزینهها-و-مزایای-استفاده-از-clone">هزینه‌ها و مزایای استفاده از <code>clone</code></a></h3>
+<p>در بین بسیاری از برنامه‌نویسان Rust، تمایلی به استفاده از <code>clone</code> برای رفع مشکلات مالکیت به دلیل هزینه اجرای آن وجود دارد. در <a href="ch13-00-functional-features.html">فصل ۱۳</a><!-- ignore -->، یاد خواهید گرفت که چگونه در این نوع موقعیت‌ها از روش‌های کارآمدتر استفاده کنید. اما در حال حاضر، کپی کردن چند رشته برای ادامه پیشرفت اشکالی ندارد زیرا این کپی‌ها فقط یک‌بار انجام می‌شوند و مسیر فایل و رشته جستجوی شما بسیار کوچک هستند. بهتر است یک برنامه کارا که کمی ناکارآمد است داشته باشید تا اینکه در اولین تلاش خود برای نوشتن کد، بهینه‌سازی بیش از حد انجام دهید. با تجربه بیشتر در Rust، شروع با راه‌حل کارآمدتر آسان‌تر خواهد بود، اما در حال حاضر استفاده از <code>clone</code> کاملاً قابل قبول است.</p>
+</section>
+<p>ما تابع <code>main</code> را به‌روزرسانی کردیم تا نمونه‌ای از <code>Config</code> که توسط <code>parse_config</code> بازگردانده می‌شود را در یک متغیر به نام <code>config</code> قرار دهد، و کدی که قبلاً از متغیرهای جداگانه <code>query</code> و <code>file_path</code> استفاده می‌کرد، اکنون از فیلدهای موجود در struct <code>Config</code> استفاده می‌کند.</p>
+<p>اکنون کد ما به‌وضوح نشان می‌دهد که <code>query</code> و <code>file_path</code> به هم مرتبط هستند و هدف آن‌ها تنظیم نحوه کار برنامه است. هر کدی که از این مقادیر استفاده می‌کند می‌داند که باید آن‌ها را در نمونه <code>config</code> در فیلدهایی که نام آن‌ها برای هدفشان انتخاب شده است، پیدا کند.</p>
+<h4 id="ایجاد-سازنده-برای-config"><a class="header" href="#ایجاد-سازنده-برای-config">ایجاد سازنده برای <code>Config</code></a></h4>
+<p>تا اینجا، منطق مسئول تجزیه آرگومان‌های خط فرمان را از <code>main</code> استخراج کرده و در تابع <code>parse_config</code> قرار داده‌ایم. این کار به ما کمک کرد ببینیم که مقادیر <code>query</code> و <code>file_path</code> به هم مرتبط هستند و این رابطه باید در کد ما منتقل شود. سپس یک struct به نام <code>Config</code> اضافه کردیم تا هدف مشترک <code>query</code> و <code>file_path</code> را نام‌گذاری کنیم و بتوانیم نام مقادیر را به‌عنوان فیلدهای struct از تابع <code>parse_config</code> بازگردانیم.</p>
+<p>حالا که هدف تابع <code>parse_config</code> ایجاد یک نمونه از <code>Config</code> است، می‌توانیم <code>parse_config</code> را از یک تابع معمولی به یک تابع با نام <code>new</code> تغییر دهیم که به struct <code>Config</code> مرتبط است. این تغییر کد را به‌صورت idiomatic‌تر می‌کند. ما می‌توانیم نمونه‌هایی از انواع موجود در کتابخانه استاندارد، مانند <code>String</code>، را با فراخوانی <code>String::new</code> ایجاد کنیم. به همین ترتیب، با تغییر <code>parse_config</code> به تابع <code>new</code> مرتبط با <code>Config</code>، می‌توانیم نمونه‌هایی از <code>Config</code> را با فراخوانی <code>Config::new</code> ایجاد کنیم. لیست ۱۲-۷ تغییرات لازم را نشان می‌دهد.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = Config::new(&amp;args);
+<span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect("Should have been able to read the file");
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span>
+    // --snip--
+}
+
+// --snip--
+
+<span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Config {
+    fn new(args: &amp;[String]) -&gt; Config {
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Config { query, file_path }
+    }
+}</code></pre>
+<figcaption>Listing 12-7: تغییر <code>parse_config</code> به <code>Config::new</code></figcaption>
+</figure>
+<p>ما تابع <code>main</code> را که در آن <code>parse_config</code> را فراخوانی می‌کردیم به‌روزرسانی کرده‌ایم تا به‌جای آن <code>Config::new</code> را فراخوانی کند. نام <code>parse_config</code> را به <code>new</code> تغییر داده و آن را در یک بلوک <code>impl</code> قرار داده‌ایم که تابع <code>new</code> را به <code>Config</code> مرتبط می‌کند. کد را دوباره کامپایل کنید تا مطمئن شوید که کار می‌کند.</p>
+<h3 id="رفع-مشکلات-مدیریت-خطا"><a class="header" href="#رفع-مشکلات-مدیریت-خطا">رفع مشکلات مدیریت خطا</a></h3>
+<p>حالا روی رفع مشکلات مدیریت خطا کار می‌کنیم. به خاطر بیاورید که تلاش برای دسترسی به مقادیر موجود در بردار <code>args</code> در اندیس (index)۱ یا ۲ باعث می‌شود برنامه در صورت داشتن کمتر از سه آیتم، دچار وحشت شود. برنامه را بدون هیچ آرگومانی اجرا کنید؛ این حالت به شکل زیر خواهد بود:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+     Running `target/debug/minigrep`
+thread 'main' panicked at src/main.rs:27:21:
+index out of bounds: the len is 1 but the index is 1
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>خط <code>index out of bounds: the len is 1 but the index is 1</code> یک پیام خطا است که برای برنامه‌نویسان در نظر گرفته شده است. این پیام به کاربران نهایی کمکی نمی‌کند تا بفهمند باید چه کار کنند. حالا این مشکل را رفع می‌کنیم.</p>
+<h4 id="بهبود-پیام-خطا"><a class="header" href="#بهبود-پیام-خطا">بهبود پیام خطا</a></h4>
+<p>در لیست ۱۲-۸، یک بررسی در تابع <code>new</code> اضافه می‌کنیم که بررسی می‌کند آیا آرایه به‌اندازه کافی طولانی است تا بتوان به اندیس‌های ۱ و ۲ دسترسی داشت. اگر طول آرایه کافی نباشد، برنامه دچار وحشت می‌شود و یک پیام خطای بهتر نمایش می‌دهد.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::new(&amp;args);
+</span><span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect("Should have been able to read the file");
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span>    // --snip--
+    fn new(args: &amp;[String]) -&gt; Config {
+        if args.len() &lt; 3 {
+            panic!("not enough arguments");
+        }
+        // --snip--
+<span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Config { query, file_path }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 12-8: افزودن بررسی برای تعداد آرگومان‌ها</figcaption>
+</figure>
+<p>این کد شبیه به <a href="ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation">تابع <code>Guess::new</code> که در لیست ۹-۱۳ نوشتیم</a><!-- ignore --> است، جایی که وقتی آرگومان <code>value</code> خارج از محدوده مقادیر معتبر بود، <code>panic!</code> فراخوانی کردیم. به جای بررسی محدوده مقادیر، در اینجا بررسی می‌کنیم که طول <code>args</code> حداقل برابر با <code>3</code> باشد و بقیه تابع می‌تواند با فرض اینکه این شرط برقرار شده است، عمل کند. اگر <code>args</code> کمتر از سه آیتم داشته باشد، این شرط <code>true</code> خواهد بود و ما ماکرو <code>panic!</code> را برای خاتمه برنامه بلافاصله فراخوانی می‌کنیم.</p>
+<p>با این چند خط اضافی در <code>new</code>، بیایید دوباره برنامه را بدون هیچ آرگومانی اجرا کنیم تا ببینیم اکنون پیام خطا چگونه است:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.0s
+     Running `target/debug/minigrep`
+thread 'main' panicked at src/main.rs:26:13:
+not enough arguments
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>این خروجی بهتر است: اکنون یک پیام خطای منطقی داریم. با این حال، هنوز اطلاعات اضافی داریم که نمی‌خواهیم به کاربران خود ارائه دهیم. شاید تکنیکی که در لیست ۹-۱۳ استفاده کردیم بهترین گزینه برای اینجا نباشد: یک فراخوانی به <code>panic!</code> برای مشکل برنامه‌نویسی مناسب‌تر است تا یک مشکل استفاده، <a href="ch09-03-to-panic-or-not-to-panic.html#guidelines-for-error-handling">همان‌طور که در فصل ۹ بحث شد</a><!-- ignore -->. در عوض، از تکنیک دیگری که در فصل ۹ یاد گرفتید استفاده می‌کنیم—<a href="ch09-02-recoverable-errors-with-result.html">بازگرداندن یک <code>Result</code></a><!-- ignore --> که نشان‌دهنده موفقیت یا خطا است.</p>
+<p><a id="returning-a-result-from-new-instead-of-calling-panic"></a></p>
+<h4 id="بازگرداندن-یک-result-به-جای-فراخوانی-panic"><a class="header" href="#بازگرداندن-یک-result-به-جای-فراخوانی-panic">بازگرداندن یک <code>Result</code> به جای فراخوانی <code>panic!</code></a></h4>
+<p>ما می‌توانیم به جای آن، یک مقدار <code>Result</code> بازگردانیم که در صورت موفقیت شامل یک نمونه از <code>Config</code> باشد و در صورت خطا مشکل را توصیف کند. همچنین قصد داریم نام تابع را از <code>new</code> به <code>build</code> تغییر دهیم زیرا بسیاری از برنامه‌نویسان انتظار دارند که توابع <code>new</code> هرگز شکست نخورند. وقتی <code>Config::build</code> با <code>main</code> ارتباط برقرار می‌کند، می‌توانیم از نوع <code>Result</code> برای اعلام مشکل استفاده کنیم. سپس می‌توانیم <code>main</code> را تغییر دهیم تا یک واریانت <code>Err</code> را به یک پیام خطای عملی‌تر برای کاربران خود تبدیل کنیم، بدون متن‌های اضافی مربوط به <code>thread 'main'</code> و <code>RUST_BACKTRACE</code> که یک فراخوانی به <code>panic!</code> ایجاد می‌کند.</p>
+<p>لیست ۱۲-۹ تغییراتی را که باید در مقدار بازگشتی تابع که اکنون آن را <code>Config::build</code> می‌نامیم و بدنه تابع برای بازگرداندن یک <code>Result</code> ایجاد کنیم، نشان می‌دهد. توجه داشته باشید که این کد تا زمانی که <code>main</code> را نیز به‌روزرسانی نکنیم کامپایل نمی‌شود، که این کار را در لیست بعدی انجام خواهیم داد.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::new(&amp;args);
+</span><span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect("Should have been able to read the file");
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Config {
+    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+        if args.len() &lt; 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Ok(Config { query, file_path })
+    }
+}</code></pre>
+<figcaption>Listing 12-9: بازگرداندن یک <code>Result</code> از <code>Config::build</code></figcaption>
+</figure>
+<h4 id="تابع-build-و-بازگشت-مقدار-result"><a class="header" href="#تابع-build-و-بازگشت-مقدار-result">تابع <code>build</code> و بازگشت مقدار <code>Result</code></a></h4>
+<p>تابع <code>build</code> ما اکنون یک مقدار <code>Result</code> را بازمی‌گرداند که در صورت موفقیت شامل یک نمونه از <code>Config</code> و در صورت خطا یک مقدار رشته‌ای ثابت (<code>string literal</code>) است. مقادیر خطای ما همیشه رشته‌های ثابت با طول عمر <code>'static</code> خواهند بود.</p>
+<p>ما دو تغییر در بدنه تابع ایجاد کرده‌ایم: به جای فراخوانی <code>panic!</code> زمانی که کاربر آرگومان‌های کافی ارائه نمی‌دهد، اکنون یک مقدار <code>Err</code> بازمی‌گردانیم و مقدار بازگشتی <code>Config</code> را در یک <code>Ok</code> قرار داده‌ایم. این تغییرات باعث می‌شوند تابع با امضای نوع جدید خود سازگار باشد.</p>
+<p>بازگرداندن مقدار <code>Err</code> از <code>Config::build</code> به تابع <code>main</code> اجازه می‌دهد که مقدار <code>Result</code> بازگشتی از تابع <code>build</code> را مدیریت کرده و در صورت بروز خطا، فرآیند را به شکلی تمیزتر خاتمه دهد.</p>
+<p><a id="calling-confignew-and-handling-errors"></a></p>
+<h4 id="فراخوانی-configbuild-و-مدیریت-خطاها"><a class="header" href="#فراخوانی-configbuild-و-مدیریت-خطاها">فراخوانی <code>Config::build</code> و مدیریت خطاها</a></h4>
+<p>برای مدیریت حالت خطا و چاپ یک پیام دوستانه برای کاربر، باید تابع <code>main</code> را به‌روزرسانی کنیم تا مقدار <code>Result</code> بازگردانده‌شده توسط <code>Config::build</code> را مدیریت کند. این کار در لیست ۱۲-۱۰ نشان داده شده است. همچنین مسئولیت خاتمه دادن ابزار خط فرمان با کد خطای غیر صفر را از <code>panic!</code> گرفته و به صورت دستی پیاده‌سازی خواهیم کرد. کد خروجی غیر صفر به عنوان یک قرارداد برای اعلام وضعیت خطا به فرآیندی که برنامه ما را فراخوانده است، استفاده می‌شود.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span>use std::process;
+
+fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect("Should have been able to read the file");
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err("not enough arguments");
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 12-10: خروج با کد خطا در صورت شکست در ساخت یک <code>Config</code></figcaption>
+</figure>
+<p>در این لیستینگ، ما از متدی استفاده کرده‌ایم که هنوز جزئیات آن را به‌طور کامل پوشش نداده‌ایم: <code>unwrap_or_else</code>. این متد که در استاندارد کتابخانه Rust برای <code>Result&lt;T, E&gt;</code> تعریف شده است، به ما امکان می‌دهد مدیریت خطاهای سفارشی و بدون استفاده از <code>panic!</code> را تعریف کنیم. اگر مقدار <code>Result</code> از نوع <code>Ok</code> باشد، رفتار این متد مشابه <code>unwrap</code> است: مقدار داخلی که <code>Ok</code> در خود قرار داده را بازمی‌گرداند. با این حال، اگر مقدار از نوع <code>Err</code> باشد، این متد کدی را که در <em>closure</em> تعریف کرده‌ایم اجرا می‌کند. <em>Closure</em> یک تابع ناشناس است که آن را تعریف کرده و به‌عنوان آرگومان به <code>unwrap_or_else</code> ارسال می‌کنیم.</p>
+<p>ما closures را به تفصیل در <a href="ch13-00-functional-features.html">فصل ۱۳</a> توضیح خواهیم داد. فعلاً کافی است بدانید که <code>unwrap_or_else</code> مقدار داخلی <code>Err</code> را به <em>closure</em> می‌دهد. در اینجا، مقدار استاتیک <code>"not enough arguments"</code> که در لیستینگ 12-9 اضافه کردیم، به <em>closure</em> ارسال شده و به آرگومان <code>err</code> تخصیص داده می‌شود، که بین خط عمودی‌ها قرار دارد. کد درون <em>closure</em> سپس می‌تواند از مقدار <code>err</code> استفاده کند.</p>
+<p>ما همچنین یک خط جدید <code>use</code> اضافه کرده‌ایم تا <code>process</code> را از کتابخانه استاندارد به محدوده بیاوریم. کدی که در حالت خطا اجرا می‌شود تنها شامل دو خط است: ابتدا مقدار <code>err</code> را چاپ می‌کنیم و سپس <code>process::exit</code> را فراخوانی می‌کنیم. تابع <code>process::exit</code> بلافاصله برنامه را متوقف کرده و عددی که به‌عنوان کد وضعیت خروج ارسال شده است را بازمی‌گرداند. این روش شبیه مدیریت مبتنی بر <code>panic!</code> است که در لیستینگ 12-8 استفاده کردیم، اما دیگر خروجی اضافی تولید نمی‌شود. حالا آن را آزمایش کنیم:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.48s
+     Running `target/debug/minigrep`
+Problem parsing arguments: not enough arguments
+</code></pre>
+<p>عالی! این خروجی برای کاربران ما بسیار دوستانه‌تر است.</p>
+<h3 id="جداسازی-منطق-از-main"><a class="header" href="#جداسازی-منطق-از-main">جداسازی منطق از <code>main</code></a></h3>
+<p>اکنون که بازآرایی برای تجزیه تنظیمات را به پایان رسانده‌ایم، بیایید به منطق برنامه بپردازیم. همان‌طور که در <a href="#separation-of-concerns-for-binary-projects">«تفکیک نگرانی‌ها برای پروژه‌های باینری»</a><!-- ignore --> بیان کردیم، تابعی به نام <code>run</code> استخراج خواهیم کرد که تمام منطقی که در حال حاضر در تابع <code>main</code> وجود دارد و مربوط به تنظیمات یا مدیریت خطا نیست را نگه می‌دارد. هنگامی که کار ما تمام شود، <code>main</code> مختصر و آسان برای بررسی خواهد بود و می‌توانیم تست‌هایی برای سایر منطق‌ها بنویسیم.</p>
+<p>لیست ۱۲-۱۱ تابع استخراج‌شده <code>run</code> را نشان می‌دهد. فعلاً فقط بهبود کوچکی انجام می‌دهیم که تابع را استخراج کنیم. همچنان تابع را در فایل <em>src/main.rs</em> تعریف می‌کنیم.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!("Problem parsing arguments: {err}");
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span>    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    run(config);
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.file_path)
+        .expect("Should have been able to read the file");
+
+    println!("With text:\n{contents}");
+}
+
+// --snip--
+<span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err("not enough arguments");
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 12-11: استخراج تابع <code>run</code> از <code>main</code></figcaption>
+</figure>
+<p>با این تغییرات، <code>main</code> اکنون تابع <code>run</code> را فراخوانی می‌کند و مسئولیت اجرای منطق اصلی برنامه را به آن واگذار می‌کند. این جداسازی باعث می‌شود تابع <code>main</code> ساده‌تر شود و ما بتوانیم تست‌های دقیقی برای بخش‌های مختلف کد بنویسیم. این روش به بهبود قابلیت نگهداری و خوانایی کد کمک شایانی می‌کند.</p>
+<h3 id="بازگرداندن-خطاها-از-تابع-run"><a class="header" href="#بازگرداندن-خطاها-از-تابع-run">بازگرداندن خطاها از تابع <code>run</code></a></h3>
+<p>اکنون که منطق باقی‌مانده برنامه را در تابع <code>run</code> جدا کرده‌ایم، می‌توانیم مانند <code>Config::build</code> در لیستینگ 12-9، مدیریت خطا را بهبود بخشیم. به جای اجازه دادن به برنامه برای اجرای <code>panic</code> با فراخوانی <code>expect</code>، تابع <code>run</code> در صورت بروز مشکل یک <code>Result&lt;T, E&gt;</code> بازمی‌گرداند. این رویکرد به ما امکان می‌دهد منطق مرتبط با مدیریت خطا را به صورت کاربرپسندانه‌ای در تابع <code>main</code> متمرکز کنیم. تغییرات لازم برای امضا و بدنه تابع <code>run</code> در لیستینگ 12-12 نشان داده شده است:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span>use std::error::Error;
+
+// --snip--
+
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!("Problem parsing arguments: {err}");
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span><span class="boring">    run(config);
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    println!("With text:\n{contents}");
+
+    Ok(())
+}
+<span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err("not enough arguments");
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 12-12: تغییر تابع <code>run</code> برای بازگرداندن <code>Result</code></figcaption>
+</figure>
+<h3 id="تغییرات-مهم"><a class="header" href="#تغییرات-مهم">تغییرات مهم</a></h3>
+<ul dir="rtl">
+  <li>
+    <strong>تغییر نوع بازگشتی:</strong>  
+    نوع بازگشتی تابع <code>run</code> به <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code> تغییر داده شده است. این تابع قبلاً نوع واحد (<code>()</code>) را بازمی‌گرداند، که همچنان برای حالت موفقیت حفظ شده است.  
+    برای نوع خطا از یک <strong>شیء صفات</strong> به نام <code>Box&lt;dyn Error&gt;</code> استفاده کرده‌ایم (و با استفاده از <code>use</code>، <code>std::error::Error</code> را به محدوده آورده‌ایم). در فصل 18 بیشتر درباره شیء صفات صحبت خواهیم کرد. فعلاً کافی است بدانید که <code>Box&lt;dyn Error&gt;</code> به این معنا است که تابع می‌تواند نوعی از مقدار را که صفت <code>Error</code> را پیاده‌سازی کرده بازگرداند، بدون اینکه نوع خاصی را مشخص کند. کلمه کلیدی <code>dyn</code> به معنای <strong>دینامیک</strong> است.
+  </li>
+  <li>
+    <strong>حذف <code>expect</code> و استفاده از عملگر <code>?</code>:</strong>  
+    به جای استفاده از <code>panic!</code> در صورت بروز خطا، عملگر <code>?</code> مقدار خطا را از تابع جاری بازمی‌گرداند تا فراخوانی‌کننده بتواند آن را مدیریت کند.
+  </li>
+  <li>
+    <strong>بازگرداندن مقدار <code>Ok</code> در حالت موفقیت:</strong>  
+    تابع <code>run</code> اکنون در حالت موفقیت مقدار <code>Ok</code> را بازمی‌گرداند. ما نوع موفقیت تابع را به عنوان <code>()</code> در امضا تعریف کرده‌ایم، که به این معنا است که باید مقدار نوع واحد را در مقدار <code>Ok</code> قرار دهیم. نحو <code>Ok(())</code> ممکن است در ابتدا کمی عجیب به نظر برسد، اما استفاده از <code>()</code> به این صورت روش استاندارد برای نشان دادن این است که تابع <code>run</code> تنها برای تأثیرات جانبی فراخوانی شده و مقداری بازنمی‌گرداند که به آن نیاز داشته باشیم.
+  </li>
+</ul>
+```
+<h3 id="بررسی-کد"><a class="header" href="#بررسی-کد">بررسی کد</a></h3>
+<p>اجرای این کد باعث می‌شود که کد کامپایل شود اما یک هشدار نمایش دهد:</p>
+<pre><code class="language-console">$ cargo run -- the poem.txt
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+warning: unused `Result` that must be used
+  --&gt; src/main.rs:19:5
+   |
+19 |     run(config);
+   |     ^^^^^^^^^^^
+   |
+   = note: this `Result` may be an `Err` variant, which should be handled
+   = note: `#[warn(unused_must_use)]` on by default
+help: use `let _ = ...` to ignore the resulting value
+   |
+19 |     let _ = run(config);
+   |     +++++++
+
+warning: `minigrep` (bin "minigrep") generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.71s
+     Running `target/debug/minigrep the poem.txt`
+Searching for the
+In file poem.txt
+With text:
+I'm nobody! Who are you?
+Are you nobody, too?
+Then there's a pair of us - don't tell!
+They'd banish us, you know.
+
+How dreary to be somebody!
+How public, like a frog
+To tell your name the livelong day
+To an admiring bog!
+
+</code></pre>
+<p>Rust به ما یادآوری می‌کند که کد ما مقدار <code>Result</code> را نادیده گرفته است و این مقدار ممکن است نشان‌دهنده بروز خطا باشد. اما ما بررسی نمی‌کنیم که آیا خطایی رخ داده است یا خیر، و کامپایلر به ما یادآوری می‌کند که احتمالاً نیاز به مدیریت خطا در این بخش داریم. اکنون این مشکل را اصلاح خواهیم کرد.</p>
+<h4 id="مدیریت-خطاهای-بازگرداندهشده-از-run-در-main"><a class="header" href="#مدیریت-خطاهای-بازگرداندهشده-از-run-در-main">مدیریت خطاهای بازگردانده‌شده از <code>run</code> در <code>main</code></a></h4>
+<p>ما خطاها را بررسی کرده و با استفاده از تکنیکی مشابه آنچه در <code>Config::build</code> در لیست ۱۲-۱۰ استفاده کردیم مدیریت می‌کنیم، اما با یک تفاوت کوچک:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::error::Error;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!("Problem parsing arguments: {err}");
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span>    println!("Searching for {}", config.query);
+    println!("In file {}", config.file_path);
+
+    if let Err(e) = run(config) {
+        println!("Application error: {e}");
+        process::exit(1);
+    }
+}
+<span class="boring">
+</span><span class="boring">fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)?;
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    Ok(())
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err("not enough arguments");
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p>ما به جای <code>unwrap_or_else</code> از <code>if let</code> استفاده می‌کنیم تا بررسی کنیم آیا <code>run</code> یک مقدار <code>Err</code> بازمی‌گرداند یا خیر و در صورت وقوع، <code>process::exit(1)</code> را فراخوانی کنیم. تابع <code>run</code> مقداری بازنمی‌گرداند که بخواهیم به همان شیوه‌ای که <code>Config::build</code> نمونه <code>Config</code> را بازمی‌گرداند آن را <code>unwrap</code> کنیم. از آنجایی که <code>run</code> در صورت موفقیت مقدار <code>()</code> بازمی‌گرداند، ما فقط به شناسایی یک خطا اهمیت می‌دهیم، بنابراین نیازی به <code>unwrap_or_else</code> برای بازگرداندن مقدار آن نداریم، که تنها <code>()</code> خواهد بود.</p>
+<p>بدنه‌های <code>if let</code> و <code>unwrap_or_else</code> در هر دو حالت یکسان هستند: ما خطا را چاپ کرده و خارج می‌شویم.</p>
+<h3 id="تقسیم-کد-به-یک-کتابخانه"><a class="header" href="#تقسیم-کد-به-یک-کتابخانه">تقسیم کد به یک کتابخانه</a></h3>
+<p>پروژه <code>minigrep</code> ما تا اینجا خوب پیش می‌رود! اکنون کد فایل <em>src/main.rs</em> را تقسیم کرده و برخی از کد را به فایل <em>src/lib.rs</em> منتقل می‌کنیم. به این ترتیب، می‌توانیم کد را تست کنیم و فایل <em>src/main.rs</em> مسئولیت‌های کمتری داشته باشد.</p>
+<p>بیایید تمام کدی که در تابع <code>main</code> نیست از <em>src/main.rs</em> به <em>src/lib.rs</em> منتقل کنیم:</p>
+<ul dir="rtl">
+<li> تعریف تابع `run` </li>
+<li> دستورات `use` مرتبط </li>
+<li> تعریف `Config` </li>
+<li> تعریف تابع `Config::build` </li>
+</ul>
+<p>محتویات فایل <em>src/lib.rs</em> باید امضاهایی که در لیست ۱۲-۱۳ آمده است را داشته باشد (بدنه توابع برای اختصار حذف شده است). توجه داشته باشید که این کد تا زمانی که <em>src/main.rs</em> را همانطور که در لیست ۱۲-۱۴ نشان داده شده است تغییر ندهیم کامپایل نمی‌شود.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+}
+
+impl Config {
+    pub fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+        // --snip--
+<span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err("not enough arguments");
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span>    }
+}
+
+pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // --snip--
+<span class="boring">    let contents = fs::read_to_string(config.file_path)?;
+</span><span class="boring">
+</span><span class="boring">    println!("With text:\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    Ok(())
+</span>}</code></pre>
+<figcaption>Listing 12-13: انتقال <code>Config</code> و <code>run</code> به <em>src/lib.rs</em></figcaption>
+</figure>
+<p>ما به طور گسترده از کلمه کلیدی <code>pub</code> استفاده کرده‌ایم: در <code>Config</code>، فیلدهای آن، متد <code>build</code> و همچنین تابع <code>run</code>. اکنون یک crate کتابخانه‌ای داریم که یک API عمومی دارد و می‌توانیم آن را تست کنیم!</p>
+<p>حالا باید کدی که به <em>src/lib.rs</em> منتقل کرده‌ایم را به محدوده crate باینری در <em>src/main.rs</em> بیاوریم، همانطور که در لیست ۱۲-۱۴ نشان داده شده است.</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use std::env;
+use std::process;
+
+use minigrep::Config;
+
+fn main() {
+    // --snip--
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!("Problem parsing arguments: {err}");
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    println!("Searching for {}", config.query);
+</span><span class="boring">    println!("In file {}", config.file_path);
+</span><span class="boring">
+</span>    if let Err(e) = minigrep::run(config) {
+        // --snip--
+<span class="boring">        println!("Application error: {e}");
+</span><span class="boring">        process::exit(1);
+</span>    }
+}</code></pre>
+<figcaption>Listing 12-14: استفاده از crate کتابخانه‌ای <code>minigrep</code> در <em>src/main.rs</em></figcaption>
+</figure>
+<p>ما خط <code>use minigrep::Config</code> را اضافه کرده‌ایم تا نوع <code>Config</code> را از crate کتابخانه‌ای به محدوده crate باینری بیاوریم، و تابع <code>run</code> را با پیشوند نام crate فراخوانی کرده‌ایم. اکنون همه قابلیت‌ها باید متصل شوند و کار کنند. برنامه را با <code>cargo run</code> اجرا کنید و مطمئن شوید که همه چیز به درستی کار می‌کند.</p>
+<p>وای! این یک کار سخت بود، اما ما خودمان را برای موفقیت در آینده آماده کردیم. اکنون مدیریت خطاها بسیار آسان‌تر شده است و کد ما ماژولارتر شده است. از اینجا به بعد تقریباً تمام کارهای ما در فایل <em>src/lib.rs</em> انجام خواهد شد.</p>
+<p>بیایید از این ماژولاریت جدید برای انجام کاری استفاده کنیم که با کد قبلی دشوار بود اما با کد جدید آسان است: نوشتن چند تست!</p>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch12-02-reading-a-file.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch12-04-testing-the-librarys-functionality.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch12-02-reading-a-file.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch12-04-testing-the-librarys-functionality.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

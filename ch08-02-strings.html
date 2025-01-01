@@ -1,0 +1,593 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، crateها، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و crateها</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html" class="active"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گرهای هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گرهای هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از انواع مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناامن</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> صفت‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-types.html"><strong aria-hidden="true">20.3.</strong> انواع پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closureهای پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-06-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور تک‌نخی</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div dir="rtl">
+<h2 id="ذخیره-متنهای-کدگذاری-شده-utf-8-با--رشتهها-strings"><a class="header" href="#ذخیره-متنهای-کدگذاری-شده-utf-8-با--رشتهها-strings">ذخیره متن‌های کدگذاری شده UTF-8 با  رشته‌ها (strings)</a></h2>
+<p>ما در فصل ۴ درباره رشته‌ها صحبت کردیم، اما اکنون به آن‌ها با عمق بیشتری نگاه خواهیم کرد.
+Rustaceanهای تازه‌وارد معمولاً به دلیل ترکیبی از سه عامل در رشته‌ها دچار مشکل می‌شوند:
+گرایش Rust به آشکارسازی خطاهای ممکن، رشته‌ها به عنوان یک ساختار داده پیچیده‌تر از آنچه
+بسیاری از برنامه‌نویسان تصور می‌کنند، و UTF-8. این عوامل به نحوی ترکیب می‌شوند که می‌توانند
+برای کسانی که از زبان‌های برنامه‌نویسی دیگر می‌آیند دشوار باشند.</p>
+<p>ما رشته‌ها را در زمینه مجموعه‌ها بررسی می‌کنیم، زیرا رشته‌ها به عنوان مجموعه‌ای از بایت‌ها
+پیاده‌سازی شده‌اند، به علاوه تعدادی متد برای ارائه قابلیت‌های مفید زمانی که این بایت‌ها
+به عنوان متن تفسیر می‌شوند. در این بخش، درباره عملیات‌هایی که روی <code>String</code> انجام می‌شود
+و هر نوع مجموعه‌ای آن‌ها را دارد، مانند ایجاد، به‌روزرسانی، و خواندن صحبت خواهیم کرد.
+همچنین تفاوت‌های <code>String</code> با سایر مجموعه‌ها را مورد بحث قرار می‌دهیم، به‌ویژه نحوه پیچیدگی
+اندیس‌گذاری در یک <code>String</code> به دلیل تفاوت‌های بین تفسیر داده‌های <code>String</code> توسط انسان‌ها
+و کامپیوترها.</p>
+<h3 id="رشته-string-چیست"><a class="header" href="#رشته-string-چیست">رشته (string) چیست؟</a></h3>
+<p>ابتدا تعریف می‌کنیم که منظور ما از اصطلاح <em>رشته</em> چیست. Rust فقط یک نوع رشته در زبان
+هسته خود دارد که همان قطعه رشته <code>str</code> است که معمولاً به صورت قرض گرفته شده <code>&amp;str</code>
+دیده می‌شود. در فصل ۴ درباره <em>قطعه‌های رشته</em> صحبت کردیم، که ارجاعاتی به داده‌های رشته‌ای
+کدگذاری شده UTF-8 هستند که در جای دیگری ذخیره شده‌اند. به عنوان مثال، رشته‌های
+لیترال در باینری برنامه ذخیره می‌شوند و بنابراین قطعه‌های رشته هستند.</p>
+<p>نوع <code>String</code>، که توسط کتابخانه استاندارد Rust ارائه شده است و نه مستقیماً در زبان هسته
+کدگذاری شده، یک نوع رشته رشدپذیر، قابل تغییر، و مالک UTF-8 است. وقتی Rustaceanها
+به “رشته‌ها” در Rust اشاره می‌کنند، ممکن است به نوع <code>String</code> یا قطعه رشته <code>&amp;str</code> اشاره
+کنند، نه فقط یکی از این دو نوع. اگرچه این بخش عمدتاً درباره <code>String</code> است، اما هر دو نوع
+در کتابخانه استاندارد Rust به شدت مورد استفاده قرار می‌گیرند و هر دو <code>String</code> و قطعه‌های
+رشته کدگذاری UTF-8 دارند.</p>
+<h3 id="ایجاد-یک-رشته-strings-جدید"><a class="header" href="#ایجاد-یک-رشته-strings-جدید">ایجاد یک رشته (strings) جدید</a></h3>
+<p>بسیاری از عملیات مشابه موجود در <code>Vec&lt;T&gt;</code> برای <code>String</code> نیز در دسترس است، زیرا <code>String</code>
+در واقع به عنوان یک پوششی بر روی یک بردار از بایت‌ها پیاده‌سازی شده است، با برخی
+ضمانت‌ها، محدودیت‌ها، و قابلیت‌های اضافی. مثالی از یک تابع که به همان روش با
+<code>Vec&lt;T&gt;</code> و <code>String</code> کار می‌کند، تابع <code>new</code> برای ایجاد یک نمونه است، همانطور که در لیست
+۸-۱۱ نشان داده شده است.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let mut s = String::new();
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-11: ایجاد یک <code>String</code> جدید و خالی</figcaption>
+</figure>
+<p>این خط یک رشته جدید و خالی به نام <code>s</code> ایجاد می‌کند که می‌توانیم داده‌ها را در آن بارگذاری کنیم.
+اغلب، داده‌های اولیه‌ای خواهیم داشت که می‌خواهیم رشته را با آن‌ها شروع کنیم. برای این کار،
+از متد <code>to_string</code> استفاده می‌کنیم که بر روی هر نوعی که ویژگی <code>Display</code> را پیاده‌سازی
+می‌کند، همانند رشته‌های لیترال، در دسترس است. لیست ۸-۱۲ دو مثال را نشان می‌دهد.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let data = "initial contents";
+
+    let s = data.to_string();
+
+    // the method also works on a literal directly:
+    let s = "initial contents".to_string();
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-12: استفاده از متد <code>to_string</code> برای ایجاد یک <code>String</code> از یک رشته لیترال</figcaption>
+</figure>
+<p>این کد یک رشته حاوی <code>initial contents</code> ایجاد می‌کند.</p>
+<p>ما همچنین می‌توانیم از تابع <code>String::from</code> برای ایجاد یک <code>String</code> از یک رشته لیترال
+استفاده کنیم. کد در لیست ۸-۱۳ معادل کدی است که در لیست ۸-۱۲ از <code>to_string</code> استفاده می‌کند.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let s = String::from("initial contents");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-13: استفاده از تابع <code>String::from</code> برای ایجاد یک <code>String</code> از یک رشته لیترال</figcaption>
+</figure>
+<p>از آنجا که رشته‌ها برای موارد بسیاری استفاده می‌شوند، می‌توانیم از بسیاری از APIهای
+جنریک مختلف برای رشته‌ها استفاده کنیم که گزینه‌های زیادی را در اختیار ما قرار می‌دهند.
+برخی از این‌ها ممکن است به نظر اضافی بیایند، اما هرکدام جایگاه خاص خود را دارند!
+در این مورد، <code>String::from</code> و <code>to_string</code> عملکرد یکسانی دارند، بنابراین انتخاب بین آن‌ها
+مسئله سبک و خوانایی کد است.</p>
+<p>به یاد داشته باشید که رشته‌ها با کدگذاری UTF-8 هستند، بنابراین می‌توانیم هر داده‌ای که
+به طور صحیح کدگذاری شده باشد را در آن‌ها قرار دهیم، همانطور که در لیست ۸-۱۴ نشان داده شده است.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let hello = String::from("السلام عليكم");
+    let hello = String::from("Dobrý den");
+    let hello = String::from("Hello");
+    let hello = String::from("שלום");
+    let hello = String::from("नमस्ते");
+    let hello = String::from("こんにちは");
+    let hello = String::from("안녕하세요");
+    let hello = String::from("你好");
+    let hello = String::from("Olá");
+    let hello = String::from("Здравствуйте");
+    let hello = String::from("Hola");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-14: ذخیره سلام‌ها به زبان‌های مختلف در رشته‌ها</figcaption>
+</figure>
+<p>تمام این موارد مقادیر معتبر <code>String</code> هستند.</p>
+<h3 id="بهروزرسانی-یک-رشته"><a class="header" href="#بهروزرسانی-یک-رشته">به‌روزرسانی یک رشته</a></h3>
+<p>یک <code>String</code> می‌تواند از نظر اندازه رشد کند و محتوای آن تغییر کند، همانطور که محتوای
+یک <code>Vec&lt;T&gt;</code> تغییر می‌کند، اگر داده بیشتری به آن اضافه کنیم. علاوه بر این، می‌توانیم به راحتی
+از عملگر <code>+</code> یا ماکروی <code>format!</code> برای الحاق مقادیر <code>String</code> استفاده کنیم.</p>
+<h4 id="الحاق-به-یک-رشته-string-با-push_str-و-push"><a class="header" href="#الحاق-به-یک-رشته-string-با-push_str-و-push">الحاق به یک رشته (string) با <code>push_str</code> و <code>push</code></a></h4>
+<p>ما می‌توانیم یک <code>String</code> را با استفاده از متد <code>push_str</code> برای الحاق یک قطعه رشته رشد دهیم،
+همانطور که در لیست ۸-۱۵ نشان داده شده است.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let mut s = String::from("foo");
+    s.push_str("bar");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-15: الحاق یک قطعه رشته به یک <code>String</code> با استفاده از متد <code>push_str</code></figcaption>
+</figure>
+<p>بعد از این دو خط، مقدار <code>s</code> شامل <code>foobar</code> خواهد بود. متد <code>push_str</code> یک قطعه رشته را به عنوان آرگومان می‌گیرد
+زیرا ما لزوماً نمی‌خواهیم مالکیت پارامتر را بگیریم. برای مثال، در کدی که در لیست ۸-۱۶ نشان داده شده است،
+ما می‌خواهیم بتوانیم پس از الحاق محتوای <code>s2</code> به <code>s1</code> همچنان از <code>s2</code> استفاده کنیم.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let mut s1 = String::from("foo");
+    let s2 = "bar";
+    s1.push_str(s2);
+    println!("s2 is {s2}");
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-16: استفاده از یک قطعه رشته پس از الحاق محتوای آن به یک <code>String</code></figcaption>
+</figure>
+<p>اگر متد <code>push_str</code> مالکیت <code>s2</code> را می‌گرفت، نمی‌توانستیم مقدار آن را در خط آخر چاپ کنیم. با این حال،
+این کد همانطور که انتظار می‌رود کار می‌کند!</p>
+<p>متد <code>push</code> یک کاراکتر را به عنوان پارامتر می‌گیرد و آن را به <code>String</code> اضافه می‌کند. لیست ۸-۱۷
+حرف <em>l</em> را با استفاده از متد <code>push</code> به یک <code>String</code> اضافه می‌کند.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let mut s = String::from("lo");
+    s.push('l');
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-17: اضافه کردن یک کاراکتر به مقدار <code>String</code> با استفاده از <code>push</code></figcaption>
+</figure>
+<p>در نتیجه، مقدار <code>s</code> شامل <code>lol</code> خواهد بود.</p>
+<h4 id="الحاق-با-استفاده-از-عملگر--یا-ماکروی-format"><a class="header" href="#الحاق-با-استفاده-از-عملگر--یا-ماکروی-format">الحاق با استفاده از عملگر <code>+</code> یا ماکروی <code>format!</code></a></h4>
+<p>اغلب، ممکن است بخواهید دو رشته موجود را با هم ترکیب کنید. یکی از راه‌های انجام این کار
+استفاده از عملگر <code>+</code> است، همانطور که در لیست ۸-۱۸ نشان داده شده است.</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let s1 = String::from("Hello, ");
+    let s2 = String::from("world!");
+    let s3 = s1 + &amp;s2; // note s1 has been moved here and can no longer be used
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 8-18: استفاده از عملگر <code>+</code> برای ترکیب دو مقدار <code>String</code> در یک مقدار <code>String</code> جدید</figcaption>
+</figure>
+<p>مقدار <code>s3</code> شامل <code>Hello, world!</code> خواهد بود. دلیل اینکه <code>s1</code> پس از این الحاق دیگر معتبر نیست
+و دلیل اینکه ما از یک مرجع به <code>s2</code> استفاده کردیم، به امضای متدی که هنگام استفاده از
+عملگر <code>+</code> فراخوانی می‌شود مربوط است. عملگر <code>+</code> از متد <code>add</code> استفاده می‌کند که امضای آن به شکل زیر است:</p>
+<pre><code class="language-rust ignore">fn add(self, s: &amp;str) -&gt; String {</code></pre>
+<p>در کتابخانه استاندارد، شما <code>add</code> را خواهید دید که با استفاده از جنریک‌ها و انواع مرتبط تعریف شده است.
+اینجا، ما انواع مشخصی را جایگزین کرده‌ایم، که این همان چیزی است که هنگام فراخوانی این متد با مقادیر
+<code>String</code> اتفاق می‌افتد. درباره جنریک‌ها در فصل ۱۰ صحبت خواهیم کرد. این امضا به ما سرنخ‌هایی می‌دهد
+تا بتوانیم بخش‌های چالش‌برانگیز عملگر <code>+</code> را درک کنیم.</p>
+<p>اول، <code>s2</code> یک <code>&amp;</code> دارد، به این معنی که ما یک <em>مرجع</em> از رشته دوم را به رشته اول اضافه می‌کنیم.
+این به دلیل پارامتر <code>s</code> در تابع <code>add</code> است: ما فقط می‌توانیم یک <code>&amp;str</code> را به یک <code>String</code> اضافه کنیم؛
+نمی‌توانیم دو مقدار <code>String</code> را با هم جمع کنیم. اما صبر کنید—نوع <code>&amp;s2</code>، <code>&amp;String</code> است، نه <code>&amp;str</code>
+همانطور که در پارامتر دوم <code>add</code> مشخص شده است. پس چرا کد در لیست ۸-۱۸ کامپایل می‌شود؟</p>
+<p>دلیل اینکه می‌توانیم از <code>&amp;s2</code> در فراخوانی <code>add</code> استفاده کنیم این است که کامپایلر می‌تواند آرگومان
+<code>&amp;String</code> را به <code>&amp;str</code> تبدیل کند. هنگامی که ما متد <code>add</code> را فراخوانی می‌کنیم، Rust از یک
+<em>coercion deref</em> استفاده می‌کند که در اینجا <code>&amp;s2</code> را به <code>&amp;s2[..]</code> تبدیل می‌کند. ما این موضوع
+را در فصل ۱۵ به طور عمیق‌تری بررسی خواهیم کرد. از آنجا که <code>add</code> مالکیت پارامتر <code>s</code> را نمی‌گیرد،
+<code>س2</code> پس از این عملیات همچنان یک <code>String</code> معتبر باقی خواهد ماند.</p>
+<p>دوم، می‌توانیم در امضا ببینیم که <code>add</code> مالکیت <code>self</code> را می‌گیرد زیرا <code>self</code> یک <code>&amp;</code> ندارد.
+این بدان معناست که <code>s1</code> در لیست ۸-۱۸ به فراخوانی <code>add</code> منتقل می‌شود و پس از آن دیگر معتبر نخواهد بود.
+بنابراین، اگرچه <code>let s3 = s1 + &amp;s2;</code> به نظر می‌رسد که هر دو رشته را کپی می‌کند و یک رشته جدید ایجاد
+می‌کند، این عبارت در واقع مالکیت <code>s1</code> را می‌گیرد، یک کپی از محتوای <code>s2</code> را اضافه می‌کند، و سپس مالکیت
+نتیجه را بازمی‌گرداند. به عبارت دیگر، به نظر می‌رسد که کپی‌های زیادی انجام می‌دهد، اما اینطور نیست؛
+پیاده‌سازی کارآمدتر از کپی کردن است.</p>
+<p>اگر نیاز به الحاق چندین رشته داشته باشیم، رفتار عملگر <code>+</code> دست‌وپاگیر می‌شود:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let s1 = String::from("tic");
+    let s2 = String::from("tac");
+    let s3 = String::from("toe");
+
+    let s = s1 + "-" + &amp;s2 + "-" + &amp;s3;
+<span class="boring">}</span></code></pre></pre>
+<p>در این نقطه، مقدار <code>s</code> برابر با <code>tic-tac-toe</code> خواهد بود. با تمام این <code>+</code> و کاراکترهای <code>"</code>،
+دیدن اینکه چه اتفاقی می‌افتد دشوار است. برای ترکیب رشته‌ها به روش‌های پیچیده‌تر، می‌توانیم
+به جای آن از ماکروی <code>format!</code> استفاده کنیم:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span>    let s1 = String::from("tic");
+    let s2 = String::from("tac");
+    let s3 = String::from("toe");
+
+    let s = format!("{s1}-{s2}-{s3}");
+<span class="boring">}</span></code></pre></pre>
+<p>این کد نیز مقدار <code>s</code> را به <code>tic-tac-toe</code> تنظیم می‌کند. ماکروی <code>format!</code> شبیه به <code>println!</code> کار می‌کند،
+اما به جای چاپ خروجی روی صفحه، یک <code>String</code> با محتوای مورد نظر بازمی‌گرداند. نسخه کد با استفاده از
+<code>format!</code> بسیار خواناتر است و کدی که توسط ماکروی <code>format!</code> تولید می‌شود از مراجع استفاده می‌کند،
+بنابراین این فراخوانی مالکیت هیچ‌یک از پارامترهایش را نمی‌گیرد.</p>
+<h3 id="اندیسگذاری-در-رشتهها"><a class="header" href="#اندیسگذاری-در-رشتهها">اندیس‌گذاری در رشته‌ها</a></h3>
+<p>در بسیاری از زبان‌های برنامه‌نویسی دیگر، دسترسی به کاراکترهای منفرد در یک رشته با اشاره به آن‌ها
+توسط اندیس (index)یک عملیات معتبر و رایج است. با این حال، اگر تلاش کنید در Rust با استفاده از سینتکس
+اندیس‌گذاری به بخش‌هایی از یک <code>String</code> دسترسی پیدا کنید، با خطا مواجه می‌شوید. کد نامعتبر
+در لیست ۸-۱۹ را در نظر بگیرید.</p>
+<figure class="listing">
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
+</span>    let s1 = String::from("hello");
+    let h = s1[0];
+<span class="boring">}</span></code></pre>
+<figcaption>Listing 8-19: تلاش برای استفاده از سینتکس اندیس‌گذاری با یک <code>String</code></figcaption>
+</figure>
+<p>این کد به خطای زیر منجر خواهد شد:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+error[E0277]: the type `str` cannot be indexed by `{integer}`
+ --&gt; src/main.rs:3:16
+  |
+3 |     let h = s1[0];
+  |                ^ string indices are ranges of `usize`
+  |
+  = help: the trait `SliceIndex&lt;str&gt;` is not implemented for `{integer}`, which is required by `String: Index&lt;_&gt;`
+  = note: you can use `.chars().nth()` or `.bytes().nth()`
+          for more information, see chapter 8 in The Book: &lt;https://doc.rust-lang.org/book/ch08-02-strings.html#indexing-into-strings&gt;
+  = help: the trait `SliceIndex&lt;[_]&gt;` is implemented for `usize`
+  = help: for that trait implementation, expected `[_]`, found `str`
+  = note: required for `String` to implement `Index&lt;{integer}&gt;`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `collections` (bin "collections") due to 1 previous error
+</code></pre>
+<p>خطا و توضیحات آن گویای موضوع است: رشته‌های Rust از اندیس‌گذاری پشتیبانی نمی‌کنند. اما چرا؟
+برای پاسخ به این سؤال، باید درباره نحوه ذخیره‌سازی رشته‌ها در حافظه توسط Rust صحبت کنیم.</p>
+<h4 id="نمایش-داخلی"><a class="header" href="#نمایش-داخلی">نمایش داخلی</a></h4>
+<p>یک <code>String</code> در واقع یک پوشش بر روی <code>Vec&lt;u8&gt;</code> است. بیایید به برخی از مثال‌های رشته‌های کدگذاری
+شده UTF-8 در لیست ۸-۱۴ نگاه کنیم. ابتدا این مورد:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span><span class="boring">    let hello = String::from("السلام عليكم");
+</span><span class="boring">    let hello = String::from("Dobrý den");
+</span><span class="boring">    let hello = String::from("Hello");
+</span><span class="boring">    let hello = String::from("שלום");
+</span><span class="boring">    let hello = String::from("नमस्ते");
+</span><span class="boring">    let hello = String::from("こんにちは");
+</span><span class="boring">    let hello = String::from("안녕하세요");
+</span><span class="boring">    let hello = String::from("你好");
+</span><span class="boring">    let hello = String::from("Olá");
+</span><span class="boring">    let hello = String::from("Здравствуйте");
+</span>    let hello = String::from("Hola");
+<span class="boring">}</span></code></pre></pre>
+<p>در این حالت، مقدار <code>len</code> برابر با <code>4</code> خواهد بود، به این معنی که برداری که رشته <code>"Hola"</code> را
+ذخیره می‌کند ۴ بایت طول دارد. هر یک از این حروف هنگام کدگذاری در UTF-8 یک بایت می‌گیرد.
+با این حال، خط زیر ممکن است شما را شگفت‌زده کند (توجه داشته باشید که این رشته با حرف بزرگ
+سیریلیک <em>Ze</em> آغاز می‌شود، نه عدد ۳):</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+</span><span class="boring">    let hello = String::from("السلام عليكم");
+</span><span class="boring">    let hello = String::from("Dobrý den");
+</span><span class="boring">    let hello = String::from("Hello");
+</span><span class="boring">    let hello = String::from("שלום");
+</span><span class="boring">    let hello = String::from("नमस्ते");
+</span><span class="boring">    let hello = String::from("こんにちは");
+</span><span class="boring">    let hello = String::from("안녕하세요");
+</span><span class="boring">    let hello = String::from("你好");
+</span><span class="boring">    let hello = String::from("Olá");
+</span>    let hello = String::from("Здравствуйте");
+<span class="boring">    let hello = String::from("Hola");
+</span><span class="boring">}</span></code></pre></pre>
+<p>اگر از شما پرسیده شود طول این رشته چقدر است، ممکن است بگویید ۱۲. اما در واقع، پاسخ Rust
+۲۴ است: این تعداد بایت‌هایی است که برای کدگذاری “Здравствуйте” در UTF-8 نیاز است، زیرا هر مقدار
+اسکالر Unicode در این رشته ۲ بایت فضای ذخیره‌سازی می‌گیرد. بنابراین، یک اندیس (index)در بایت‌های رشته
+همیشه با یک مقدار اسکالر Unicode معتبر مطابقت ندارد. برای نشان دادن این موضوع، کد نامعتبر
+زیر در Rust را در نظر بگیرید:</p>
+<pre><code class="language-rust ignore does_not_compile">let hello = "Здравствуйте";
+let answer = &amp;hello[0];</code></pre>
+<p>شما قبلاً می‌دانید که مقدار <code>answer</code> برابر با <code>З</code>، اولین حرف، نخواهد بود. وقتی در UTF-8 کدگذاری
+می‌شود، اولین بایت از <code>З</code> برابر با <code>208</code> و دومین بایت برابر با <code>151</code> است، بنابراین ممکن است به نظر
+برسد که <code>answer</code> باید در واقع <code>208</code> باشد، اما <code>208</code> به تنهایی یک کاراکتر معتبر نیست. بازگرداندن
+<code>208</code> احتمالاً چیزی نیست که یک کاربر بخواهد اگر درخواست اولین حرف این رشته را داشته باشد؛
+با این حال، این تنها داده‌ای است که Rust در اندیس (index)بایت ۰ دارد. کاربران به طور کلی نمی‌خواهند
+مقدار بایت بازگردانده شود، حتی اگر رشته فقط حروف لاتین داشته باشد: اگر <code>&amp;"hi"[0]</code> یک کد معتبر
+بود که مقدار بایت را بازمی‌گرداند، مقدار <code>104</code> و نه <code>h</code> را بازمی‌گرداند.</p>
+<p>پاسخ این است که برای جلوگیری از بازگرداندن یک مقدار غیرمنتظره و ایجاد باگ‌هایی که ممکن است فوراً
+کشف نشوند، Rust این کد را اصلاً کامپایل نمی‌کند و از سوءتفاهم‌ها در اوایل فرآیند توسعه جلوگیری می‌کند.</p>
+<h4 id="بایتها-مقادیر-اسکالر-و-خوشههای-گرافیمی-اوه-خدای-من"><a class="header" href="#بایتها-مقادیر-اسکالر-و-خوشههای-گرافیمی-اوه-خدای-من">بایت‌ها، مقادیر اسکالر و خوشه‌های گرافیمی! اوه خدای من!</a></h4>
+<p>نکته دیگری درباره UTF-8 این است که در واقع سه روش مرتبط برای مشاهده رشته‌ها از دیدگاه Rust وجود دارد:
+به صورت بایت، مقادیر اسکالر، و خوشه‌های گرافیمی (نزدیک‌ترین چیز به چیزی که ما <em>حروف</em> می‌نامیم).</p>
+<p>اگر به کلمه هندی “नमस्ते” نوشته شده در اسکریپت Devanagari نگاه کنیم، این کلمه به صورت یک بردار
+از مقادیر <code>u8</code> ذخیره می‌شود که به شکل زیر است:</p>
+<pre><code class="language-text">[224, 164, 168, 224, 164, 174, 224, 164, 184, 224, 165, 141, 224, 164, 164,
+224, 165, 135]
+</code></pre>
+<p>این ۱۸ بایت است و این همان چیزی است که کامپیوترها در نهایت این داده را ذخیره می‌کنند.
+اگر به آن‌ها به عنوان مقادیر اسکالر Unicode نگاه کنیم، که همان نوع <code>char</code> در Rust است، این بایت‌ها
+به این صورت به نظر می‌رسند:</p>
+<pre><code class="language-text">['न', 'म', 'स', '्', 'त', 'े']
+</code></pre>
+<p>اینجا شش مقدار <code>char</code> وجود دارد، اما مقدار چهارم و ششم حروف نیستند: این‌ها دیاکریتیک‌هایی هستند که
+به تنهایی معنایی ندارند. در نهایت، اگر به آن‌ها به عنوان خوشه‌های گرافیمی نگاه کنیم، همان چیزی
+که یک فرد به عنوان حروف کلمه هندی تشخیص می‌دهد، اینطور خواهد بود:</p>
+<pre><code class="language-text">["न", "म", "स्", "ते"]
+</code></pre>
+<p>Rust روش‌های مختلفی برای تفسیر داده خام رشته ارائه می‌دهد که کامپیوترها ذخیره می‌کنند، بنابراین هر
+برنامه می‌تواند تفسیری را که نیاز دارد انتخاب کند، صرف نظر از اینکه داده به چه زبان انسانی است.</p>
+<p>یکی دیگر از دلایل اینکه Rust به ما اجازه نمی‌دهد در یک <code>String</code> اندیس‌گذاری کنیم تا یک کاراکتر را
+دریافت کنیم این است که عملیات اندیس‌گذاری باید همیشه در زمان ثابت (O(1)) انجام شود. اما امکان
+تضمین این عملکرد با یک <code>String</code> وجود ندارد، زیرا Rust باید محتویات را از ابتدا تا اندیس (index)مرور کند تا
+تعیین کند که چند کاراکتر معتبر وجود دارد.</p>
+<h3 id="برش-رشتهها"><a class="header" href="#برش-رشتهها">برش رشته‌ها</a></h3>
+<p>اندیس‌گذاری در یک رشته اغلب ایده خوبی نیست زیرا مشخص نیست که نوع بازگشتی عملیات اندیس‌گذاری
+رشته چه باید باشد: یک مقدار بایت، یک کاراکتر، یک خوشه گرافیمی، یا یک قطعه رشته. بنابراین،
+اگر واقعاً نیاز به استفاده از اندیس‌ها برای ایجاد قطعه‌های رشته دارید، Rust از شما می‌خواهد
+بیشتر مشخص کنید.</p>
+<p>به جای اندیس‌گذاری با استفاده از <code>[]</code> و یک عدد، می‌توانید از <code>[]</code> با یک بازه استفاده کنید
+تا یک قطعه رشته که شامل بایت‌های خاصی است ایجاد کنید:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let hello = "Здравствуйте";
+
+let s = &amp;hello[0..4];
+<span class="boring">}</span></code></pre></pre>
+<p>اینجا، <code>s</code> یک <code>&amp;str</code> خواهد بود که شامل چهار بایت اول رشته است. پیش‌تر اشاره کردیم که هر
+یک از این کاراکترها دو بایت طول دارند، که به این معنی است که مقدار <code>s</code> برابر با <code>Зд</code> خواهد بود.</p>
+<p>اگر سعی کنیم فقط بخشی از بایت‌های یک کاراکتر را با چیزی مثل <code>&amp;hello[0..1]</code> برش دهیم،
+Rust در زمان اجرا دچار خطا می‌شود، به همان شکلی که اگر یک اندیس (index)نامعتبر در یک بردار
+دسترسی داده شود:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling collections v0.1.0 (file:///projects/collections)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/collections`
+thread 'main' panicked at src/main.rs:4:19:
+byte index 1 is not a char boundary; it is inside 'З' (bytes 0..2) of `Здравствуйте`
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>هنگام ایجاد قطعه‌های رشته با بازه‌ها باید احتیاط کنید، زیرا این کار ممکن است باعث خرابی
+برنامه شما شود.</p>
+<h3 id="متدهایی-برای-پیمایش-در-رشتهها"><a class="header" href="#متدهایی-برای-پیمایش-در-رشتهها">متدهایی برای پیمایش در رشته‌ها</a></h3>
+<p>بهترین راه برای کار با بخش‌هایی از رشته‌ها این است که به وضوح مشخص کنید که آیا می‌خواهید
+روی کاراکترها یا بایت‌ها کار کنید. برای مقادیر اسکالر Unicode منفرد، از متد <code>chars</code> استفاده کنید.
+فراخوانی <code>chars</code> روی <code>"Зд"</code> دو مقدار از نوع <code>char</code> را جدا کرده و بازمی‌گرداند، و می‌توانید
+با استفاده از نتیجه پیمایش کنید تا به هر عنصر دسترسی پیدا کنید:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for c in "Зд".chars() {
+    println!("{c}");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>این کد خروجی زیر را چاپ خواهد کرد:</p>
+<pre><code class="language-text">З
+д
+</code></pre>
+<p>به صورت جایگزین، متد <code>bytes</code> هر بایت خام را بازمی‌گرداند که ممکن است برای حوزه کاری شما مناسب باشد:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>for b in "Зд".bytes() {
+    println!("{b}");
+}
+<span class="boring">}</span></code></pre></pre>
+<p>این کد چهار بایتی که این رشته را تشکیل می‌دهند چاپ خواهد کرد:</p>
+<pre><code class="language-text">208
+151
+208
+180
+</code></pre>
+<p>اما حتماً به یاد داشته باشید که مقادیر اسکالر Unicode معتبر ممکن است از بیش از یک بایت تشکیل شده باشند.</p>
+<p>دریافت خوشه‌های گرافیمی از رشته‌ها، همانند اسکریپت Devanagari، پیچیده است، بنابراین این قابلیت
+توسط کتابخانه استاندارد ارائه نمی‌شود. اگر به این قابلیت نیاز دارید، کرایت‌هایی در
+<a href="https://crates.io/">crates.io</a><!-- ignore --> موجود هستند.</p>
+<h3 id="رشتهها-اینقدر-ساده-نیستند"><a class="header" href="#رشتهها-اینقدر-ساده-نیستند">رشته‌ها اینقدر ساده نیستند</a></h3>
+<p>به طور خلاصه، رشته‌ها پیچیده هستند. زبان‌های برنامه‌نویسی مختلف انتخاب‌های متفاوتی درباره نحوه
+نمایش این پیچیدگی به برنامه‌نویس می‌کنند. Rust انتخاب کرده است که مدیریت صحیح داده‌های
+<code>String</code> رفتار پیش‌فرض برای تمام برنامه‌های Rust باشد، که به این معنی است که برنامه‌نویسان
+باید در ابتدا بیشتر درباره مدیریت داده‌های UTF-8 فکر کنند. این معامله پیچیدگی بیشتری از رشته‌ها
+را نسبت به سایر زبان‌های برنامه‌نویسی نشان می‌دهد، اما از مواجهه با خطاهای مربوط به کاراکترهای
+غیر-ASCII در مراحل بعدی چرخه توسعه جلوگیری می‌کند.</p>
+<p>خبر خوب این است که کتابخانه استاندارد عملکردهای زیادی را بر اساس انواع <code>String</code> و <code>&amp;str</code>
+برای کمک به مدیریت صحیح این شرایط پیچیده ارائه می‌دهد. حتماً مستندات را برای متدهای مفیدی مانند
+<code>contains</code> برای جستجو در یک رشته و <code>replace</code> برای جایگزینی بخش‌هایی از یک رشته با رشته‌ای دیگر
+بررسی کنید.</p>
+<p>بیایید به چیزی کمی کمتر پیچیده برویم: هش مپ‌ها!</p>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch08-01-vectors.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch08-03-hash-maps.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch08-01-vectors.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch08-03-hash-maps.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

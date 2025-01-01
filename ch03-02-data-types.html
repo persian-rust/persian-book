@@ -1,0 +1,457 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>انواع داده - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html" class="active"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، crateها، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و crateها</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گرهای هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گرهای هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از انواع مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناامن</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> صفت‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-types.html"><strong aria-hidden="true">20.3.</strong> انواع پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closureهای پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-06-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور تک‌نخی</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <div dir="rtl">
+<h2 id="انواع-دادهها"><a class="header" href="#انواع-دادهها">انواع داده‌ها</a></h2>
+<p>هر مقدار در زبان راست نوع خاصی از <em>داده</em> را دارد که به راست می‌گوید چه نوع داده‌ای مشخص شده است تا بداند چگونه با آن داده کار کند. ما به دو زیرمجموعه از انواع داده نگاه خواهیم کرد: انواع ساده و ترکیبی.</p>
+<p>به خاطر داشته باشید که راست یک زبان <em>ایستا-تایپ</em> است، به این معنا که باید نوع تمام متغیرها در زمان کامپایل مشخص باشد. کامپایلر معمولاً می‌تواند بر اساس مقدار و نحوه استفاده از آن، نوع مورد نظر ما را حدس بزند. در مواردی که انواع متعددی ممکن است، مانند زمانی که یک <code>String</code> را به نوع عددی تبدیل کردیم در بخش <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“مقایسه حدس با عدد مخفی”</a><!-- ignore --> در فصل 2، باید یک تعریف نوع اضافه کنیم، مانند این:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let guess: u32 = "42".parse().expect("Not a number!");
+<span class="boring">}</span></code></pre></pre>
+<p>اگر تعریف نوع <code>: u32</code> را که در کد بالا آمده است اضافه نکنیم، راست خطای زیر را نمایش می‌دهد، که به معنای این است که کامپایلر به اطلاعات بیشتری از ما نیاز دارد تا بداند کدام نوع را می‌خواهیم استفاده کنیم:</p>
+<pre><code class="language-console">$ cargo build
+   Compiling no_type_annotations v0.1.0 (file:///projects/no_type_annotations)
+error[E0284]: type annotations needed
+ --&gt; src/main.rs:2:9
+  |
+2 |     let guess = "42".parse().expect("Not a number!");
+  |         ^^^^^        ----- type must be known at this point
+  |
+  = note: cannot satisfy `&lt;_ as FromStr&gt;::Err == _`
+help: consider giving `guess` an explicit type
+  |
+2 |     let guess: /* Type */ = "42".parse().expect("Not a number!");
+  |              ++++++++++++
+
+For more information about this error, try `rustc --explain E0284`.
+error: could not compile `no_type_annotations` (bin "no_type_annotations") due to 1 previous error
+</code></pre>
+<p>شما تعریف‌های نوع مختلفی برای انواع داده‌های دیگر خواهید دید.</p>
+<h3 id="انواع-ساده"><a class="header" href="#انواع-ساده">انواع ساده</a></h3>
+<p>یک نوع <em>ساده</em> نمایانگر یک مقدار واحد است. راست چهار نوع ساده اصلی دارد: اعداد صحیح، اعداد اعشاری، بولین‌ها و کاراکترها. ممکن است این‌ها را از زبان‌های برنامه‌نویسی دیگر بشناسید. بیایید ببینیم چگونه در راست کار می‌کنند.</p>
+<h4 id="انواع-اعداد-صحیح"><a class="header" href="#انواع-اعداد-صحیح">انواع اعداد صحیح</a></h4>
+<p>یک <em>عدد صحیح</em> عددی بدون جزء اعشاری است. ما در فصل 2 از یک نوع عدد صحیح به نام <code>u32</code> استفاده کردیم. این تعریف نوع نشان می‌دهد که مقدار مرتبط باید یک عدد صحیح بدون علامت (انواع اعداد صحیح با علامت با <code>i</code> به جای <code>u</code> شروع می‌شوند) باشد که 32 بیت فضا اشغال می‌کند. جدول 3-1 انواع اعداد صحیح ساخته شده در راست را نشان می‌دهد. ما می‌توانیم از هر یک از این حالت‌ها برای تعریف نوع یک مقدار عدد صحیح استفاده کنیم.</p>
+<p><span class="caption">جدول 3-1: انواع اعداد صحیح در راست</span></p>
+<div class="table-wrapper"><table><thead><tr><th>طول</th><th>با علامت</th><th>بدون علامت</th></tr></thead><tbody>
+<tr><td>8 بیت</td><td><code>i8</code></td><td><code>u8</code></td></tr>
+<tr><td>16 بیت</td><td><code>i16</code></td><td><code>u16</code></td></tr>
+<tr><td>32 بیت</td><td><code>i32</code></td><td><code>u32</code></td></tr>
+<tr><td>64 بیت</td><td><code>i64</code></td><td><code>u64</code></td></tr>
+<tr><td>128 بیت</td><td><code>i128</code></td><td><code>u128</code></td></tr>
+<tr><td>معماری</td><td><code>isize</code></td><td><code>usize</code></td></tr>
+</tbody></table>
+</div>
+<p>هر حالت می‌تواند یا با علامت یا بدون علامت باشد و اندازه صریحی دارد. <em>با علامت</em> و <em>بدون علامت</em> به این اشاره دارند که آیا ممکن است عدد منفی باشد یا خیر؛ به عبارت دیگر، آیا عدد نیاز به علامت دارد (با علامت) یا اینکه فقط مثبت خواهد بود و بنابراین می‌توان آن را بدون علامت نشان داد (بدون علامت). این شبیه به نوشتن اعداد روی کاغذ است: وقتی علامت مهم باشد، عدد با علامت مثبت یا منفی نشان داده می‌شود؛ اما وقتی فرض مثبت بودن عدد ایمن باشد، بدون علامت نشان داده می‌شود. اعداد با علامت با استفاده از نمایش <a href="https://en.wikipedia.org/wiki/Two%27s_complement">دو مکمل</a><!-- ignore --> ذخیره می‌شوند.</p>
+<p>هر حالت با علامت می‌تواند اعداد را از -(2<sup>n - 1</sup>) تا 2<sup>n - 1</sup> - 1 شامل شود، جایی که <em>n</em> تعداد بیت‌هایی است که آن حالت استفاده می‌کند. بنابراین یک <code>i8</code> می‌تواند اعداد را از -(2<sup>7</sup>) تا 2<sup>7</sup> - 1 ذخیره کند، که برابر است با -128 تا 127. حالت‌های بدون علامت می‌توانند اعداد را از 0 تا 2<sup>n</sup> - 1 ذخیره کنند، بنابراین یک <code>u8</code> می‌تواند اعداد را از 0 تا 2<sup>8</sup> - 1 ذخیره کند، که برابر است با 0 تا 255.</p>
+<p>علاوه بر این، نوع‌های <code>isize</code> و <code>usize</code> به معماری رایانه‌ای که برنامه شما روی آن اجرا می‌شود بستگی دارند، که در جدول به عنوان “معماری” مشخص شده است: 64 بیت اگر روی معماری 64 بیتی باشید و 32 بیت اگر روی معماری 32 بیتی باشید.</p>
+<p>شما می‌توانید اعداد صحیح را به هر یک از اشکال نشان داده شده در جدول 3-2 بنویسید. توجه داشته باشید که عددهایی که می‌توانند به چندین نوع عددی تبدیل شوند، یک پسوند نوع دارند، مانند <code>57u8</code>، برای تعیین نوع. اعداد همچنین می‌توانند از <code>_</code> به عنوان جداکننده بصری برای خواناتر کردن استفاده کنند، مانند <code>1_000</code>، که همان مقدار <code>1000</code> را دارد.</p>
+<p><span class="caption">جدول 3-2: نمایش اعداد صحیح در راست</span></p>
+<div class="table-wrapper"><table><thead><tr><th>نوع اعداد</th><th>مثال</th></tr></thead><tbody>
+<tr><td>دهدهی</td><td><code>98_222</code></td></tr>
+<tr><td>هگزادسیمال</td><td><code>0xff</code></td></tr>
+<tr><td>اکتال</td><td><code>0o77</code></td></tr>
+<tr><td>باینری</td><td><code>0b1111_0000</code></td></tr>
+<tr><td>بایت (فقط <code>u8</code>)</td><td><code>b'A'</code></td></tr>
+</tbody></table>
+</div>
+<p>حال چگونه می‌دانید که از کدام نوع عدد صحیح استفاده کنید؟ اگر مطمئن نیستید، مقادیر پیش‌فرض راست معمولاً مکان خوبی برای شروع هستند: نوع‌های عدد صحیح پیش‌فرض به <code>i32</code> تبدیل می‌شوند. وضعیت اصلی که در آن ممکن است از <code>isize</code> یا <code>usize</code> استفاده کنید زمانی است که می‌خواهید به یک نوع مجموعه اشاره کنید.</p>
+<section class="note" aria-role="note">
+<h5 id="سرریز-عدد-صحیح"><a class="header" href="#سرریز-عدد-صحیح">سرریز عدد صحیح</a></h5>
+<p>فرض کنید یک متغیر از نوع <code>u8</code> دارید که می‌تواند مقادیر بین 0 و 255 را نگه دارد. اگر تلاش کنید مقدار متغیر را به عددی خارج از این بازه، مانند 256، تغییر دهید، <em>سرریز عدد صحیح</em> رخ خواهد داد که می‌تواند منجر به یکی از دو رفتار شود. وقتی برنامه خود را در حالت دیباگ کامپایل می‌کنید، راست شامل بررسی‌هایی برای سرریز عدد صحیح است که باعث می‌شود برنامه شما در زمان اجرا <em>پانیک</em> کند اگر این رفتار رخ دهد. راست از اصطلاح <em>پانیک کردن</em> زمانی استفاده می‌کند که برنامه با یک خطا خارج شود؛ ما در بخش <a href="ch09-01-unrecoverable-errors-with-panic.html">“خطاهای غیرقابل بازیابی با <code>panic!</code>”</a><!-- ignore --> در فصل 9 به طور عمیق‌تر درباره پانیک‌ها بحث خواهیم کرد.</p>
+<p>وقتی برنامه خود را در حالت انتشار با پرچم <code>--release</code> کامپایل می‌کنید، راست این بررسی‌ها را برای سرریز عدد صحیح شامل نمی‌شود. در عوض، اگر سرریز رخ دهد، راست از <em>دو مکمل بسته‌بندی</em> استفاده می‌کند. به طور خلاصه، مقادیر بزرگتر از حداکثر مقداری که نوع می‌تواند نگه دارد به “حداقل مقادیر” بازه نوع بسته‌بندی می‌شوند. در مورد یک <code>u8</code>، مقدار 256 به 0 تبدیل می‌شود، مقدار 257 به 1 و غیره. برنامه پانیک نخواهد کرد، اما متغیر مقدار متفاوتی نسبت به آنچه انتظار می‌رفت خواهد داشت. اعتماد به رفتار بسته‌بندی سرریز عدد صحیح یک خطا محسوب می‌شود.</p>
+<p>برای مدیریت صریح امکان سرریز، می‌توانید از این خانواده‌های روش‌ها استفاده کنید که توسط کتابخانه استاندارد برای نوع‌های عددی اولیه ارائه شده‌اند:</p>
+<ul>
+<li>بسته‌بندی در همه حالت‌ها با روش‌های <code>wrapping_*</code>، مانند <code>wrapping_add</code>.</li>
+<li>بازگرداندن مقدار <code>None</code> اگر سرریز رخ دهد با روش‌های <code>checked_*</code>.</li>
+<li>بازگرداندن مقدار و یک بولین که نشان‌دهنده سرریز است با روش‌های <code>overflowing_*</code>.</li>
+<li>اشباع در مقادیر حداقل یا حداکثر مقدار نوع با روش‌های <code>saturating_*</code>.</li>
+</ul>
+</section>
+<h4 id="انواع-اعداد-اعشاری"><a class="header" href="#انواع-اعداد-اعشاری">انواع اعداد اعشاری</a></h4>
+<p>راست همچنین دو نوع اولیه برای <em>اعداد اعشاری</em> دارد، که اعدادی با نقطه اعشار هستند. نوع‌های اعشاری راست <code>f32</code> و <code>f64</code> هستند که به ترتیب 32 بیت و 64 بیت اندازه دارند. نوع پیش‌فرض <code>f64</code> است زیرا روی CPUهای مدرن، سرعت آن تقریباً مشابه <code>f32</code> است اما دقت بیشتری دارد. همه نوع‌های اعشاری علامت‌دار هستند.</p>
+<p>در اینجا مثالی که اعداد اعشاری را در عمل نشان می‌دهد آورده شده است:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}</code></pre></pre>
+<p>اعداد اعشاری طبق استاندارد IEEE-754 نمایش داده می‌شوند.</p>
+<h4 id="عملیات-عددی"><a class="header" href="#عملیات-عددی">عملیات عددی</a></h4>
+<p>راست از عملیات ریاضی پایه‌ای که برای تمام انواع عددی انتظار دارید پشتیبانی می‌کند: جمع، تفریق، ضرب، تقسیم و باقی‌مانده. تقسیم اعداد صحیح به نزدیک‌ترین عدد صحیح به سمت صفر گرد می‌شود. کد زیر نشان می‌دهد چگونه می‌توانید از هر عملیات عددی در یک عبارت <code>let</code> استفاده کنید:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let truncated = -5 / 3; // Results in -1
+
+    // remainder
+    let remainder = 43 % 5;
+}</code></pre></pre>
+<p>هر عبارت در این دستورات از یک عملگر ریاضی استفاده می‌کند و به یک مقدار واحد ارزیابی می‌شود، که سپس به یک متغیر متصل می‌شود. <a href="appendix-02-operators.html">ضمیمه ب</a><!-- ignore --> شامل لیستی از تمام عملگرهایی است که راست فراهم می‌کند.</p>
+<h4 id="نوع-بولین"><a class="header" href="#نوع-بولین">نوع بولین</a></h4>
+<p>مانند اکثر زبان‌های برنامه‌نویسی دیگر، نوع بولین در راست دو مقدار ممکن دارد: <code>true</code> و <code>false</code>. نوع بولین در راست یک بایت اندازه دارد. نوع بولین در راست با استفاده از <code>bool</code> مشخص می‌شود. برای مثال:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let t = true;
+
+    let f: bool = false; // with explicit type annotation
+}</code></pre></pre>
+<p>راه اصلی استفاده از مقادیر بولین از طریق عبارات شرطی، مانند عبارت <code>if</code> است. ما در بخش <a href="ch03-05-control-flow.html#control-flow">“جریان کنترل”</a><!-- ignore --> توضیح می‌دهیم که چگونه عبارات <code>if</code> در راست کار می‌کنند.</p>
+<h4 id="نوع-کاراکتر"><a class="header" href="#نوع-کاراکتر">نوع کاراکتر</a></h4>
+<p>نوع <code>char</code> در راست ابتدایی‌ترین نوع الفبایی زبان است. در اینجا برخی از مثال‌های اعلام مقادیر <code>char</code> آورده شده است:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let c = 'z';
+    let z: char = 'ℤ'; // with explicit type annotation
+    let heart_eyed_cat = '😻';
+}</code></pre></pre>
+<p>توجه داشته باشید که مقادیر <code>char</code> با استفاده از علامت نقل قول تکی مشخص می‌شوند، در حالی که مقادیر رشته‌ای از علامت نقل قول دوتایی استفاده می‌کنند. نوع <code>char</code> در راست چهار بایت اندازه دارد و نمایانگر یک مقدار اسکالر یونیکد است، به این معنی که می‌تواند خیلی بیشتر از فقط ASCII را نمایان کند. حروف با لهجه؛ حروف چینی، ژاپنی و کره‌ای؛ ایموجی؛ و فاصله‌های بدون عرض همگی مقادیر <code>char</code> معتبر در راست هستند. مقادیر اسکالر یونیکد در بازه <code>U+0000</code> تا <code>U+D7FF</code> و <code>U+E000</code> تا <code>U+10FFFF</code> قرار دارند. با این حال، “کاراکتر” واقعاً یک مفهوم در یونیکد نیست، بنابراین درک انسانی شما از آنچه یک “کاراکتر” است ممکن است با آنچه یک <code>char</code> در راست است همخوانی نداشته باشد. ما این موضوع را به تفصیل در بخش <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها”</a><!-- ignore --> در فصل 8 بحث خواهیم کرد.</p>
+<h3 id="انواع-ترکیبی"><a class="header" href="#انواع-ترکیبی">انواع ترکیبی</a></h3>
+<p><em>انواع ترکیبی</em> می‌توانند چندین مقدار را در یک نوع گروه‌بندی کنند. راست دو نوع ترکیبی اولیه دارد: تاپل‌ها و آرایه‌ها.</p>
+<h4 id="نوع-تاپل"><a class="header" href="#نوع-تاپل">نوع تاپل</a></h4>
+<p><em>تاپل</em> یک روش کلی برای گروه‌بندی چند مقدار با انواع مختلف در یک نوع ترکیبی است. تاپل‌ها طول ثابتی دارند: پس از اعلام، نمی‌توانند بزرگ‌تر یا کوچک‌تر شوند.</p>
+<p>ما یک تاپل را با نوشتن یک لیست جدا شده با کاما از مقادیر در داخل پرانتز ایجاد می‌کنیم. هر موقعیت در تاپل یک نوع دارد، و انواع مقادیر مختلف در تاپل نیازی به یکسان بودن ندارند. ما در این مثال حاشیه‌نویسی نوع اختیاری اضافه کرده‌ایم:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}</code></pre></pre>
+<p>متغیر <code>tup</code> به کل تاپل متصل می‌شود زیرا یک تاپل به عنوان یک عنصر ترکیبی واحد در نظر گرفته می‌شود. برای استخراج مقادیر جداگانه از یک تاپل، می‌توانیم از تطابق الگو برای تجزیه مقدار تاپل استفاده کنیم، مانند این:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {y}");
+}</code></pre></pre>
+<p>این برنامه ابتدا یک تاپل ایجاد کرده و آن را به متغیر <code>tup</code> متصل می‌کند. سپس از یک الگو با <code>let</code> برای گرفتن <code>tup</code> و تبدیل آن به سه متغیر جداگانه، <code>x</code>، <code>y</code>، و <code>z</code> استفاده می‌کند. این فرآیند <em>تجزیه</em> نامیده می‌شود زیرا تاپل واحد را به سه قسمت تقسیم می‌کند. در نهایت، برنامه مقدار <code>y</code> را که <code>6.4</code> است، چاپ می‌کند.</p>
+<p>ما همچنین می‌توانیم یک عنصر از تاپل را مستقیماً با استفاده از یک نقطه (<code>.</code>) به دنبال شماره شاخص مقدار مورد نظر دسترسی داشته باشیم. برای مثال:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}</code></pre></pre>
+<p>این برنامه تاپل <code>x</code> را ایجاد کرده و سپس به هر عنصر تاپل با استفاده از شاخص‌های مربوطه آنها دسترسی پیدا می‌کند. همانند اکثر زبان‌های برنامه‌نویسی، اولین شاخص در یک تاپل <code>0</code> است.</p>
+<p>تاپل بدون هیچ مقداری یک نام خاص دارد، <em>واحد</em>. این مقدار و نوع مربوط به آن هر دو با <code>()</code> نوشته می‌شوند و یک مقدار خالی یا یک نوع بازگشت خالی را نشان می‌دهند. عبارات به طور ضمنی مقدار واحد را بازمی‌گردانند اگر هیچ مقدار دیگری بازنگردانند.</p>
+<h4 id="نوع-آرایه"><a class="header" href="#نوع-آرایه">نوع آرایه</a></h4>
+<p>روش دیگری برای داشتن مجموعه‌ای از چند مقدار، استفاده از <em>آرایه</em> است. برخلاف تاپل، هر عنصر آرایه باید از یک نوع باشد. برخلاف آرایه‌ها در برخی زبان‌های دیگر، آرایه‌ها در راست طول ثابتی دارند.</p>
+<p>ما مقادیر یک آرایه را به صورت یک لیست جدا شده با کاما در داخل کروشه می‌نویسیم:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let a = [1, 2, 3, 4, 5];
+}</code></pre></pre>
+<p>آرایه‌ها زمانی مفید هستند که بخواهید داده‌های شما در استک تخصیص یابد، همانند سایر انواعی که تاکنون دیده‌ایم، نه در هیپ (ما در فصل <a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">۴</a><!-- ignore --> استک و هیپ را بیشتر توضیح خواهیم داد) یا وقتی می‌خواهید مطمئن شوید که همیشه تعداد عناصر ثابتی دارید. با این حال، آرایه به اندازه نوع وکتور انعطاف‌پذیر نیست. یک <em>وکتور</em> یک نوع مجموعه مشابه است که توسط کتابخانه استاندارد فراهم شده و می‌تواند به اندازه تغییر کند. اگر مطمئن نیستید که از آرایه یا وکتور استفاده کنید، احتمالاً باید از وکتور استفاده کنید. فصل <a href="ch08-01-vectors.html">۸</a><!-- ignore --> وکتورها را با جزئیات بیشتری توضیح می‌دهد.</p>
+<p>با این حال، آرایه‌ها زمانی مفیدتر هستند که بدانید تعداد عناصر نیاز به تغییر ندارد. برای مثال، اگر از نام‌های ماه در یک برنامه استفاده می‌کردید، احتمالاً از یک آرایه به جای یک وکتور استفاده می‌کردید زیرا می‌دانید همیشه ۱۲ عنصر خواهد داشت:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let months = ["January", "February", "March", "April", "May", "June", "July",
+              "August", "September", "October", "November", "December"];
+<span class="boring">}</span></code></pre></pre>
+<p>شما نوع یک آرایه را با استفاده از کروشه‌ها به همراه نوع هر عنصر، یک نقطه ویرگول، و سپس تعداد عناصر در آرایه می‌نویسید، مانند این:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a: [i32; 5] = [1, 2, 3, 4, 5];
+<span class="boring">}</span></code></pre></pre>
+<p>در اینجا، <code>i32</code> نوع هر عنصر است. پس از نقطه ویرگول، عدد <code>۵</code> نشان می‌دهد که آرایه شامل پنج عنصر است.</p>
+<p>شما همچنین می‌توانید یک آرایه را طوری مقداردهی اولیه کنید که هر عنصر مقدار یکسانی داشته باشد، با مشخص کردن مقدار اولیه، یک نقطه ویرگول، و سپس طول آرایه در کروشه‌ها، مانند این:</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a = [3; 5];
+<span class="boring">}</span></code></pre></pre>
+<p>آرایه‌ای با نام <code>a</code> شامل <code>۵</code> عنصر خواهد بود که همه ابتدا مقدار <code>۳</code> دارند. این همان نوشتن <code>let a = [3, 3, 3, 3, 3];</code> است، اما به شیوه‌ای مختصرتر.</p>
+<h5 id="دسترسی-به-عناصر-آرایه"><a class="header" href="#دسترسی-به-عناصر-آرایه">دسترسی به عناصر آرایه</a></h5>
+<p>یک آرایه یک بخش واحد از حافظه با اندازه‌ای مشخص و ثابت است که می‌تواند روی استک تخصیص داده شود. شما می‌توانید به عناصر یک آرایه با استفاده از ایندکس دسترسی پیدا کنید، مانند این:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}</code></pre></pre>
+<p>در این مثال، متغیری با نام <code>first</code> مقدار <code>1</code> را می‌گیرد زیرا این مقدار در ایندکس <code>[0]</code> در آرایه قرار دارد. متغیری با نام <code>second</code> مقدار <code>2</code> را از ایندکس <code>[1]</code> در آرایه می‌گیرد.</p>
+<h5 id="دسترسی-نامعتبر-به-عنصر-آرایه"><a class="header" href="#دسترسی-نامعتبر-به-عنصر-آرایه">دسترسی نامعتبر به عنصر آرایه</a></h5>
+<p>ببینیم چه اتفاقی می‌افتد اگر بخواهید به عنصری از آرایه دسترسی پیدا کنید که خارج از محدوده آرایه است. فرض کنید این کد را اجرا کنید که مشابه بازی حدس در فصل ۲ است، تا یک ایندکس آرایه را از کاربر دریافت کند:</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><code class="language-rust ignore panics">use std::io;
+
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    println!("Please enter an array index.");
+
+    let mut index = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut index)
+        .expect("Failed to read line");
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect("Index entered was not a number");
+
+    let element = a[index];
+
+    println!("The value of the element at index {index} is: {element}");
+}</code></pre>
+<p>این کد به درستی کامپایل می‌شود. اگر این کد را با استفاده از <code>cargo run</code> اجرا کنید و مقادیری مانند <code>0</code>، <code>1</code>، <code>2</code>، <code>3</code> یا <code>4</code> را وارد کنید، برنامه مقدار متناظر در آن ایندکس از آرایه را چاپ می‌کند. اما اگر به جای آن عددی خارج از محدوده آرایه، مانند <code>10</code>، وارد کنید، خروجی چیزی شبیه به این خواهد بود:</p>
+<!-- manual-regeneration
+cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
+cargo run
+10
+-->
+<pre><code class="language-console">thread 'main' panicked at src/main.rs:19:19:
+index out of bounds: the len is 5 but the index is 10
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>این برنامه در نقطه استفاده از مقدار نامعتبر در عملیات ایندکس‌گذاری دچار خطای <em>زمان اجرا</em> شد. برنامه با یک پیام خطا خاتمه یافت و دستور نهایی <code>println!</code> را اجرا نکرد. زمانی که شما تلاش می‌کنید به یک عنصر با استفاده از ایندکس دسترسی پیدا کنید، راست بررسی می‌کند که ایندکسی که مشخص کرده‌اید کمتر از طول آرایه باشد. اگر ایندکس بزرگ‌تر یا برابر با طول باشد، راست متوقف می‌شود (پانیک می‌کند). این بررسی باید در زمان اجرا انجام شود، به‌ویژه در این مورد، زیرا کامپایلر نمی‌تواند بداند که کاربر چه مقداری را هنگام اجرای کد وارد خواهد کرد.</p>
+<p>این یک مثال از اصول ایمنی حافظه راست در عمل است. در بسیاری از زبان‌های سطح پایین، این نوع بررسی انجام نمی‌شود و زمانی که شما یک ایندکس اشتباه ارائه می‌کنید، می‌توان به حافظه نامعتبر دسترسی پیدا کرد. راست شما را از این نوع خطا با متوقف کردن فوری برنامه به جای اجازه دسترسی به حافظه و ادامه برنامه محافظت می‌کند. فصل ۹ خطایابی در راست و نحوه نوشتن کد خوانا و ایمن که نه دچار پانیک شود و نه اجازه دسترسی نامعتبر به حافظه را بدهد، بیشتر بررسی می‌کند.</p>
+</div>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch03-01-variables-and-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch03-03-how-functions-work.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch03-01-variables-and-mutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch03-03-how-functions-work.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>
