@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="جریان-کنترلی-مختصر-با-if-let-و-let-else"><a class="header" href="#جریان-کنترلی-مختصر-با-if-let-و-let-else">جریان کنترلی مختصر با <code>if let</code> و <code>let else</code></a></h2>
+                        <h2 id="جریان-کنترلی-مختصر-با-if-let-و-let-else"><a class="header" href="#جریان-کنترلی-مختصر-با-if-let-و-let-else">جریان کنترلی مختصر با <code>if let</code> و <code>let else</code></a></h2>
 <p>دستور <code>if let</code> به شما اجازه می‌دهد که <code>if</code> و <code>let</code> را ترکیب کنید و به شکلی کمتر پرحجم، مقادیر مطابق با یک الگو را مدیریت کنید و سایر مقادیر را نادیده بگیرید. برنامه‌ای که در لیستینگ 6-6 نشان داده شده است، بر روی یک مقدار <code>Option&lt;u8&gt;</code> در متغیر <code>config_max</code> مطابقت دارد، اما تنها زمانی که مقدار <code>Some</code> باشد کد را اجرا می‌کند.</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
@@ -441,7 +441,7 @@
 <p>ما اکنون پوشش داده‌ایم که چگونه از enumها برای ایجاد انواع سفارشی که می‌توانند یکی از مجموعه مقادیر شمارش‌شده باشند استفاده کنید. ما نشان داده‌ایم که چگونه نوع <code>Option&lt;T&gt;</code> از کتابخانه استاندارد به شما کمک می‌کند از سیستم نوع برای جلوگیری از خطاها استفاده کنید. وقتی مقادیر enum داده‌هایی درون خود دارند، می‌توانید از <code>match</code> یا <code>if let</code> برای استخراج و استفاده از آن مقادیر استفاده کنید، بسته به تعداد مواردی که باید مدیریت کنید.</p>
 <p>برنامه‌های Rust شما اکنون می‌توانند مفاهیمی را در حوزه خود بیان کنند و از ساختارها و enumها استفاده کنند. ایجاد انواع سفارشی برای استفاده در API شما ایمنی نوع را تضمین می‌کند: کامپایلر مطمئن می‌شود که توابع شما فقط مقادیری از نوعی که هر تابع انتظار دارد دریافت می‌کنند.</p>
 <p>برای ارائه یک API سازمان‌یافته به کاربران خود که استفاده از آن ساده باشد و فقط دقیقاً آنچه کاربران شما نیاز دارند را آشکار کند، حالا به ماژول‌های Rust می‌پردازیم.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -489,6 +489,7 @@
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

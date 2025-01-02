@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="چگونه-تست-بنویسیم"><a class="header" href="#چگونه-تست-بنویسیم">چگونه تست بنویسیم</a></h2>
+                        <h2 id="چگونه-تست-بنویسیم"><a class="header" href="#چگونه-تست-بنویسیم">چگونه تست بنویسیم</a></h2>
 <p>تست‌ها توابعی در Rust هستند که بررسی می‌کنند کد غیرتستی به شکل مورد انتظار کار می‌کند. بدنه توابع تست معمولاً این سه عمل را انجام می‌دهد:</p>
 <ul>
 <li>تنظیم هر داده یا وضعیت مورد نیاز.</li>
@@ -959,7 +959,6 @@ error: test failed, to rerun pass `--lib`
 <p>نوشتن تست‌هایی که یک <code>Result&lt;T, E&gt;</code> بازمی‌گردانند به شما اجازه می‌دهد از عملگر سوالی <code>?</code> در بدنه تست‌ها استفاده کنید، که می‌تواند راهی راحت برای نوشتن تست‌هایی باشد که اگر هر عملیاتی در آن‌ها یک واریانت <code>Err</code> بازگرداند، شکست بخورند.</p>
 <p>شما نمی‌توانید از حاشیه‌نویسی <code>#[should_panic]</code> در تست‌هایی که از <code>Result&lt;T, E&gt;</code> استفاده می‌کنند استفاده کنید. برای تأیید اینکه یک عملیات یک واریانت <code>Err</code> بازمی‌گرداند، <em>از</em> عملگر سوالی روی مقدار <code>Result&lt;T, E&gt;</code> استفاده نکنید. در عوض، از <code>assert!(value.is_err())</code> استفاده کنید.</p>
 <p>حالا که چندین روش برای نوشتن تست‌ها را یاد گرفتید، بیایید نگاهی به آنچه هنگام اجرای تست‌ها اتفاق می‌افتد بیندازیم و گزینه‌های مختلفی را که می‌توانیم با <code>cargo test</code> استفاده کنیم بررسی کنیم.</p>
-</div>
 
                     </main>
 
@@ -1008,6 +1007,7 @@ error: test failed, to rerun pass `--lib`
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

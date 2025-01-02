@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="مسیرها-برای-اشاره-به-یک-آیتم-در-درخت-ماژول"><a class="header" href="#مسیرها-برای-اشاره-به-یک-آیتم-در-درخت-ماژول">مسیرها برای اشاره به یک آیتم در درخت ماژول</a></h2>
+                        <h2 id="مسیرها-برای-اشاره-به-یک-آیتم-در-درخت-ماژول"><a class="header" href="#مسیرها-برای-اشاره-به-یک-آیتم-در-درخت-ماژول">مسیرها برای اشاره به یک آیتم در درخت ماژول</a></h2>
 <p>برای نشان دادن به Rust که یک آیتم را در درخت ماژول کجا پیدا کند، از یک مسیر استفاده می‌کنیم، مشابه استفاده از مسیر هنگام پیمایش در یک فایل‌سیستم. برای فراخوانی یک تابع، باید مسیر آن را بدانیم.</p>
 <p>یک مسیر می‌تواند به دو شکل باشد:</p>
 <ul>
@@ -407,7 +407,6 @@ pub fn eat_at_restaurant() {
 <p>از آنجایی که enum <code>Appetizer</code> را عمومی کردیم، می‌توانیم از متغیرهای <code>Soup</code> و <code>Salad</code> در <code>eat_at_restaurant</code> استفاده کنیم.</p>
 <p>Enums خیلی مفید نیستند مگر اینکه متغیرهای آن‌ها عمومی باشند؛ اضافه کردن <code>pub</code> به تمام متغیرهای enum در هر مورد کار خسته‌کننده‌ای خواهد بود، بنابراین به طور پیش‌فرض متغیرهای enum عمومی هستند. ساختارها اغلب بدون عمومی بودن فیلدهایشان مفید هستند، بنابراین فیلدهای ساختار از قانون کلی پیروی می‌کنند که همه چیز به صورت پیش‌فرض خصوصی است مگر اینکه با <code>pub</code> مشخص شود.</p>
 <p>یک وضعیت دیگر مرتبط با <code>pub</code> وجود دارد که هنوز آن را پوشش نداده‌ایم، و آن آخرین ویژگی سیستم ماژول ما است: کلمه کلیدی <code>use</code>. ابتدا <code>use</code> را به تنهایی بررسی خواهیم کرد، و سپس نشان خواهیم داد چگونه <code>pub</code> و <code>use</code> را ترکیب کنیم.</p>
-</div>
 
                     </main>
 
@@ -456,6 +455,7 @@ pub fn eat_at_restaurant() {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

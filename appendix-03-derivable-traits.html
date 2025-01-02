@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="ضمیمه-ج-ویژگیهای-قابل-اشتقاق"><a class="header" href="#ضمیمه-ج-ویژگیهای-قابل-اشتقاق">ضمیمه ج: ویژگی‌های قابل اشتقاق</a></h2>
+                        <h2 id="ضمیمه-ج-ویژگیهای-قابل-اشتقاق"><a class="header" href="#ضمیمه-ج-ویژگیهای-قابل-اشتقاق">ضمیمه ج: ویژگی‌های قابل اشتقاق</a></h2>
 <p>در بخش‌های مختلف کتاب، ما درباره ویژگی <code>derive</code> صحبت کردیم که می‌توانید آن را به تعریف یک struct یا enum اعمال کنید. ویژگی <code>derive</code> کدی تولید می‌کند که یک ویژگی را با پیاده‌سازی پیش‌فرض خود روی نوعی که با سینتکس <code>derive</code> حاشیه‌نویسی کرده‌اید، پیاده‌سازی می‌کند.</p>
 <p>در این ضمیمه، مرجعی از تمام ویژگی‌های موجود در کتابخانه استاندارد که می‌توانید با <code>derive</code> استفاده کنید ارائه می‌شود. هر بخش شامل موارد زیر است:</p>
 <ul>
@@ -228,7 +228,6 @@
 <p>ویژگی <code>Default</code> به شما امکان می‌دهد یک مقدار پیش‌فرض برای یک نوع ایجاد کنید. مشتق‌سازی <code>Default</code> تابع <code>default</code> را پیاده‌سازی می‌کند. پیاده‌سازی مشتق‌شده تابع <code>default</code> تابع <code>default</code> را روی هر بخش از نوع فراخوانی می‌کند، به این معنی که تمام فیلدها یا مقادیر در نوع نیز باید <code>Default</code> را پیاده‌سازی کنند تا <code>Default</code> مشتق شود.</p>
 <p>تابع <code>Default::default</code> معمولاً به همراه سینتکس به‌روزرسانی ساختار که در بخش <a href="ch05-01-defining-structs.html#creating-instances-from-other-instances-with-struct-update-syntax">“ایجاد نمونه‌ها از نمونه‌های دیگر با سینتکس به‌روزرسانی ساختار”</a><!-- ignore --> در فصل 5 مورد بحث قرار گرفته است، استفاده می‌شود. می‌توانید چند فیلد از یک ساختار را سفارشی کنید و سپس یک مقدار پیش‌فرض برای بقیه فیلدها با استفاده از <code>..Default::default()</code> تنظیم و استفاده کنید.</p>
 <p>ویژگی <code>Default</code>، برای مثال، زمانی مورد نیاز است که از متد <code>unwrap_or_default</code> روی نمونه‌های <code>Option&lt;T&gt;</code> استفاده می‌کنید. اگر <code>Option&lt;T&gt;</code> برابر با <code>None</code> باشد، متد <code>unwrap_or_default</code> نتیجه <code>Default::default</code> را برای نوع <code>T</code> ذخیره‌شده در <code>Option&lt;T&gt;</code> برمی‌گرداند.</p>
-</div>
 
                     </main>
 
@@ -277,6 +276,7 @@
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

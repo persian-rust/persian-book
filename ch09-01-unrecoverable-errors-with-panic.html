@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="خطاهای-غیرقابل-بازیابی-با-panic"><a class="header" href="#خطاهای-غیرقابل-بازیابی-با-panic">خطاهای غیرقابل بازیابی با <code>panic!</code></a></h2>
+                        <h2 id="خطاهای-غیرقابل-بازیابی-با-panic"><a class="header" href="#خطاهای-غیرقابل-بازیابی-با-panic">خطاهای غیرقابل بازیابی با <code>panic!</code></a></h2>
 <p>گاهی اوقات اتفاقات بدی در کد شما رخ می‌دهد و هیچ کاری نمی‌توانید در مورد آن انجام دهید. در این موارد،
 Rust ماکروی <code>panic!</code> را ارائه می‌دهد. دو راه برای ایجاد یک خطا با <code>panic!</code> وجود دارد: با انجام عملی
 که باعث ایجاد خطا می‌شود (مانند دسترسی به یک اندیس (index)خارج از محدوده در یک آرایه) یا با صراحت
@@ -285,7 +285,6 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 <p>این مقدار زیادی خروجی است! خروجی دقیق ممکن است بسته به سیستم عامل و نسخه Rust شما متفاوت باشد. برای دریافت backtraceها با این اطلاعات، باید نمادهای اشکال‌زدایی (debug symbols) فعال باشند. نمادهای اشکال‌زدایی به طور پیش‌فرض هنگام استفاده از <code>cargo build</code> یا <code>cargo run</code> بدون فلگ <code>--release</code> فعال هستند، همانطور که در اینجا انجام دادیم.</p>
 <p>در خروجی لیست ۹-۲، خط ۶ از backtrace به خطی در پروژه ما اشاره می‌کند که باعث مشکل شده است: خط ۴ فایل <em>src/main.rs</em>. اگر نمی‌خواهیم برنامه ما دچار خطا شود، باید بررسی خود را از مکانی که توسط اولین خطی که اشاره به فایلی که نوشته‌ایم دارد، آغاز کنیم. در لیست ۹-۱، جایی که به عمد کدی نوشته‌ایم که باعث خطا شود، راه حل رفع این خطا این است که درخواست یک عنصر فراتر از محدوده اندیس‌های بردار نکنیم. زمانی که کد شما در آینده دچار خطا می‌شود، باید بفهمید که کد با چه مقادیری چه عملی انجام می‌دهد که باعث خطا می‌شود و کد چه کاری باید انجام دهد.</p>
 <p>ما در بخش <a href="ch09-03-to-panic-or-not-to-panic.html#to-panic-or-not-to-panic">“To <code>panic!</code> or Not to <code>panic!</code>”</a><!-- ignore --> که بعداً در این فصل آمده است، دوباره به موضوع <code>panic!</code> و زمانی که باید و نباید از <code>panic!</code> برای مدیریت شرایط خطا استفاده کنیم بازخواهیم گشت. اکنون، به بررسی نحوه بازیابی از یک خطا با استفاده از <code>Result</code> می‌پردازیم.</p>
-</div>
 
                     </main>
 
@@ -334,6 +333,7 @@ note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose bac
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

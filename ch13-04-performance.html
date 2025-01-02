@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="مقایسه-عملکرد-حلقهها-در-برابر-iteratorها"><a class="header" href="#مقایسه-عملکرد-حلقهها-در-برابر-iteratorها">مقایسه عملکرد: حلقه‌ها در برابر Iteratorها</a></h2>
+                        <h2 id="مقایسه-عملکرد-حلقهها-در-برابر-iteratorها"><a class="header" href="#مقایسه-عملکرد-حلقهها-در-برابر-iteratorها">مقایسه عملکرد: حلقه‌ها در برابر Iteratorها</a></h2>
 <p>برای تعیین اینکه از حلقه‌ها یا iteratorها استفاده کنید، باید بدانید کدام پیاده‌سازی سریع‌تر است: نسخه تابع <code>search</code> با حلقه صریح <code>for</code> یا نسخه با iteratorها.</p>
 <p>ما یک بنچمارک اجرا کردیم که در آن تمام محتوای کتاب <em>The Adventures of Sherlock Holmes</em> اثر سر آرتور کانن دویل را در یک <code>String</code> بارگذاری کردیم و به دنبال کلمه <em>the</em> در محتوا گشتیم. نتایج بنچمارک برای نسخه <code>search</code> با استفاده از حلقه <code>for</code> و نسخه با iteratorها به شرح زیر است:</p>
 <pre><code class="language-text">test bench_search_for  ... bench:  19,620,300 ns/iter (+/- 915,700)
@@ -213,7 +213,7 @@ for i in 12..buffer.len() {
 closureها و iteratorها ویژگی‌های Rust هستند که از ایده‌های زبان‌های برنامه‌نویسی تابعی الهام گرفته‌اند. آن‌ها به توانایی Rust در بیان واضح ایده‌های سطح بالا با عملکرد سطح پایین کمک می‌کنند. پیاده‌سازی closureها و iteratorها به گونه‌ای است که عملکرد زمان اجرا تحت تأثیر قرار نمی‌گیرد. این بخشی از هدف Rust برای ارائه انتزاع‌های بدون هزینه است.
 </div>
 <p>اکنون که قابلیت بیان پروژه I/O خود را بهبود داده‌ایم، بیایید نگاهی به برخی ویژگی‌های بیشتر <code>cargo</code> بیندازیم که به ما کمک می‌کنند پروژه را با دنیا به اشتراک بگذاریم.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -261,6 +261,7 @@ closureها و iteratorها ویژگی‌های Rust هستند که از اید
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

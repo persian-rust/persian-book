@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="توابع"><a class="header" href="#توابع">توابع</a></h2>
+                        <h2 id="توابع"><a class="header" href="#توابع">توابع</a></h2>
 <p>توابع در کدهای راست بسیار رایج هستند. شما تاکنون یکی از مهم‌ترین توابع در این زبان را دیده‌اید: تابع <code>main</code>، که نقطه ورود بسیاری از برنامه‌ها است. همچنین با کلمه کلیدی <code>fn</code> آشنا شدید که به شما امکان تعریف توابع جدید را می‌دهد.</p>
 <p>کدهای راست از <em>حالت snake case</em> به عنوان سبک متعارف برای نام‌گذاری توابع و متغیرها استفاده می‌کنند، که در آن تمام حروف کوچک هستند و کلمات با زیرخط از یکدیگر جدا می‌شوند. این یک برنامه است که شامل یک مثال از تعریف تابع می‌باشد:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
@@ -371,7 +371,7 @@ For more information about this error, try `rustc --explain E0308`.
 error: could not compile `functions` (bin "functions") due to 1 previous error
 </code></pre>
 <p>پیام خطای اصلی، <code>mismatched types</code>، مسئله اصلی این کد را آشکار می‌کند. تعریف تابع <code>plus_one</code> می‌گوید که این تابع یک <code>i32</code> بازمی‌گرداند، اما اظهارات به یک مقدار ارزیابی نمی‌شوند، که با <code>()</code>، نوع واحد، نشان داده می‌شود. بنابراین، چیزی بازگردانده نمی‌شود که با تعریف تابع تناقض دارد و باعث ایجاد خطا می‌شود. در این خروجی، راست پیامی ارائه می‌دهد تا شاید به حل این مشکل کمک کند: پیشنهاد حذف نقطه ویرگول، که این خطا را برطرف می‌کند.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -419,6 +419,7 @@ error: could not compile `functions` (bin "functions") due to 1 previous error
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

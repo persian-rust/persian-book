@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="وارد-کردن-مسیرها-به-محدوده-با-کلمه-کلیدی-use"><a class="header" href="#وارد-کردن-مسیرها-به-محدوده-با-کلمه-کلیدی-use">وارد کردن مسیرها به محدوده با کلمه کلیدی <code>use</code></a></h2>
+                        <h2 id="وارد-کردن-مسیرها-به-محدوده-با-کلمه-کلیدی-use"><a class="header" href="#وارد-کردن-مسیرها-به-محدوده-با-کلمه-کلیدی-use">وارد کردن مسیرها به محدوده با کلمه کلیدی <code>use</code></a></h2>
 <p>نوشتن مسیرهای کامل برای فراخوانی توابع می‌تواند خسته‌کننده و تکراری باشد. در لیستینگ 7-7، چه مسیر مطلق یا نسبی را برای تابع <code>add_to_waitlist</code> انتخاب کنیم، هر بار که بخواهیم این تابع را فراخوانی کنیم باید <code>front_of_house</code> و <code>hosting</code> را نیز مشخص کنیم. خوشبختانه، راهی برای ساده‌تر کردن این فرآیند وجود دارد: می‌توانیم یک میانبر به یک مسیر با استفاده از کلمه کلیدی <code>use</code> ایجاد کنیم و سپس در هر جای دیگر محدوده، از نام کوتاه‌تر استفاده کنیم.</p>
 <p>در لیستینگ 7-11، ماژول <code>crate::front_of_house::hosting</code> را به محدوده تابع <code>eat_at_restaurant</code> می‌آوریم تا فقط نیاز به مشخص کردن <code>hosting::add_to_waitlist</code> برای فراخوانی تابع <code>add_to_waitlist</code> در <code>eat_at_restaurant</code> داشته باشیم.</p>
 <figure class="listing">
@@ -460,7 +460,6 @@ use std::io::Write;</code></pre>
 <span class="boring">}</span></code></pre></pre>
 <p>این دستور <code>use</code> تمام آیتم‌های عمومی تعریف‌شده در <code>std::collections</code> را به محدوده فعلی وارد می‌کند. هنگام استفاده از عملگر glob دقت کنید! استفاده از glob می‌تواند تشخیص این که چه نام‌هایی در محدوده قرار دارند و نامی که در برنامه شما استفاده شده در کجا تعریف شده است را دشوارتر کند.</p>
 <p>عملگر glob اغلب در زمان تست استفاده می‌شود تا همه چیز تحت تست به ماژول <code>tests</code> وارد شود؛ در بخش <a href="ch11-01-writing-tests.html#how-to-write-tests">«چگونه تست بنویسیم»</a> در فصل 11 در مورد این موضوع صحبت خواهیم کرد. عملگر glob همچنین گاهی به عنوان بخشی از الگوی prelude استفاده می‌شود: برای اطلاعات بیشتر در مورد این الگو، به <a href="https://doc.rust-lang.org/std/prelude/index.html#other-preludes">مستندات کتابخانه استاندارد</a> مراجعه کنید.</p>
-</div>
 
                     </main>
 
@@ -509,6 +508,7 @@ use std::io::Write;</code></pre>
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

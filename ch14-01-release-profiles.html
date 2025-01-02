@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="شخصیسازی-فرآیند-ساخت-با-استفاده-از-پروفایلهای-نسخه-انتشار"><a class="header" href="#شخصیسازی-فرآیند-ساخت-با-استفاده-از-پروفایلهای-نسخه-انتشار">شخصی‌سازی فرآیند ساخت با استفاده از پروفایل‌های نسخه انتشار</a></h2>
+                        <h2 id="شخصیسازی-فرآیند-ساخت-با-استفاده-از-پروفایلهای-نسخه-انتشار"><a class="header" href="#شخصیسازی-فرآیند-ساخت-با-استفاده-از-پروفایلهای-نسخه-انتشار">شخصی‌سازی فرآیند ساخت با استفاده از پروفایل‌های نسخه انتشار</a></h2>
 <p>در Rust، <em>پروفایل‌های نسخه انتشار</em> پروفایل‌هایی از پیش تعریف‌شده و قابل شخصی‌سازی هستند که با پیکربندی‌های مختلف به برنامه‌نویس اجازه می‌دهند کنترل بیشتری روی گزینه‌های مختلف کامپایل کد داشته باشد. هر پروفایل به صورت مستقل از دیگران پیکربندی می‌شود.</p>
 <p>Cargo دو پروفایل اصلی دارد: پروفایل <code>dev</code> که هنگام اجرای <code>cargo build</code> استفاده می‌شود و پروفایل <code>release</code> که هنگام اجرای <code>cargo build --release</code> استفاده می‌شود. پروفایل <code>dev</code> با تنظیمات پیش‌فرض مناسب برای توسعه و پروفایل <code>release</code> با تنظیمات پیش‌فرض مناسب برای ساخت نسخه‌های انتشار تعریف شده‌اند.</p>
 <p>این نام‌های پروفایل ممکن است از خروجی‌های ساخت شما آشنا به نظر برسند:</p>
@@ -207,7 +207,7 @@ opt-level = 1
 </code></pre>
 <p>این کد تنظیم پیش‌فرض <code>0</code> را بازنویسی می‌کند. اکنون، زمانی که <code>cargo build</code> را اجرا می‌کنیم، Cargo از تنظیمات پیش‌فرض برای پروفایل <code>dev</code> به همراه سفارشی‌سازی ما برای <code>opt-level</code> استفاده خواهد کرد. از آنجایی که ما مقدار <code>opt-level</code> را به <code>1</code> تنظیم کرده‌ایم، Cargo بهینه‌سازی‌های بیشتری نسبت به پیش‌فرض اعمال خواهد کرد، اما نه به اندازه یک ساخت در حالت <code>release</code>.</p>
 <p>برای مشاهده لیست کامل گزینه‌های پیکربندی و تنظیمات پیش‌فرض برای هر پروفایل، به <a href="https://doc.rust-lang.org/cargo/reference/profiles.html">مستندات Cargo</a> مراجعه کنید.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -255,6 +255,7 @@ opt-level = 1
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

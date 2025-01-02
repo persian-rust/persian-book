@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="تعریف-و-نمونهسازی-structها"><a class="header" href="#تعریف-و-نمونهسازی-structها">تعریف و نمونه‌سازی Structها</a></h2>
+                        <h2 id="تعریف-و-نمونهسازی-structها"><a class="header" href="#تعریف-و-نمونهسازی-structها">تعریف و نمونه‌سازی Structها</a></h2>
 <p>ساختارها مشابه تاپل‌ها هستند که در بخش <a href="ch03-02-data-types.html#the-tuple-type">«نوع Tuple»</a><!-- ignore --> مورد بحث قرار گرفتند، به این معنا که هر دو شامل مقادیر مرتبط متعددی هستند. مانند تاپل‌ها، اجزای یک ساختار می‌توانند از انواع مختلفی باشند. اما برخلاف تاپل‌ها، در یک ساختار شما برای هر جزء داده نام تعیین می‌کنید تا معنای مقادیر روشن‌تر شود. افزودن این نام‌ها باعث می‌شود که ساختارها از تاپل‌ها انعطاف‌پذیرتر باشند: شما مجبور نیستید برای مشخص کردن یا دسترسی به مقادیر یک نمونه به ترتیب داده‌ها تکیه کنید.</p>
 <p>برای تعریف یک ساختار، کلمه کلیدی <code>struct</code> را وارد کرده و نام کل ساختار را تعیین می‌کنیم. نام یک ساختار باید توصیف‌کننده اهمیت اجزای داده‌ای باشد که با هم گروه‌بندی می‌شوند. سپس، داخل آکولادها، نام‌ها و انواع اجزای داده‌ای را که به آن‌ها <em>فیلد</em> می‌گوییم، تعریف می‌کنیم. برای مثال، لیست ۵-۱ یک ساختار را نشان می‌دهد که اطلاعات مربوط به یک حساب کاربری را ذخیره می‌کند.</p>
 <figure class="listing">
@@ -445,7 +445,6 @@ after running update-rustc.sh:
 pbcopy < listings/ch05-using-structs-to-structure-related-data/no-listing-02-reference-in-struct/output.txt
 paste above
 add `> ` before every line -->
-</div>
 
                     </main>
 
@@ -494,6 +493,7 @@ add `> ` before every line -->
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

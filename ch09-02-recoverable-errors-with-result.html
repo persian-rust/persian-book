@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="خطاهای-قابل-بازیابی-با-result"><a class="header" href="#خطاهای-قابل-بازیابی-با-result">خطاهای قابل بازیابی با <code>Result</code></a></h2>
+                        <h2 id="خطاهای-قابل-بازیابی-با-result"><a class="header" href="#خطاهای-قابل-بازیابی-با-result">خطاهای قابل بازیابی با <code>Result</code></a></h2>
 <p>بیشتر خطاها به اندازه‌ای جدی نیستند که نیاز به توقف کامل برنامه داشته باشند. گاهی اوقات وقتی
 یک تابع با شکست مواجه می‌شود، دلیلی وجود دارد که می‌توانید آن را به راحتی تفسیر کرده و به آن
 پاسخ دهید. برای مثال، اگر بخواهید یک فایل را باز کنید و این عملیات به دلیل وجود نداشتن فایل شکست
@@ -536,7 +536,6 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 <p>وقتی یک تابع <code>main</code> یک <code>Result&lt;(), E&gt;</code> بازمی‌گرداند، برنامه اجرایی با مقدار <code>0</code> خارج می‌شود اگر <code>main</code> مقدار <code>Ok(())</code> بازگرداند و با یک مقدار غیر صفر خارج می‌شود اگر <code>main</code> مقدار <code>Err</code> بازگرداند. برنامه‌های اجرایی نوشته شده در C هنگام خروج مقادیر صحیح بازمی‌گردانند: برنامه‌هایی که با موفقیت خارج می‌شوند مقدار صحیح <code>0</code> را بازمی‌گردانند و برنامه‌هایی که دچار خطا می‌شوند مقداری غیر از <code>0</code> بازمی‌گردانند. Rust نیز مقادیر صحیح را از برنامه‌های اجرایی بازمی‌گرداند تا با این قرارداد سازگار باشد.</p>
 <p>تابع <code>main</code> می‌تواند هر نوعی را که ویژگی <a href="https://doc.rust-lang.org/std/process/trait.Termination.html"><code>std::process::Termination</code></a><!-- ignore --> را پیاده‌سازی می‌کند بازگرداند، که شامل تابع <code>report</code> است که یک <code>ExitCode</code> بازمی‌گرداند. مستندات کتابخانه استاندارد را برای اطلاعات بیشتر درباره پیاده‌سازی ویژگی <code>Termination</code> برای انواع خودتان مطالعه کنید.</p>
 <p>اکنون که جزئیات فراخوانی <code>panic!</code> یا بازگرداندن <code>Result</code> را بررسی کردیم، بیایید به موضوع نحوه تصمیم‌گیری درباره اینکه کدامیک در چه مواردی مناسب است بازگردیم.</p>
-</div>
 
                     </main>
 
@@ -585,6 +584,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="متد"><a class="header" href="#متد">متد</a></h2>
+                        <h2 id="متد"><a class="header" href="#متد">متد</a></h2>
 <p><em>متدها</em> شبیه به توابع هستند: ما آن‌ها را با کلمه کلیدی <code>fn</code> و یک نام تعریف می‌کنیم، می‌توانند پارامترها و یک مقدار بازگشتی داشته باشند و شامل کدی هستند که وقتی متد از جایی دیگر فراخوانی می‌شود، اجرا می‌شود. برخلاف توابع، متدها در زمینه یک ساختار (یا یک Enum یا یک Trait Object، که آن‌ها را به ترتیب در <a href="ch06-00-enums.html">فصل ۶</a><!-- ignore --> و <a href="ch18-02-trait-objects.html">فصل ۱۷</a><!-- ignore --> پوشش می‌دهیم) تعریف می‌شوند و پارامتر اول آن‌ها همیشه <code>self</code> است که نمونه‌ای از ساختاری که متد روی آن فراخوانی شده است را نمایش می‌دهد.</p>
 <h3 id="تعریف-متدها"><a class="header" href="#تعریف-متدها">تعریف متدها</a></h3>
 <p>بیایید تابع <code>area</code> که یک نمونه از <code>Rectangle</code> را به عنوان پارامتر می‌گیرد، تغییر دهیم و به جای آن، یک متد <code>area</code> تعریف کنیم که روی ساختار <code>Rectangle</code> تعریف شده است، همان‌طور که در لیست ۵-۱۳ نشان داده شده است.</p>
@@ -409,7 +409,6 @@ impl Rectangle {
 <h2 id="خلاصه"><a class="header" href="#خلاصه">خلاصه</a></h2>
 <p>ساختارها به شما اجازه می‌دهند تا نوع‌های سفارشی ایجاد کنید که برای حوزه کاری شما معنادار باشند. با استفاده از ساختارها، می‌توانید قطعات داده‌ای مرتبط را به هم متصل کنید و برای هر قطعه نامی تعیین کنید تا کد شما شفاف شود. در بلوک‌های <code>impl</code>، شما می‌توانید توابعی را تعریف کنید که با نوع شما مرتبط هستند، و متدها نوعی از توابع مرتبط هستند که به شما اجازه می‌دهند رفتار نمونه‌های ساختارهایتان را مشخص کنید.</p>
 <p>اما ساختارها تنها راه ایجاد نوع‌های سفارشی نیستند: بیایید به ویژگی Enum در Rust بپردازیم تا ابزار دیگری به جعبه ابزار شما اضافه کنیم.</p>
-</div>
 
                     </main>
 
@@ -458,6 +457,7 @@ impl Rectangle {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

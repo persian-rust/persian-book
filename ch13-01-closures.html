@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -181,9 +182,7 @@
                 <div id="content" class="content">
                     <main>
                         <!-- Old heading. Do not remove or links may break. -->
-<div dir="rtl">
 <p><a id="closures-anonymous-functions-that-can-capture-their-environment"></a></p>
-<div dir="rtl">
 <h2 id="closureها-توابع-ناشناسی-که-محیط-خود-را-میگیرند"><a class="header" href="#closureها-توابع-ناشناسی-که-محیط-خود-را-میگیرند"> closureها: توابع ناشناسی که محیط خود را می‌گیرند</a></h2>
 </div>
 <p>closureهای Rust توابع ناشناسی هستند که می‌توانید آن‌ها را در یک متغیر ذخیره کنید یا به عنوان آرگومان به توابع دیگر ارسال کنید. شما می‌توانید closure را در یک مکان ایجاد کنید و سپس آن را در جای دیگری فراخوانی کنید تا در یک زمینه متفاوت ارزیابی شود. برخلاف توابع، closureها می‌توانند مقادیر را از محیطی که در آن تعریف شده‌اند، بگیرند. ما نشان خواهیم داد که چگونه این ویژگی‌های closure امکان استفاده مجدد از کد و سفارشی‌سازی رفتار را فراهم می‌کند.</p>
@@ -583,7 +582,6 @@ fn main() {
 <figcaption>Listing 13-9: استفاده از یک closure <code>FnMut</code> با <code>sort_by_key</code> مجاز است</figcaption>
 </figure>
 <p>صفات <code>Fn</code> هنگام تعریف یا استفاده از توابع یا انواعی که از closureها استفاده می‌کنند، مهم هستند. در بخش بعدی، ما درباره iteratorها بحث خواهیم کرد. بسیاری از متدهای iterator آرگومان‌های closure می‌گیرند، بنابراین این جزئیات closure را هنگام ادامه مطالعه در نظر داشته باشید!</p>
-</div>
 
                     </main>
 
@@ -632,6 +630,7 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

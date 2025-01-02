@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="پردازش-یک-سری-از-آیتمها-با-استفاده-از-iteratorها"><a class="header" href="#پردازش-یک-سری-از-آیتمها-با-استفاده-از-iteratorها">پردازش یک سری از آیتم‌ها با استفاده از Iteratorها</a></h2>
+                        <h2 id="پردازش-یک-سری-از-آیتمها-با-استفاده-از-iteratorها"><a class="header" href="#پردازش-یک-سری-از-آیتمها-با-استفاده-از-iteratorها">پردازش یک سری از آیتم‌ها با استفاده از Iteratorها</a></h2>
 <p>الگوی iterator به شما اجازه می‌دهد تا به ترتیب روی یک دنباله از آیتم‌ها کاری انجام دهید. یک iterator مسئول منطق پیمایش هر آیتم و تعیین زمان پایان دنباله است. وقتی از iteratorها استفاده می‌کنید، نیازی به پیاده‌سازی مجدد آن منطق ندارید.</p>
 <p>در Rust، iteratorها <em>تنبل</em> هستند، به این معنی که تا زمانی که متدهایی که iterator را مصرف می‌کنند فراخوانی نشوند، هیچ اثری ندارند. به عنوان مثال، کد در لیست 13-10 یک iterator را بر روی آیتم‌های وکتور <code>v1</code> با فراخوانی متد <code>iter</code> که روی <code>Vec&lt;T&gt;</code> تعریف شده است، ایجاد می‌کند. این کد به تنهایی هیچ کار مفیدی انجام نمی‌دهد.</p>
 <figure class="listing">
@@ -374,7 +374,7 @@ mod tests {
 <p>در بدنه <code>shoes_in_size</code>، ما <code>into_iter</code> را فراخوانی می‌کنیم تا یک iterator ایجاد کنیم که مالکیت وکتور را می‌گیرد. سپس <code>filter</code> را فراخوانی می‌کنیم تا آن iterator را به یک iterator جدید تبدیل کنیم که فقط شامل عناصری است که closure برای آن‌ها مقدار <code>true</code> بازمی‌گرداند.</p>
 <p>closure پارامتر <code>shoe_size</code> را از محیط می‌گیرد و مقدار آن را با اندازه هر کفش مقایسه می‌کند و فقط کفش‌هایی با اندازه مشخص شده را نگه می‌دارد. در نهایت، با فراخوانی <code>collect</code> مقادیر بازگردانده‌شده توسط iterator تطبیق‌یافته در یک وکتور جمع‌آوری می‌شوند که توسط تابع بازگردانده می‌شود.</p>
 <p>تست نشان می‌دهد که وقتی <code>shoes_in_size</code> را فراخوانی می‌کنیم، فقط کفش‌هایی را دریافت می‌کنیم که اندازه آن‌ها با مقداری که مشخص کرده‌ایم یکسان است.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -422,6 +422,7 @@ mod tests {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

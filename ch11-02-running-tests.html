@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="کنترل-نحوه-اجرای-تستها"><a class="header" href="#کنترل-نحوه-اجرای-تستها">کنترل نحوه اجرای تست‌ها</a></h2>
+                        <h2 id="کنترل-نحوه-اجرای-تستها"><a class="header" href="#کنترل-نحوه-اجرای-تستها">کنترل نحوه اجرای تست‌ها</a></h2>
 <p>دقیقاً همانطور که <code>cargo run</code> کد شما را کامپایل کرده و باینری حاصل را اجرا می‌کند، <code>cargo test</code> کد شما را در حالت تست کامپایل کرده و باینری تست حاصل را اجرا می‌کند. رفتار پیش‌فرض باینری تولیدشده توسط <code>cargo test</code> این است که تمام تست‌ها را به صورت موازی اجرا کرده و خروجی تولید شده در طول اجرای تست‌ها را ضبط کند. این کار از نمایش خروجی جلوگیری کرده و خواندن خروجی مرتبط با نتایج تست را آسان‌تر می‌کند. با این حال، می‌توانید با مشخص کردن گزینه‌های خط فرمان این رفتار پیش‌فرض را تغییر دهید.</p>
 <p>برخی گزینه‌های خط فرمان به <code>cargo test</code> می‌روند و برخی دیگر به باینری تست حاصل ارسال می‌شوند. برای جدا کردن این دو نوع آرگومان، آرگومان‌هایی که به <code>cargo test</code> می‌روند را ذکر کنید و سپس جداکننده <code>--</code> و آرگومان‌هایی که به باینری تست می‌روند را بیاورید. اجرای <code>cargo test --help</code> گزینه‌هایی را نمایش می‌دهد که می‌توانید با <code>cargo test</code> استفاده کنید، و اجرای <code>cargo test -- --help</code> گزینه‌هایی را که می‌توانید پس از جداکننده استفاده کنید نمایش می‌دهد. این گزینه‌ها همچنین در <a href="https://doc.rust-lang.org/rustc/tests/index.html">بخش “تست‌ها”</a> از <a href="https://doc.rust-lang.org/rustc/index.html">کتاب rustc</a> مستند شده‌اند.</p>
 <h3 id="اجرای-تستها-به-صورت-موازی-یا-متوالی"><a class="header" href="#اجرای-تستها-به-صورت-موازی-یا-متوالی">اجرای تست‌ها به صورت موازی یا متوالی</a></h3>
@@ -432,7 +432,6 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
 </code></pre>
 <p>با کنترل اینکه کدام تست‌ها اجرا می‌شوند، می‌توانید مطمئن شوید که نتایج <code>cargo test</code> شما به سرعت بازگردانده می‌شوند. وقتی در نقطه‌ای هستید که منطقی است نتایج تست‌های <code>ignored</code> را بررسی کنید و زمان برای انتظار نتایج دارید، می‌توانید به جای آن <code>cargo test -- --ignored</code> را اجرا کنید. اگر می‌خواهید تمام تست‌ها را اجرا کنید، چه نادیده‌گرفته‌شده و چه نشده، می‌توانید <code>cargo test -- --include-ignored</code> را اجرا کنید.</p>
-</div>
 
                     </main>
 
@@ -481,6 +480,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="workspaces-در-cargo"><a class="header" href="#workspaces-در-cargo">Workspaces در Cargo</a></h2>
+                        <h2 id="workspaces-در-cargo"><a class="header" href="#workspaces-در-cargo">Workspaces در Cargo</a></h2>
 <p>در فصل 12، ما یک پکیج ساختیم که شامل یک crate باینری و یک crate کتابخانه‌ای بود. همان‌طور که پروژه شما توسعه می‌یابد، ممکن است متوجه شوید که crate کتابخانه‌ای همچنان بزرگ‌تر می‌شود و بخواهید پکیج خود را بیشتر به crate‌های کتابخانه‌ای چندگانه تقسیم کنید. Cargo یک ویژگی به نام <em>workspaces</em> ارائه می‌دهد که می‌تواند به مدیریت پکیج‌های مرتبط که به صورت همزمان توسعه داده می‌شوند کمک کند.</p>
 <h3 id="ایجاد-یک-workspace"><a class="header" href="#ایجاد-یک-workspace">ایجاد یک Workspace</a></h3>
 <p>یک <em>workspace</em> مجموعه‌ای از پکیج‌ها است که یک فایل <em>Cargo.lock</em> و دایرکتوری خروجی مشترک دارند. بیایید یک پروژه با استفاده از workspace ایجاد کنیم—ما از کد ساده‌ای استفاده خواهیم کرد تا بتوانیم بر ساختار workspace تمرکز کنیم. راه‌های متعددی برای ساختن یک workspace وجود دارد، بنابراین فقط یک روش رایج را نشان خواهیم داد. ما یک workspace شامل یک باینری و دو کتابخانه خواهیم داشت. باینری که عملکرد اصلی را فراهم خواهد کرد، به دو کتابخانه وابسته خواهد بود. یک کتابخانه تابع <code>add_one</code> و کتابخانه دیگر تابع <code>add_two</code> ارائه خواهد داد. این سه crate بخشی از یک workspace خواهند بود. ابتدا با ایجاد یک دایرکتوری جدید برای workspace شروع می‌کنیم:</p>
@@ -381,7 +381,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 <p>اگر crate‌های موجود در workspace را در <a href="https://crates.io/">crates.io</a> منتشر کنید، هر crate در workspace باید به صورت جداگانه منتشر شود. مشابه با <code>cargo test</code>، می‌توانیم یک crate خاص را در workspace خود با استفاده از گزینه <code>-p</code> و مشخص کردن نام crate‌ای که می‌خواهیم منتشر کنیم، منتشر کنیم.</p>
 <p>برای تمرین بیشتر، یک crate جدید به نام <code>add_two</code> به این workspace اضافه کنید، به شیوه‌ای مشابه crate <code>add_one</code>!</p>
 <p>همان‌طور که پروژه شما رشد می‌کند، استفاده از یک workspace را در نظر بگیرید: فهمیدن اجزای کوچک‌تر و جداگانه آسان‌تر از کار کردن با یک کد بزرگ و یکپارچه است. علاوه بر این، نگه داشتن crate‌ها در یک workspace می‌تواند هماهنگی بین آن‌ها را آسان‌تر کند، به خصوص اگر crate‌ها اغلب به طور همزمان تغییر کنند.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -429,6 +429,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>

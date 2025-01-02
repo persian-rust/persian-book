@@ -33,6 +33,7 @@
         <link rel="stylesheet" href="theme/2018-edition.css">
         <link rel="stylesheet" href="theme/semantic-notes.css">
         <link rel="stylesheet" href="theme/listing.css">
+        <link rel="stylesheet" href="theme/custom.css">
 
     </head>
     <body class="sidebar-visible no-js">
@@ -180,8 +181,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <div dir="rtl">
-<h2 id="متغیرها-و-تغییرپذیری"><a class="header" href="#متغیرها-و-تغییرپذیری">متغیرها و تغییرپذیری</a></h2>
+                        <h2 id="متغیرها-و-تغییرپذیری"><a class="header" href="#متغیرها-و-تغییرپذیری">متغیرها و تغییرپذیری</a></h2>
 <p>همان‌طور که در بخش [“ذخیره مقادیر با استفاده از متغیرها”][storing-values-with-variables]<!-- ignore --> ذکر شد، به طور پیش‌فرض متغیرها در Rust غیرقابل‌تغییر هستند. این یکی از راه‌هایی است که Rust شما را به نوشتن کدی که از ایمنی و همزمانی آسان ارائه‌شده توسط این زبان بهره می‌برد، تشویق می‌کند. با این حال، شما همچنان گزینه‌ای دارید تا متغیرهای خود را قابل‌تغییر کنید. بیایید بررسی کنیم که چگونه و چرا Rust شما را تشویق به استفاده از غیرقابل‌تغییر بودن می‌کند و چرا ممکن است گاهی بخواهید این حالت را تغییر دهید.</p>
 <p>وقتی یک متغیر غیرقابل‌تغییر است، وقتی مقداری به یک نام متصل شد، نمی‌توانید آن مقدار را تغییر دهید. برای نشان دادن این موضوع، یک پروژه جدید به نام <em>variables</em> در دایرکتوری <em>projects</em> خود ایجاد کنید با استفاده از دستور <code>cargo new variables</code>.</p>
 <p>سپس، در دایرکتوری جدید <em>variables</em> خود، فایل <em>src/main.rs</em> را باز کنید و کد آن را با کد زیر جایگزین کنید، که هنوز کامپایل نخواهد شد:</p>
@@ -294,7 +294,7 @@ For more information about this error, try `rustc --explain E0308`.
 error: could not compile `variables` (bin "variables") due to 1 previous error
 </code></pre>
 <p>حال که بررسی کردیم متغیرها چگونه کار می‌کنند، بیایید نگاهی به انواع داده‌های بیشتری بیندازیم که متغیرها می‌توانند داشته باشند.</p>
-</div>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -342,6 +342,7 @@ error: could not compile `variables` (bin "variables") due to 1 previous error
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+        <script src="theme/custom.js"></script>
 
 
     </div>
