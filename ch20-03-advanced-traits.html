@@ -251,7 +251,7 @@ the <code>Item</code> type is <code>u32</code>:</p>
 <pre><code class="language-rust noplayground">pub trait Iterator&lt;T&gt; {
     fn next(&amp;mut self) -&gt; Option&lt;T&gt;;
 }</code></pre>
-<figcaption>Listing A hypothetical definition of the `Iterator` trait using generics</figcaption>
+<figcaption>Listing 20-14: A hypothetical definition of the <code>Iterator</code> trait using generics</figcaption>
 </figure>
 <p>The difference is that when using generics, as in Listing 20-14, we must
 annotate the types in each implementation; because we can also implement

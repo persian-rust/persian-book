@@ -181,22 +181,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="concurrency-with-async"><a class="header" href="#concurrency-with-async">Concurrency With Async</a></h2>
-<p>In this section, we’ll apply async to some of the same concurrency challenges
-we tackled with threads in chapter 16. Because we already talked about a lot of
-the key ideas there, in this section we’ll focus on what’s different between
-threads and futures.</p>
-<p>In many cases, the APIs for working with concurrency using async are very
-similar to those for using threads. In other cases, they end up being shaped
-quite differently. Even when the APIs <em>look</em> similar between threads and async,
-they often have different behavior—and they nearly always have different
-performance characteristics.</p>
-<h3 id="counting"><a class="header" href="#counting">Counting</a></h3>
-<p>The first task we tackled in Chapter 16 was counting up on two separate threads.
-Let’s do the same using async. The <code>trpl</code> crate supplies a <code>spawn_task</code> function
-which looks very similar to the <code>thread::spawn</code> API, and a <code>sleep</code> function
-which is an async version of the <code>thread::sleep</code> API. We can use these together
-to implement the same counting example as with threads, in Listing 17-6.</p>
+                        <h2 id="همزمانی-concurrency-با-async"><a class="header" href="#همزمانی-concurrency-با-async">همزمانی (Concurrency) با Async</a></h2>
+<p>در این بخش، async را به برخی از همان چالش‌های همزمانی که با نخ‌ها در فصل 16 انجام دادیم اعمال می‌کنیم. از آنجا که قبلاً درباره بسیاری از ایده‌های کلیدی در آنجا صحبت کرده‌ایم، در این بخش تمرکز بر تفاوت‌های بین نخ‌ها و آینده‌ها (futures) خواهیم داشت.</p>
+<p>در بسیاری از موارد، API‌ها برای کار با همزمانی با استفاده از async بسیار شبیه به آن‌هایی هستند که برای استفاده از نخ‌ها به کار می‌روند. در موارد دیگر، شکل بسیار متفاوتی دارند. حتی زمانی که API‌ها بین نخ‌ها و async <em>شبیه</em> به نظر می‌رسند، اغلب رفتار متفاوتی دارند—و تقریباً همیشه ویژگی‌های عملکردی متفاوتی دارند.</p>
+<h3 id="شمارش"><a class="header" href="#شمارش">شمارش</a></h3>
+<p>اولین وظیفه‌ای که در فصل 16 به آن پرداختیم، شمارش در دو نخ جداگانه بود. بیایید همین کار را با استفاده از async انجام دهیم. crate <code>trpl</code> یک تابع <code>spawn_task</code> ارائه می‌دهد که بسیار شبیه به API <code>thread::spawn</code> است، و یک تابع <code>sleep</code> که یک نسخه async از API <code>thread::sleep</code> است. می‌توانیم از این دو با هم برای پیاده‌سازی همان مثال شمارش با نخ‌ها استفاده کنیم، همانطور که در فهرست 17-6 آمده است.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -218,22 +207,14 @@ fn main() {
         }
     });
 }</code></pre></pre>
-<figcaption>Listing 17-6: Using <code>spawn_task</code> to count with two</figcaption>
+<figcaption>Listing 17-6: استفاده از <code>spawn_task</code> برای شمارش با دو</figcaption>
 </figure>
-<p>As our starting point, we set up our <code>main</code> function with <code>trpl::run</code>, so
-that our top-level function can be async.</p>
-<section class="note" aria-role="note">
-<p>Note: From this point forward in the chapter, every example will include this
-exact same wrapping code with <code>trpl::run</code> in <code>main</code>, so we’ll often skip it
-just as we do with <code>main</code>. Don’t forget to include it in your code!</p>
-</section>
-<p>Then we write two loops within that block, each with a <code>trpl::sleep</code> call in it,
-which waits for half a second (500 milliseconds) before sending the next
-message. We put one loop in the body of a <code>trpl::spawn_task</code> and the other in a
-top-level <code>for</code> loop. We also add an <code>await</code> after the <code>sleep</code> calls.</p>
-<p>This does something similar to the thread-based implementation—including the
-fact that you may see the messages appear in a different order in your own
-terminal when you run it.</p>
+<p>به‌عنوان نقطه شروع، تابع <code>main</code> خود را با <code>trpl::run</code> راه‌اندازی می‌کنیم، به‌طوری که تابع سطح بالای ما می‌تواند async باشد.</p>
+<blockquote>
+<p>نکته: از این نقطه به بعد در فصل، هر مثال این کد بسته‌بندی یکسان را با <code>trpl::run</code> در <code>main</code> شامل خواهد شد، بنابراین اغلب آن را مانند <code>main</code> نادیده می‌گیریم. فراموش نکنید که آن را در کد خود بگنجانید!</p>
+</blockquote>
+<p>سپس دو حلقه درون آن بلوک می‌نویسیم، هرکدام با یک فراخوانی <code>trpl::sleep</code> در آن، که به مدت نیم ثانیه (500 میلی‌ثانیه) قبل از ارسال پیام بعدی منتظر می‌ماند. یک حلقه را در بدنه یک <code>trpl::spawn_task</code> قرار می‌دهیم و دیگری را در یک حلقه <code>for</code> سطح بالا. همچنین بعد از فراخوانی‌های <code>sleep</code> یک <code>await</code> اضافه می‌کنیم.</p>
+<p>این کار چیزی شبیه به پیاده‌سازی مبتنی بر نخ انجام می‌دهد—از جمله اینکه ممکن است پیام‌ها در ترمینال شما به ترتیب متفاوتی ظاهر شوند وقتی آن را اجرا می‌کنید.</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -247,14 +228,7 @@ hi number 4 from the first task!
 hi number 4 from the second task!
 hi number 5 from the first task!
 </code></pre>
-<p>This version stops as soon as the for loop in the body of the main async block
-finishes, because the task spawned by <code>spawn_task</code> is shut down when the main
-function ends. If you want to run all the way to the completion of the task, you
-will need to use a join handle to wait for the first task to complete. With
-threads, we used the <code>join</code> method to “block” until the thread was done running.
-In Listing 17-7, we can use <code>await</code> to do the same thing, because the task
-handle itself is a future. Its <code>Output</code> type is a <code>Result</code>, so we also unwrap it
-after awaiting it.</p>
+<p>این نسخه بلافاصله پس از اتمام حلقه <code>for</code> در بدنه بلوک اصلی async متوقف می‌شود، زیرا تسکی که با <code>spawn_task</code> ایجاد شده است هنگام پایان تابع <code>main</code> خاموش می‌شود. اگر بخواهید برنامه تا تکمیل کامل تسک اجرا شود، باید از یک handle الحاقی برای منتظر ماندن تا تکمیل تسک اول استفاده کنید. با نخ‌ها، از متد <code>join</code> استفاده کردیم تا تا زمانی که نخ کار خود را تمام نکرده است “مسدود” شود. در فهرست 17-7، می‌توانیم از <code>await</code> برای انجام همان کار استفاده کنیم، زیرا خود handle تسک یک آینده است. نوع <code>Output</code> آن یک <code>Result</code> است، بنابراین بعد از منتظر ماندن آن را نیز باز می‌کنیم (<code>unwrap</code>).</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -278,9 +252,9 @@ after awaiting it.</p>
         handle.await.unwrap();
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-7: Using <code>await</code> with a join handle to run a task to completion</figcaption>
+<figcaption>Listing 17-7: استفاده از <code>await</code> با یک handle الحاقی برای اجرای تسک تا تکمیل</figcaption>
 </figure>
-<p>This updated version runs till <em>both</em> loops finish.</p>
+<p>نسخه به‌روزرسانی‌شده تا زمانی که <em>هر دو</em> حلقه تمام شوند اجرا می‌شود.</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -298,22 +272,9 @@ hi number 7 from the first task!
 hi number 8 from the first task!
 hi number 9 from the first task!
 </code></pre>
-<p>So far, it looks like async and threads give us the same basic outcomes, just
-with different syntax: using <code>await</code> instead of calling <code>join</code> on the join
-handle, and awaiting the <code>sleep</code> calls.</p>
-<p>The bigger difference is that we didn’t need to spawn another operating system
-thread to do this. In fact, we don’t even need to spawn a task here. Because
-async blocks compile to anonymous futures, we can put each loop in an async
-block and have the runtime run them both to completion using the <code>trpl::join</code>
-function.</p>
-<p>In Chapter 16, we showed how to use the <code>join</code> method on the <code>JoinHandle</code> type
-returned when you call <code>std::thread::spawn</code>. The <code>trpl::join</code> function is
-similar, but for futures. When you give it two futures, it produces a single new
-future whose output is a tuple with the output of each of the futures you passed
-in once <em>both</em> complete. Thus, in Listing 17-8, we use <code>trpl::join</code> to wait for
-both <code>fut1</code> and <code>fut2</code> to finish. We do <em>not</em> await <code>fut1</code> and <code>fut2</code>, but
-instead the new future produced by <code>trpl::join</code>. We ignore the output, because
-it’s just a tuple with two unit values in it.</p>
+<p>تا اینجا، به نظر می‌رسد async و نخ‌ها نتایج اصلی یکسانی به ما می‌دهند، فقط با سینتکس متفاوت: استفاده از <code>await</code> به جای فراخوانی <code>join</code> روی handle الحاقی و انتظار برای فراخوانی‌های <code>sleep</code>.</p>
+<p>تفاوت بزرگ‌تر این است که نیازی به ایجاد یک نخ سیستم‌عامل جداگانه برای این کار نداشتیم. در واقع، حتی نیازی به ایجاد یک تسک هم در اینجا نداریم. زیرا بلوک‌های async به آینده‌های ناشناس کامپایل می‌شوند، می‌توانیم هر حلقه را در یک بلوک async قرار دهیم و اجازه دهیم runtime هر دو را با استفاده از تابع <code>trpl::join</code> تا تکمیل اجرا کند.</p>
+<p>در فصل 16، نشان دادیم چگونه می‌توان از متد <code>join</code> روی نوع <code>JoinHandle</code> که هنگام فراخوانی <code>std::thread::spawn</code> بازمی‌گردد استفاده کرد. تابع <code>trpl::join</code> مشابه است، اما برای آینده‌ها. وقتی دو آینده به آن می‌دهید، یک آینده جدید تولید می‌کند که خروجی آن یک تاپل با خروجی هرکدام از آینده‌هایی که به آن داده‌اید است، زمانی که <em>هر دو</em> کامل شوند. بنابراین، در فهرست 17-8، از <code>trpl::join</code> برای منتظر ماندن تا زمانی که <code>fut1</code> و <code>fut2</code> هر دو تمام شوند استفاده می‌کنیم. ما <em>منتظر</em> <code>fut1</code> و <code>fut2</code> نمی‌مانیم، بلکه آینده جدید تولیدشده توسط <code>trpl::join</code> را منتظر می‌مانیم. خروجی را نادیده می‌گیریم، زیرا فقط یک تاپل با دو مقدار واحد در آن است.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -339,9 +300,9 @@ it’s just a tuple with two unit values in it.</p>
         trpl::join(fut1, fut2).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-8: Using <code>trpl::join</code> to await two anonymous futures</figcaption>
+<figcaption>Listing 17-8: استفاده از <code>trpl::join</code> برای منتظر ماندن دو آینده ناشناس</figcaption>
 </figure>
-<p>When we run this, we see both futures run to completion:</p>
+<p>وقتی این کد را اجرا می‌کنیم، می‌بینیم هر دو futures تا تکمیل اجرا می‌شوند:</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -359,34 +320,16 @@ hi number 7 from the first task!
 hi number 8 from the first task!
 hi number 9 from the first task!
 </code></pre>
-<p>Here, you’ll see the exact same order every time, which is very different from
-what we saw with threads. That is because the <code>trpl::join</code> function is <em>fair</em>,
-meaning it checks each future equally often, alternating between them, and never
-lets one race ahead if the other is ready. With threads, the operating system
-decides which thread to check and how long to let it run. With async Rust, the
-runtime decides which task to check. (In practice, the details get complicated
-because an async runtime might use operating system threads under the hood as
-part of how it manages concurrency, so guaranteeing fairness can be more work
-for a runtime—but it’s still possible!) Runtimes don’t have to guarantee
-fairness for any given operation, and runtimes often offer different APIs to let
-you choose whether you want fairness or not.</p>
-<p>Try some of these different variations on awaiting the futures and see what they
-do:</p>
+<p>اینجا، هر بار همان ترتیب را خواهید دید، که بسیار متفاوت از چیزی است که با نخ‌ها دیدیم. این به این دلیل است که تابع <code>trpl::join</code> <em>منصفانه</em> است، به این معنی که هر آینده را به‌طور مساوی بررسی می‌کند، بین آن‌ها تناوب ایجاد می‌کند، و هرگز اجازه نمی‌دهد یکی جلوتر بیفتد اگر دیگری آماده باشد. با نخ‌ها، سیستم‌عامل تصمیم می‌گیرد که کدام نخ را بررسی کند و چقدر اجازه دهد اجرا شود. با راست async، runtime تصمیم می‌گیرد که کدام تسک را بررسی کند. (در عمل، جزئیات پیچیده‌تر می‌شوند، زیرا یک runtime async ممکن است از نخ‌های سیستم‌عامل در پشت صحنه به‌عنوان بخشی از نحوه مدیریت همزمانی استفاده کند، بنابراین تضمین انصاف می‌تواند برای یک runtime کار بیشتری باشد—اما همچنان ممکن است!) لازم نیست runtime‌ها برای هر عملیات خاصی انصاف را تضمین کنند، و runtime‌ها اغلب API‌های متفاوتی ارائه می‌دهند که به شما اجازه می‌دهند انتخاب کنید آیا می‌خواهید انصاف یا خیر.</p>
+<p>برخی از این تغییرات مختلف برای انتظار آینده‌ها را امتحان کنید و ببینید چه می‌کنند:</p>
 <ul>
-<li>Remove the async block from around either or both of the loops.</li>
-<li>Await each async block immediately after defining it.</li>
-<li>Wrap only the first loop in an async block, and await the resulting future
-after the body of second loop.</li>
+<li>بلوک async را از اطراف یکی یا هر دو حلقه حذف کنید.</li>
+<li>هر بلوک async را بلافاصله پس از تعریف آن منتظر بمانید.</li>
+<li>فقط حلقه اول را در یک بلوک async قرار دهید و آینده حاصل را پس از بدنه حلقه دوم منتظر بمانید.</li>
 </ul>
-<p>For an extra challenge, see if you can figure out what the output will be in
-each case <em>before</em> running the code!</p>
-<h3 id="message-passing"><a class="header" href="#message-passing">Message Passing</a></h3>
-<p>Sharing data between futures will also be familiar: we’ll use message passing
-again, but this with async versions of the types and functions. We’ll take a
-slightly different path than we did in Chapter 16, to illustrate some of the key
-differences between thread-based and futures-based concurrency. In Listing 17-9,
-we’ll begin with just a single async block—<em>not</em> spawning a separate task as
-we spawned a separate thread.</p>
+<p>برای یک چالش اضافی، ببینید آیا می‌توانید پیش از اجرای کد پیش‌بینی کنید که خروجی چه خواهد بود!</p>
+<h3 id="ارسال-پیام"><a class="header" href="#ارسال-پیام">ارسال پیام</a></h3>
+<p>اشتراک داده بین آینده‌ها نیز آشنا خواهد بود: دوباره از ارسال پیام استفاده خواهیم کرد، اما این بار با نسخه‌های async از نوع‌ها و توابع. ما مسیری کمی متفاوت از آنچه در فصل 16 انجام دادیم را طی خواهیم کرد تا برخی از تفاوت‌های کلیدی بین همزمانی مبتنی بر نخ و مبتنی بر آینده‌ها را نشان دهیم. در فهرست 17-9، فقط با یک بلوک async شروع می‌کنیم—<em>نه</em> ایجاد یک تسک جداگانه همان‌طور که یک نخ جداگانه ایجاد کردیم.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -402,111 +345,53 @@ we spawned a separate thread.</p>
         println!("Got: {received}");
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-9: Creating an async channel and assigning the two halves to <code>tx</code> and <code>rx</code></figcaption>
+<figcaption>Listing 17-9: ایجاد یک کانال async و اختصاص دو نیمه به <code>tx</code> و <code>rx</code></figcaption>
 </figure>
-<p>Here, we use <code>trpl::channel</code>, an async version of the multiple-producer,
-single-consumer channel API we used with threads back in Chapter 16. The async
-version of the API is only a little different from the thread-based version: it
-uses a mutable rather than an immutable receiver <code>rx</code>, and its <code>recv</code> method
-produces a future we need to await rather than producing the value directly. Now
-we can send messages from the sender to the receiver. Notice that we don’t have
-to spawn a separate thread or even a task; we merely need to await the <code>rx.recv</code>
-call.</p>
-<p>The synchronous <code>Receiver::recv</code> method in <code>std::mpsc::channel</code> blocks until
-it receives a message. The <code>trpl::Receiver::recv</code> method does not, because it
-is async. Instead of blocking, it hands control back to the runtime until either
-a message is received or the send side of the channel closes. By contrast, we
-don’t await the <code>send</code> call, because it doesn’t block. It doesn’t need to,
-because the channel we’re sending it into is unbounded.</p>
-<section class="note" aria-role="note">
-<p>Note: Because all of this async code runs in an async block in a <code>trpl::run</code>
-call, everything within it can avoid blocking. However, the code <em>outside</em> it
-will block on the <code>run</code> function returning. That is the whole point of the
-<code>trpl::run</code> function: it lets you <em>choose</em> where to block on some set of async
-code, and thus where to transition between sync and async code. In most async
-runtimes, <code>run</code> is actually named <code>block_on</code> for exactly this reason.</p>
-</section>
-<p>Notice two things about this example: First, the message will arrive right away!
-Second, although we use a future here, there’s no concurrency yet. Everything
-in the listing happens in sequence, just as it would if there were no futures
-involved.</p>
-<p>Let’s address the first part by sending a series of messages, and sleep in
-between them, as shown in Listing 17-10:</p>
+<p>اینجا، از <code>trpl::channel</code> استفاده می‌کنیم، نسخه async از API کانال چندتولیدی، یک‌مصرفی که در فصل 16 با نخ‌ها استفاده کردیم. نسخه async از API فقط کمی با نسخه مبتنی بر نخ متفاوت است: به جای استفاده از یک گیرنده غیرقابل‌تغییر (immutable)، از یک گیرنده قابل‌تغییر (mutable) <code>rx</code> استفاده می‌کند، و متد <code>recv</code> آن یک آینده تولید می‌کند که باید منتظر آن بمانیم، به جای تولید مقدار به‌طور مستقیم. اکنون می‌توانیم پیام‌ها را از فرستنده به گیرنده ارسال کنیم. توجه کنید که نیازی به ایجاد یک نخ جداگانه یا حتی یک تسک نداریم؛ فقط باید فراخوانی <code>rx.recv</code> را منتظر بمانیم.</p>
+<p>متد همگام <code>Receiver::recv</code> در <code>std::mpsc::channel</code> تا زمانی که پیامی دریافت شود مسدود می‌شود. متد <code>trpl::Receiver::recv</code> این کار را نمی‌کند، زیرا async است. به جای مسدود شدن، کنترل را به runtime بازمی‌گرداند تا زمانی که یا پیامی دریافت شود یا سمت ارسال کانال بسته شود. در مقابل، ما فراخوانی <code>send</code> را منتظر نمی‌مانیم، زیرا مسدود نمی‌شود. نیازی به این کار ندارد، زیرا کانالی که پیام را به آن ارسال می‌کنیم بدون حد است.</p>
+<blockquote>
+<p>نکته: از آنجا که تمام این کد async در یک بلوک async در یک فراخوانی <code>trpl::run</code> اجرا می‌شود، همه چیز درون آن می‌تواند از مسدود شدن اجتناب کند. با این حال، کد <em>خارج</em> از آن در انتظار بازگشت تابع <code>run</code> مسدود خواهد شد. این کل هدف تابع <code>trpl::run</code> است: به شما اجازه می‌دهد <em>انتخاب کنید</em> کجا برای مجموعه‌ای از کد async مسدود شوید، و بنابراین کجا بین کد همگام و ناهمگام تغییر دهید. در بیشتر runtime‌های async، <code>run</code> در واقع <code>block_on</code> نامیده می‌شود دقیقاً به همین دلیل.</p>
+</blockquote>
+<p>به دو نکته در این مثال توجه کنید: اول، پیام بلافاصله می‌رسد! دوم، اگرچه در اینجا از یک آینده استفاده می‌کنیم، هنوز هیچ همزمانی وجود ندارد. همه چیز در این فهرست به ترتیبی اتفاق می‌افتد که انگار هیچ آینده‌ای درگیر نیست.</p>
+<p>بیایید به بخش اول با ارسال یک سری پیام‌ها رسیدگی کنیم و بین آن‌ها از <code>sleep</code> استفاده کنیم، همان‌طور که در فهرست 17-10 نشان داده شده است:</p>
 <!-- We cannot test this one because it never stops! -->
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    trpl::run(async {
-</span>        let (tx, mut rx) = trpl::channel();
-
-        let vals = vec![
-            String::from("hi"),
-            String::from("from"),
-            String::from("the"),
-            String::from("future"),
-        ];
-
-        for val in vals {
-            tx.send(val).unwrap();
-            trpl::sleep(Duration::from_millis(500)).await;
-        }
-
-        while let Some(value) = rx.recv().await {
-            println!("received '{value}'");
-        }
-<span class="boring">    });
-</span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-10: Sending and receiving multiple messages over the async channel and sleeping with an <code>await</code> between each message</figcaption>
+</span><span class="boring">        let (tx, mut rx) = trpl::channel();
+</span><span class="boring">
+</span><span class="boring">        let vals = vec![
+</span><span class="boring">            String::from("hi"),
+</span><span class="boring">            String::from("from"),
+</span><span class="boring">            String::from("the"),
+</span><span class="boring">            String::from("future"),
+</span><span class="boring">        ];
+</span><span class="boring">
+</span><span class="boring">        for val in vals {
+</span><span class="boring">            tx.send(val).unwrap();
+</span><span class="boring">            trpl::sleep(Duration::from_millis(500)).await;
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        while let Some(value) = rx.recv().await {
+</span><span class="boring">            println!("received '{value}'");
+</span><span class="boring">        }
+</span><span class="boring">    });
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 17-10: ارسال و دریافت چندین پیام از طریق کانال async و استفاده از <code>await</code> بین هر پیام</figcaption>
 </figure>
-<p>In addition to sending the messages, we need to receive them. In this case, we
-could do that manually, by just doing <code>rx.recv().await</code> four times, because we
-know how many messages are coming in. In the real world, though, we’ll
-generally be waiting on some <em>unknown</em> number of messages. In that case, we need
-to keep waiting until we determine that there are no more messages.</p>
-<p>In Listing 16-10, we used a <code>for</code> loop to process all the items received from a
-synchronous channel. However, Rust doesn’t yet have a way to write a <code>for</code> loop
-over an <em>asynchronous</em> series of items. Instead, we need to use a new kind of
-loop we haven’t seen before, the <code>while let</code> conditional loop. A <code>while let</code>
-loop is the loop version of the <code>if let</code> construct we saw back in Chapter 6. The
-loop will continue executing as long as the pattern it specifies continues to
-match the value.</p>
-<p>The <code>rx.recv</code> call produces a <code>Future</code>, which we await. The runtime will pause
-the <code>Future</code> until it is ready. Once a message arrives, the future will resolve
-to <code>Some(message)</code>, as many times as a message arrives. When the channel closes,
-regardless of whether <em>any</em> messages have arrived, the future will instead
-resolve to <code>None</code> to indicate that there are no more values, and we should stop
-polling—that is, stop awaiting.</p>
-<p>The <code>while let</code> loop pulls all of this together. If the result of calling
-<code>rx.recv().await</code> is <code>Some(message)</code>, we get access to the message and we can
-use it in the loop body, just as we could with <code>if let</code>. If the result is
-<code>None</code>, the loop ends. Every time the loop completes, it hits the await point
-again, so the runtime pauses it again until another message arrives.</p>
-<p>The code now successfully sends and receives all of the messages. Unfortunately,
-there are still a couple problems. For one thing, the messages do not arrive at
-half-second intervals. They arrive all at once, two seconds (2,000 milliseconds)
-after we start the program. For another, this program also never exits! Instead,
-it waits forever for new messages. You will need to shut it down using <span
-class="keystroke">ctrl-c</span>.</p>
-<p>Let’s start by understanding why the messages all come in at once after the full
-delay, rather than coming in with delays in between each one. Within a given
-async block, the order that <code>await</code> keywords appear in the code is also the
-order they happen when running the program.</p>
-<p>There’s only one async block in Listing 17-10, so everything in it runs
-linearly. There’s still no concurrency. All the <code>tx.send</code> calls happen,
-interspersed with all of the <code>trpl::sleep</code> calls and their associated await
-points. Only then does the <code>while let</code> loop get to go through any of the <code>await</code>
-points on the <code>recv</code> calls.</p>
-<p>To get the behavior we want, where the sleep delay happens between receiving
-each message, we need to put the <code>tx</code> and <code>rx</code> operations in their own async
-blocks. Then the runtime can execute each of them separately using <code>trpl::join</code>,
-just as in the counting example. Once again, we await the result of calling
-<code>trpl::join</code>, not the individual futures. If we awaited the individual futures
-in sequence, we would just end up back in a sequential flow—exactly what we’re
-trying <em>not</em> to do.</p>
+<p>علاوه بر ارسال پیام‌ها، ما نیاز داریم آن‌ها را دریافت کنیم. در این حالت، می‌توانستیم به‌صورت دستی این کار را انجام دهیم، با انجام چهار بار <code>rx.recv().await</code>، زیرا می‌دانیم چند پیام دریافت خواهیم کرد. اما در دنیای واقعی، معمولاً منتظر تعدادی پیام <em>نامشخص</em> هستیم. در این حالت، باید تا زمانی که تعیین کنیم پیام دیگری وجود ندارد منتظر بمانیم.</p>
+<p>در فهرست 16-10، از یک حلقه <code>for</code> برای پردازش تمام آیتم‌های دریافتی از یک کانال همگام استفاده کردیم. با این حال، راست هنوز راهی برای نوشتن یک حلقه <code>for</code> برای یک سری آیتم‌های <em>ناهمگام</em> ندارد. در عوض، باید از نوع جدیدی از حلقه که قبلاً ندیده‌ایم استفاده کنیم، حلقه شرطی <code>while let</code>. حلقه <code>while let</code> نسخه حلقه‌ای سازه <code>if let</code> است که در فصل 6 دیدیم. این حلقه تا زمانی که الگویی که مشخص می‌کند با مقدار مطابقت داشته باشد، به اجرا ادامه می‌دهد.</p>
+<p>فراخوانی <code>rx.recv</code> یک آینده تولید می‌کند که منتظر آن می‌مانیم. runtime آینده را تا زمانی که آماده شود متوقف می‌کند. وقتی پیامی می‌رسد، آینده به <code>Some(message)</code> حل می‌شود، به تعداد دفعاتی که پیام می‌رسد. وقتی کانال بسته می‌شود، صرف‌نظر از اینکه آیا <em>هیچ</em> پیامی رسیده است یا نه، آینده به <code>None</code> حل می‌شود تا نشان دهد هیچ مقداری باقی نمانده است و ما باید polling را متوقف کنیم—یعنی منتظر ماندن را متوقف کنیم.</p>
+<p>حلقه <code>while let</code> همه این‌ها را کنار هم قرار می‌دهد. اگر نتیجه فراخوانی <code>rx.recv().await</code> برابر با <code>Some(message)</code> باشد، به پیام دسترسی پیدا می‌کنیم و می‌توانیم از آن در بدنه حلقه استفاده کنیم، همانطور که با <code>if let</code> می‌توانستیم. اگر نتیجه <code>None</code> باشد، حلقه متوقف می‌شود. هر بار که حلقه کامل می‌شود، به نقطه انتظار بازمی‌گردد، بنابراین runtime دوباره آن را متوقف می‌کند تا زمانی که پیام دیگری برسد.</p>
+<p>اکنون کد با موفقیت تمام پیام‌ها را ارسال و دریافت می‌کند. متأسفانه، هنوز چند مشکل وجود دارد. برای مثال، پیام‌ها در فواصل نیم‌ثانیه نمی‌رسند. آن‌ها همگی یکباره، دو ثانیه (2000 میلی‌ثانیه) پس از شروع برنامه می‌رسند. علاوه بر این، این برنامه هرگز خارج نمی‌شود! بلکه برای همیشه منتظر پیام‌های جدید می‌ماند. شما باید آن را با استفاده از <span class="keystroke">ctrl-c</span> متوقف کنید.</p>
+<p>بیایید با فهمیدن اینکه چرا پیام‌ها همگی یکباره پس از تأخیر کامل می‌رسند، شروع کنیم، به‌جای اینکه با تأخیر بین هر یک برسند. در یک بلوک async خاص، ترتیبی که کلمات کلیدی <code>await</code> در کد ظاهر می‌شوند، همان ترتیبی است که هنگام اجرای برنامه اتفاق می‌افتد.</p>
+<p>در فهرست 17-10 فقط یک بلوک async وجود دارد، بنابراین همه چیز در آن به‌صورت خطی اجرا می‌شود. هنوز هم هیچ همزمانی وجود ندارد. تمام فراخوانی‌های <code>tx.send</code> انجام می‌شوند، در میان تمام فراخوانی‌های <code>trpl::sleep</code> و نقاط انتظار مرتبط با آن‌ها. فقط پس از آن، حلقه <code>while let</code> به نقاط انتظار روی فراخوانی‌های <code>recv</code> می‌رسد.</p>
+<p>برای به دست آوردن رفتاری که می‌خواهیم، جایی که تأخیر خواب بین دریافت هر پیام اتفاق می‌افتد، باید عملیات‌های <code>tx</code> و <code>rx</code> را در بلوک‌های async جداگانه قرار دهیم. سپس runtime می‌تواند هرکدام از آن‌ها را به‌صورت جداگانه با استفاده از <code>trpl::join</code> اجرا کند، همان‌طور که در مثال شمارش انجام دادیم. دوباره، نتیجه فراخوانی <code>trpl::join</code> را منتظر می‌مانیم، نه آینده‌های فردی. اگر آینده‌های فردی را به ترتیب منتظر بمانیم، فقط دوباره به یک جریان ترتیبی بازمی‌گردیم—دقیقاً چیزی که تلاش می‌کنیم <em>اجتناب</em> کنیم.</p>
 <!-- We cannot test this one because it never stops! -->
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -541,42 +426,23 @@ trying <em>not</em> to do.</p>
         trpl::join(tx_fut, rx_fut).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-11: Separating <code>send</code> and <code>recv</code> into their own <code>async</code> blocks and awaiting the futures for those blocks</figcaption>
+<figcaption>Listing 17-11: جدا کردن <code>send</code> و <code>recv</code> در بلوک‌های <code>async</code> جداگانه و منتظر ماندن برای آینده‌های این بلوک‌ها</figcaption>
 </figure>
-<p>With the updated code in Listing 17-11, the messages get printed at
-500-millisecond intervals, rather than all in a rush after two seconds.</p>
-<p>The program still never exits, though, because of the way <code>while let</code> loop
-interacts with <code>trpl::join</code>:</p>
+<p>با کد به‌روزرسانی‌شده در فهرست 17-11، پیام‌ها به‌جای اینکه همگی یک‌باره پس از دو ثانیه ظاهر شوند، در فواصل 500 میلی‌ثانیه چاپ می‌شوند.</p>
+<p>برنامه هنوز هم هرگز خارج نمی‌شود، به دلیل نحوه تعامل حلقه <code>while let</code> با <code>trpl::join</code>:</p>
 <ul>
-<li>The future returned from <code>trpl::join</code> only completes once <em>both</em> futures
-passed to it have completed.</li>
-<li>The <code>tx</code> future completes once it finishes sleeping after sending the last
-message in <code>vals</code>.</li>
-<li>The <code>rx</code> future won’t complete until the <code>while let</code> loop ends.</li>
-<li>The <code>while let</code> loop won’t end until awaiting <code>rx.recv</code> produces <code>None</code>.</li>
-<li>Awaiting <code>rx.recv</code> will only return <code>None</code> once the other end of the channel
-is closed.</li>
-<li>The channel will only close if we call <code>rx.close</code> or when the sender side,
-<code>tx</code>, is dropped.</li>
-<li>We don’t call <code>rx.close</code> anywhere, and <code>tx</code> won’t be dropped until the
-outermost async block passed to <code>trpl::run</code> ends.</li>
-<li>The block can’t end because it is blocked on <code>trpl::join</code> completing, which
-takes us back to the top of this list!</li>
+<li>آینده بازگشتی از <code>trpl::join</code> تنها زمانی کامل می‌شود که <em>هر دو</em> آینده‌ای که به آن ارسال شده‌اند کامل شوند.</li>
+<li>آینده <code>tx</code> زمانی کامل می‌شود که پس از ارسال آخرین پیام در <code>vals</code> خواب آن به پایان برسد.</li>
+<li>آینده <code>rx</code> تا زمانی که حلقه <code>while let</code> به پایان نرسد کامل نخواهد شد.</li>
+<li>حلقه <code>while let</code> تنها زمانی پایان می‌یابد که انتظار برای <code>rx.recv</code> مقدار <code>None</code> تولید کند.</li>
+<li>انتظار برای <code>rx.recv</code> تنها زمانی مقدار <code>None</code> بازمی‌گرداند که طرف دیگر کانال بسته شود.</li>
+<li>کانال تنها زمانی بسته می‌شود که ما <code>rx.close</code> را فراخوانی کنیم یا طرف فرستنده، یعنی <code>tx</code>، حذف شود.</li>
+<li>ما در هیچ جایی <code>rx.close</code> را فراخوانی نمی‌کنیم، و <code>tx</code> تا زمانی که بلوک async بیرونی ارسال‌شده به <code>trpl::run</code> به پایان نرسد حذف نمی‌شود.</li>
+<li>بلوک نمی‌تواند به پایان برسد زیرا در انتظار تکمیل <code>trpl::join</code> مسدود شده است، که ما را به بالای این لیست بازمی‌گرداند!</li>
 </ul>
-<p>We could manually close <code>rx</code> by calling <code>rx.close</code> somewhere, but that doesn’t
-make much sense. Stopping after handling some arbitrary number of messages would
-make the program shut down, but we could miss messages. We need some other way
-to make sure that <code>tx</code> gets dropped <em>before</em> the end of the function.</p>
-<p>Right now, the async block where we send the messages only borrows <code>tx</code> because
-sending a message doesn’t require ownership, but if we could move <code>tx</code> into
-that async block, it would be dropped once that block ends. In Chapter 13, we
-learned how to use the <code>move</code> keyword with closures, and in Chapter 16, we saw
-that we often need to move data into closures when working with threads. The
-same basic dynamics apply to async blocks, so the <code>move</code> keyword works with
-async blocks just as it does with closures.</p>
-<p>In Listing 17-12, we change the async block for sending messages from a plain
-<code>async</code> block to an <code>async move</code> block. When we run <em>this</em> version of the code,
-it shuts down gracefully after the last message is sent and received.</p>
+<p>ما می‌توانیم به‌صورت دستی با فراخوانی <code>rx.close</code> کانال را ببندیم، اما این کار چندان منطقی نیست. توقف پس از پردازش تعداد دلخواهی از پیام‌ها باعث می‌شود برنامه خاموش شود، اما ممکن است پیام‌ها را از دست بدهیم. ما به راه دیگری نیاز داریم تا مطمئن شویم که <code>tx</code> <em>قبل از</em> پایان تابع حذف می‌شود.</p>
+<p>در حال حاضر، بلوک async که پیام‌ها را ارسال می‌کند فقط <code>tx</code> را قرض می‌گیرد، زیرا ارسال یک پیام نیازی به مالکیت ندارد، اما اگر بتوانیم <code>tx</code> را به آن بلوک async منتقل کنیم، با پایان آن بلوک حذف خواهد شد. در فصل 13، آموختیم که چگونه از کلمه کلیدی <code>move</code> با closureها استفاده کنیم، و در فصل 16 دیدیم که هنگام کار با نخ‌ها اغلب نیاز داریم داده‌ها را به closureها منتقل کنیم. همان دینامیک اصلی برای بلوک‌های async نیز اعمال می‌شود، بنابراین کلمه کلیدی <code>move</code> با بلوک‌های async همانطور که با closureها کار می‌کند عمل می‌کند.</p>
+<p>در فهرست 17-12، بلوک async برای ارسال پیام‌ها را از یک بلوک <code>async</code> ساده به یک بلوک <code>async move</code> تغییر می‌دهیم. وقتی <em>این</em> نسخه از کد را اجرا می‌کنیم، پس از ارسال و دریافت آخرین پیام به درستی خاموش می‌شود.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -603,27 +469,17 @@ it shuts down gracefully after the last message is sent and received.</p>
 
         let rx_fut = async {
             while let Some(value) = rx.recv().await {
-                eprintln!("received '{value}'");
+                println!("received '{value}'");
             }
         };
 
         trpl::join(tx_fut, rx_fut).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-12: A working example of sending and receiving messages between futures which correctly shuts down when complete</figcaption>
+<figcaption>Listing 17-12: مثالی کارآمد از ارسال و دریافت پیام‌ها بین آینده‌ها که به درستی پس از تکمیل خاموش می‌شود</figcaption>
 </figure>
-<p>This async channel is also a multiple-producer channel, so we can call <code>clone</code>
-on <code>tx</code> if we want to send messages from multiple futures. In Listing 17-13, we
-clone <code>tx</code>, creating <code>tx1</code> outside the first async block. We move <code>tx1</code> into
-that block just as we did before with <code>tx</code>. Then, later, we move the original
-<code>tx</code> into a <em>new</em> async block, where we send more messages on a slightly slower
-delay. We happen to put this new async block after the async block for receiving
-messages, but it could go before it just as well. The key is the order of the
-futures are awaited in, not the order they are created in.</p>
-<p>Both of the async blocks for sending messages need to be <code>async move</code> blocks, so
-that both <code>tx</code> and <code>tx1</code> get dropped when those blocks finish. Otherwise we’ll
-end up back in the same infinite loop we started out in. Finally, we switch from
-<code>trpl::join</code> to <code>trpl::join3</code> to handle the additional future.</p>
+<p>این کانال async همچنین یک کانال چندتولیدی است، بنابراین اگر بخواهیم پیام‌ها را از آینده‌های مختلف ارسال کنیم، می‌توانیم روی <code>tx</code> فراخوانی <code>clone</code> انجام دهیم. در فهرست 17-13، ما <code>tx</code> را کلون می‌کنیم و <code>tx1</code> را خارج از اولین بلوک async ایجاد می‌کنیم. سپس، همان‌طور که قبلاً با <code>tx</code> انجام دادیم، <code>tx1</code> را به آن بلوک منتقل می‌کنیم. سپس، در ادامه، <code>tx</code> اصلی را به یک بلوک async <em>جدید</em> منتقل می‌کنیم، جایی که پیام‌های بیشتری را با کمی تأخیر بیشتر ارسال می‌کنیم. ما این بلوک async جدید را پس از بلوک async برای دریافت پیام‌ها قرار می‌دهیم، اما می‌تواند به همان خوبی قبل از آن قرار گیرد. نکته کلیدی ترتیب انتظار برای آینده‌ها است، نه ترتیب ایجاد آن‌ها.</p>
+<p>هر دو بلوک async برای ارسال پیام‌ها باید بلوک‌های <code>async move</code> باشند، به طوری که هم <code>tx</code> و هم <code>tx1</code> با پایان آن بلوک‌ها حذف شوند. در غیر این صورت، دوباره به همان حلقه بی‌نهایتی که ابتدا در آن بودیم بازمی‌گردیم. در نهایت، از <code>trpl::join</code> به <code>trpl::join3</code> تغییر می‌دهیم تا آینده اضافی را مدیریت کنیم.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -672,11 +528,9 @@ end up back in the same infinite loop we started out in. Finally, we switch from
         trpl::join3(tx1_fut, tx_fut, rx_fut).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-13: Using multiple producers with async blocks</figcaption>
+<figcaption>Listing 17-13: استفاده از تولیدکنندگان متعدد با بلوک‌های async</figcaption>
 </figure>
-<p>Now we see all the messages from both sending futures. Because the sending
-futures use slightly different delays after sending, the messages are also
-received at those different intervals.</p>
+<p>اکنون تمام پیام‌ها از هر دو آینده ارسال‌کننده را می‌بینیم. از آنجا که آینده‌های ارسال‌کننده از تأخیرهای کمی متفاوت پس از ارسال استفاده می‌کنند، پیام‌ها نیز در این فواصل مختلف دریافت می‌شوند.</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -689,8 +543,7 @@ received 'future'
 received 'for'
 received 'you'
 </code></pre>
-<p>This is a good start, but it limits us to just a handful of futures: two with
-<code>join</code>, or three with <code>join3</code>. Let’s see how we might work with more futures.</p>
+<p>این یک شروع خوب است، اما ما را به فقط چند آینده محدود می‌کند: دو آینده با <code>join</code>، یا سه آینده با <code>join3</code>. بیایید ببینیم چگونه می‌توانیم با آینده‌های بیشتری کار کنیم.</p>
 
                     </main>
 

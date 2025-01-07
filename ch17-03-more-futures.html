@@ -181,14 +181,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="working-with-any-number-of-futures"><a class="header" href="#working-with-any-number-of-futures">Working With Any Number of Futures</a></h2>
-<p>When we switched from using two futures to three in the previous section, we
-also had to switch from using <code>join</code> to using <code>join3</code>. It would be annoying to
-have to call a different function every time we changed the number of futures we
-wanted to join. Happily, we have a macro form of <code>join</code> to which we can pass an
-arbitrary number of arguments. It also handles awaiting the futures itself.
-Thus, we could rewrite the code from Listing 17-13 to use <code>join!</code> instead of
-<code>join3</code>, as in Listing 17-14:</p>
+                        <h2 id="کار-با-هر-تعداد-آینده"><a class="header" href="#کار-با-هر-تعداد-آینده">کار با هر تعداد آینده</a></h2>
+<p>وقتی در بخش قبلی از استفاده از دو آینده به سه آینده تغییر دادیم، مجبور شدیم از <code>join</code> به <code>join3</code> تغییر دهیم. این که هر بار که تعداد آینده‌هایی که می‌خواهیم منتظرشان بمانیم تغییر کند، مجبور باشیم تابع متفاوتی فراخوانی کنیم آزاردهنده است. خوشبختانه، فرم ماکروی <code>join</code> وجود دارد که می‌توانیم هر تعداد آرگومان دلخواه به آن ارسال کنیم. این ماکرو همچنین منتظر ماندن برای آینده‌ها را خود مدیریت می‌کند. بنابراین، می‌توانیم کد فهرست 17-13 را بازنویسی کنیم تا به جای <code>join3</code> از <code>join!</code> استفاده کنیم، همان‌طور که در فهرست 17-14 آمده است:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -237,18 +231,10 @@ Thus, we could rewrite the code from Listing 17-13 to use <code>join!</code> ins
 </span>        trpl::join!(tx1_fut, tx_fut, rx_fut);
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-14: Using <code>join!</code> to wait for multiple futures</figcaption>
+<figcaption>Listing 17-14: استفاده از <code>join!</code> برای منتظر ماندن چندین آینده</figcaption>
 </figure>
-<p>This is definitely a nice improvement over needing to swap between <code>join</code> and
-<code>join3</code> and <code>join4</code> and so on! However, even this macro form only works when we
-know the number of futures ahead of time. In real-world Rust, though, pushing
-futures into a collection and then waiting on some or all the futures in that
-collection to complete is a common pattern.</p>
-<p>To check all the futures in some collection, we’ll need to iterate over and
-join on <em>all</em> of them. The <code>trpl::join_all</code> function accepts any type which
-implements the <code>Iterator</code> trait, which we learned about back in Chapter 13, so
-it seems like just the ticket. Let’s try putting our futures in a vector, and
-replace <code>join!</code> with <code>join_all</code>.</p>
+<p>این قطعاً بهبود خوبی نسبت به نیاز به تعویض بین <code>join</code>، <code>join3</code>، <code>join4</code> و … است! با این حال، حتی این فرم ماکرو فقط زمانی کار می‌کند که تعداد آینده‌ها را از قبل بدانیم. اما در راست دنیای واقعی، افزودن آینده‌ها به یک مجموعه و سپس منتظر ماندن برای برخی یا همه آینده‌های آن مجموعه تا تکمیل، یک الگوی رایج است.</p>
+<p>برای بررسی تمام آینده‌ها در یک مجموعه، باید روی <em>همه</em> آن‌ها تکرار کرده و منتظر بمانیم. تابع <code>trpl::join_all</code> هر نوعی را که ویژگی <code>Iterator</code> را پیاده‌سازی کرده باشد می‌پذیرد، که درباره آن در فصل 13 آموختیم، بنابراین به نظر می‌رسد دقیقاً چیزی است که نیاز داریم. بیایید آینده‌های خود را در یک بردار قرار دهیم و <code>join!</code> را با <code>join_all</code> جایگزین کنیم.</p>
 <figure class="listing">
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -298,9 +284,9 @@ replace <code>join!</code> with <code>join_all</code>.</p>
         trpl::join_all(futures).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-15: Storing anonymous futures in a vector and calling <code>join_all</code></figcaption>
+<figcaption>Listing 17-15: ذخیره آینده‌های ناشناس در یک بردار و فراخوانی <code>join_all</code></figcaption>
 </figure>
-<p>Unfortunately, this doesn’t compile. Instead, we get this error:</p>
+<p>متأسفانه، این کد کامپایل نمی‌شود. در عوض، این خطا را دریافت می‌کنیم:</p>
 <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-15/
 cargo build
@@ -323,28 +309,12 @@ copy just the compiler error
    = note: no two async blocks, even if identical, have the same type
    = help: consider pinning your async block and casting it to a trait object
 </code></pre>
-<p>This might be surprising. After all, none of them return anything, so each
-block produces a <code>Future&lt;Output = ()&gt;</code>. However, <code>Future</code> is a trait, not a
-concrete type. The concrete types are the individual data structures generated
-by the compiler for async blocks. You can’t put two different hand-written
-structs in a <code>Vec</code>, and the same thing applies to the different structs
-generated by the compiler.</p>
-<p>To make this work, we need to use <em>trait objects</em>, just as we did in <a href="ch12-03-improving-error-handling-and-modularity.html">“Returning
-Errors from the run function”</a><!-- ignore --> in Chapter 12. (We’ll cover trait objects
-in detail in Chapter 18.) Using trait objects lets us treat each of the
-anonymous futures produced by these types as the same type, because all of them
-implement the <code>Future</code> trait.</p>
-<section class="note" aria-role="note">
-<p>Note: In Chapter 8, we discussed another way to include multiple types in a
-<code>Vec</code>: using an enum to represent each of the different types which can
-appear in the vector. We can’t do that here, though. For one thing, we have
-no way to name the different types, because they are anonymous. For another,
-the reason we reached for a vector and <code>join_all</code> in the first place was to be
-able to work with a dynamic collection of futures where we don’t know what
-they will all be until runtime.</p>
-</section>
-<p>We start by wrapping each of the futures in the <code>vec!</code> in a <code>Box::new</code>, as shown
-in Listing 17-16.</p>
+<p>این ممکن است تعجب‌آور باشد. بالاخره هیچ‌کدام چیزی برنمی‌گردانند، بنابراین هر بلوک یک <code>Future&lt;Output = ()&gt;</code> تولید می‌کند. با این حال، <code>Future</code> یک ویژگی (trait) است، نه یک نوع مشخص (concrete type). نوع‌های مشخص، ساختارهای داده‌ای هستند که توسط کامپایلر برای بلوک‌های async تولید می‌شوند. نمی‌توانید دو ساختار مختلف نوشته‌شده با دست را در یک <code>Vec</code> قرار دهید، و همین امر در مورد ساختارهای مختلف تولیدشده توسط کامپایلر نیز صدق می‌کند.</p>
+<p>برای کار کردن این کد، باید از <em>شیءهای ویژگی</em> (trait objects) استفاده کنیم، همانطور که در <a href="ch12-03-improving-error-handling-and-modularity.html">«بازگرداندن خطاها از تابع run»</a><!-- ignore --> در فصل 12 انجام دادیم. (در فصل 18 شیءهای ویژگی را به‌طور مفصل بررسی خواهیم کرد.) استفاده از شیءهای ویژگی به ما اجازه می‌دهد که هر یک از آینده‌های ناشناس تولیدشده توسط این نوع‌ها را به‌عنوان یک نوع مشابه در نظر بگیریم، زیرا همه آن‌ها ویژگی <code>Future</code> را پیاده‌سازی می‌کنند.</p>
+<blockquote>
+<p>نکته: در فصل 8، روش دیگری برای شامل کردن چندین نوع در یک <code>Vec</code> را بررسی کردیم: استفاده از یک enum برای نشان دادن هر یک از نوع‌های مختلف که می‌توانند در بردار ظاهر شوند. با این حال، اینجا نمی‌توانیم از آن استفاده کنیم. اولاً، راهی برای نام‌گذاری نوع‌های مختلف نداریم، زیرا آن‌ها ناشناس هستند. ثانیاً، دلیلی که در ابتدا به بردار و <code>join_all</code> روی آوردیم این بود که بتوانیم با مجموعه‌ای پویا از آینده‌ها کار کنیم که نمی‌دانیم همه آن‌ها چه خواهند بود تا زمان اجرا.</p>
+</blockquote>
+<p>ابتدا هر یک از آینده‌ها در <code>vec!</code> را در یک <code>Box::new</code> قرار می‌دهیم، همانطور که در فهرست 17-16 نشان داده شده است.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
@@ -396,13 +366,9 @@ in Listing 17-16.</p>
         trpl::join_all(futures).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-16: Trying to use <code>Box::new</code> to align the types of the futures in a <code>Vec</code></figcaption>
+<figcaption>Listing 17-16: تلاش برای استفاده از <code>Box::new</code> برای یکسان کردن نوع آینده‌ها در یک <code>Vec</code></figcaption>
 </figure>
-<p>Unfortunately, this still doesn’t compile. In fact, we have the same basic
-error we did before, but we get one for both the second and third <code>Box::new</code>
-calls, and we also get new errors referring to the <code>Unpin</code> trait. We will come
-back to the <code>Unpin</code> errors in a moment. First, let’s fix the type errors on the
-<code>Box::new</code> calls, by explicitly annotating the type of the <code>futures</code> variable:</p>
+<p>متأسفانه، این همچنان کامپایل نمی‌شود. در واقع، همان خطای اصلی قبلی را دریافت می‌کنیم، اما این بار برای هر دو فراخوانی <code>Box::new</code> دوم و سوم، و همچنین خطاهای جدیدی مربوط به ویژگی <code>Unpin</code>. به خطاهای مربوط به <code>Unpin</code> در لحظه بازمی‌گردیم. ابتدا خطاهای نوع روی فراخوانی‌های <code>Box::new</code> را با صراحتاً حاشیه‌نویسی کردن نوع متغیر <code>futures</code> برطرف کنیم:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
@@ -454,19 +420,16 @@ back to the <code>Unpin</code> errors in a moment. First, let’s fix the type e
 </span><span class="boring">        trpl::join_all(futures).await;
 </span><span class="boring">    });
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-17: Fixing the rest of the type mismatch errors by using an explicit type declaration</figcaption>
+<figcaption>Listing 17-17: برطرف کردن بقیه خطاهای ناسازگاری نوع با استفاده از اعلان صریح نوع</figcaption>
 </figure>
-<p>The type we had to write here is a little involved, so let’s walk through it:</p>
+<p>نوعی که اینجا باید می‌نوشتیم کمی پیچیده است، بنابراین بیایید آن را بررسی کنیم:</p>
 <ul>
-<li>The innermost type is the future itself. We note explicitly that the output of
-the future is the unit type <code>()</code> by writing <code>Future&lt;Output = ()&gt;</code>.</li>
-<li>Then we annotate the trait with <code>dyn</code> to mark it as dynamic.</li>
-<li>The entire trait reference is wrapped in a <code>Box</code>.</li>
-<li>Finally, we state explicitly that <code>futures</code> is a <code>Vec</code> containing these items.</li>
+<li>نوع داخلی‌ترین، آینده خود است. به‌طور صریح بیان می‌کنیم که خروجی آینده نوع واحد <code>()</code> است، با نوشتن <code>Future&lt;Output = ()&gt;</code>.</li>
+<li>سپس ویژگی را با <code>dyn</code> برای علامت‌گذاری آن به‌عنوان پویا (dynamic) حاشیه‌نویسی می‌کنیم.</li>
+<li>کل مرجع ویژگی در یک <code>Box</code> قرار داده می‌شود.</li>
+<li>در نهایت، به‌صراحت بیان می‌کنیم که <code>futures</code> یک <code>Vec</code> است که این آیتم‌ها را شامل می‌شود.</li>
 </ul>
-<p>That already made a big difference. Now when we run the compiler, we only have
-the errors mentioning <code>Unpin</code>. Although there are three of them, notice that
-each is very similar in its contents.</p>
+<p>این تغییرات تأثیر زیادی داشت. حالا وقتی کامپایلر را اجرا می‌کنیم، فقط خطاهایی که به <code>Unpin</code> اشاره دارند باقی می‌مانند. اگرچه سه خطا وجود دارند، توجه کنید که هرکدام در محتوا بسیار مشابه هستند.</p>
 <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-16
 cargo build
@@ -577,14 +540,7 @@ note: required by a bound in `futures_util::future::join_all::JoinAll`
 29 |     F: Future,
    |        ^^^^^^ required by this bound in `JoinAll`
 </code></pre>
-<p>That is a <em>lot</em> to digest, so let’s pull it apart. The first part of the message
-tell us that the first async block (<code>src/main.rs:8:23: 20:10</code>) does not
-implement the <code>Unpin</code> trait, and suggests using <code>pin!</code> or <code>Box::pin</code> to resolve
-it. Later in the chapter, we’ll dig into a few more details about <code>Pin</code> and
-<code>Unpin</code>. For the moment, though, we can just follow the compiler’s advice to get
-unstuck! In Listing 17-18, we start by updating the type annotation for
-<code>futures</code>, with a <code>Pin</code> wrapping each <code>Box</code>. Second, we use <code>Box::pin</code> to pin
-the futures themselves.</p>
+<p>این یک <em>مقدار</em> برای هضم است، بنابراین بیایید آن را جدا کنیم. بخش اول پیام به ما می‌گوید که بلوک async اول (<code>src/main.rs:8:23: 20:10</code>) ویژگی <code>Unpin</code> را پیاده‌سازی نمی‌کند و پیشنهاد می‌دهد از <code>pin!</code> یا <code>Box::pin</code> برای حل آن استفاده کنیم. بعداً در فصل، به جزئیات بیشتری درباره <code>Pin</code> و <code>Unpin</code> خواهیم پرداخت. اما فعلاً، می‌توانیم فقط از توصیه کامپایلر برای برطرف کردن مشکل پیروی کنیم! در فهرست 17-18، ابتدا با اضافه کردن حاشیه‌نویسی نوع برای <code>futures</code>، با یک <code>Pin</code> که هر <code>Box</code> را می‌پیچد، شروع می‌کنیم. دوم، از <code>Box::pin</code> برای pin کردن آینده‌ها استفاده می‌کنیم.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -640,9 +596,9 @@ the futures themselves.</p>
 </span><span class="boring">        trpl::join_all(futures).await;
 </span><span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-18: Using <code>Pin</code> and <code>Box::pin</code> to make the <code>Vec</code> type check</figcaption>
+<figcaption>Listing 17-18: استفاده از <code>Pin</code> و <code>Box::pin</code> برای برطرف کردن نوع <code>Vec</code></figcaption>
 </figure>
-<p>If we compile and run this, we finally get the output we hoped for:</p>
+<p>اگر این کد را کامپایل و اجرا کنیم، در نهایت خروجی موردنظر خود را دریافت می‌کنیم:</p>
 <!-- Not extracting output because changes to this output aren't significant;
 the changes are likely to be due to the threads running differently rather than
 changes in the compiler -->
@@ -655,20 +611,9 @@ received 'for'
 received 'future'
 received 'you'
 </code></pre>
-<p>Phew!</p>
-<p>There’s a bit more we can explore here. For one thing, using <code>Pin&lt;Box&lt;T&gt;&gt;</code>
-comes with a small amount of extra overhead from putting these futures on the
-heap with <code>Box</code>—and we’re only doing that to get the types to line up. We don’t
-actually <em>need</em> the heap allocation, after all: these futures are local to this
-particular function. As noted above, <code>Pin</code> is itself a wrapper type, so we can
-get the benefit of having a single type in the <code>Vec</code>—the original reason we
-reached for <code>Box</code>—without doing a heap allocation. We can use <code>Pin</code> directly
-with each future, using the <code>std::pin::pin</code> macro.</p>
-<p>However, we must still be explicit about the type of the pinned reference;
-otherwise Rust will still not know to interpret these as dynamic trait objects,
-which is what we need them to be in the <code>Vec</code>. We therefore <code>pin!</code> each future
-when we define it, and define <code>futures</code> as a <code>Vec</code> containing pinned mutable
-references to the dynamic <code>Future</code> type, as in Listing 17-19.</p>
+<p>آه!</p>
+<p>هنوز کمی بیشتر برای بررسی وجود دارد. برای مثال، استفاده از <code>Pin&lt;Box&lt;T&gt;&gt;</code> با مقدار کمی سربار اضافی همراه است، زیرا این آینده‌ها را با <code>Box</code> روی heap قرار می‌دهیم—و ما فقط این کار را انجام می‌دهیم تا نوع‌ها را هماهنگ کنیم. اما در واقع نیازی به تخصیص heap نداریم، زیرا این آینده‌ها محلی برای این تابع خاص هستند. همان‌طور که در بالا ذکر شد، <code>Pin</code> خود یک نوع wrapper است، بنابراین می‌توانیم از مزیت داشتن یک نوع یکتا در <code>Vec</code>—دلیل اصلی که به سمت <code>Box</code> رفتیم—بدون انجام تخصیص heap استفاده کنیم. می‌توانیم مستقیماً از <code>Pin</code> با هر آینده استفاده کنیم، با استفاده از ماکروی <code>std::pin::pin</code>.</p>
+<p>با این حال، باید به‌صراحت نوع مرجع pinned را مشخص کنیم؛ در غیر این صورت، راست همچنان نمی‌داند که این‌ها را به‌عنوان شیءهای ویژگی دینامیک تفسیر کند، که همان چیزی است که برای قرار گرفتن در <code>Vec</code> نیاز داریم. بنابراین، هر آینده را وقتی تعریف می‌کنیم <code>pin!</code> می‌کنیم و <code>futures</code> را به‌عنوان یک <code>Vec</code> که شامل مراجع متغیر pinned به نوع ویژگی دینامیک <code>Future</code> است تعریف می‌کنیم، همانطور که در فهرست 17-19 نشان داده شده است.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -727,11 +672,9 @@ references to the dynamic <code>Future</code> type, as in Listing 17-19.</p>
 </span><span class="boring">        trpl::join_all(futures).await;
 </span><span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-19: Using <code>Pin</code> directly with the <code>pin!</code> macro to avoid unnecessary heap allocations</figcaption>
+<figcaption>Listing 17-19: استفاده مستقیم از <code>Pin</code> با ماکروی <code>pin!</code> برای اجتناب از تخصیص‌های غیرضروری heap</figcaption>
 </figure>
-<p>We got this far by ignoring the fact that we might have different <code>Output</code>
-types. For example, in Listing 17-20, the anonymous future for <code>a</code> implements
-<code>Future&lt;Output = u32&gt;</code>, the anonymous future for <code>b</code> implements <code>Future&lt;Output = &amp;str&gt;</code>, and the anonymous future for <code>c</code> implements <code>Future&lt;Output = bool&gt;</code>.</p>
+<p>تا اینجا با نادیده گرفتن این واقعیت که ممکن است نوع‌های <code>Output</code> مختلفی داشته باشیم، پیش رفتیم. برای مثال، در فهرست 17-20، آینده ناشناس برای <code>a</code> ویژگی <code>Future&lt;Output = u32&gt;</code> را پیاده‌سازی می‌کند، آینده ناشناس برای <code>b</code> ویژگی <code>Future&lt;Output = &amp;str&gt;</code> را پیاده‌سازی می‌کند، و آینده ناشناس برای <code>c</code> ویژگی <code>Future&lt;Output = bool&gt;</code> را پیاده‌سازی می‌کند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -746,31 +689,13 @@ types. For example, in Listing 17-20, the anonymous future for <code>a</code> im
         println!("{a_result}, {b_result}, {c_result}");
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-20: Three futures with distinct types</figcaption>
+<figcaption>Listing 17-20: سه آینده با نوع‌های متفاوت</figcaption>
 </figure>
-<p>We can use <code>trpl::join!</code> to await them, because it allows you to pass in
-multiple future types and produces a tuple of those types. We <em>cannot</em> use
-<code>trpl::join_all</code>, because it requires the futures passed in all to have the same
-type. Remember, that error is what got us started on this adventure with <code>Pin</code>!</p>
-<p>This is a fundamental tradeoff: we can either deal with a dynamic number of
-futures with <code>join_all</code>, as long as they all have the same type, or we can deal
-with a set number of futures with the <code>join</code> functions or the <code>join!</code> macro,
-even if they have different types. This is the same as working with any other
-types in Rust, though. Futures are not special, even though we have some nice
-syntax for working with them, and that is a good thing.</p>
+<p>ما می‌توانیم از <code>trpl::join!</code> برای منتظر ماندن این آینده‌ها استفاده کنیم، زیرا این ماکرو به شما اجازه می‌دهد چندین نوع آینده را ارسال کنید و یک تاپل از آن نوع‌ها تولید می‌کند. ما <em>نمی‌توانیم</em> از <code>trpl::join_all</code> استفاده کنیم، زیرا این تابع نیاز دارد که همه آینده‌های ارسال‌شده به آن نوع یکسانی داشته باشند. به یاد داشته باشید، این همان خطایی است که ما را در این ماجراجویی با <code>Pin</code> شروع کرد!</p>
+<p>این یک معامله اساسی است: ما می‌توانیم با یک تعداد دینامیک از آینده‌ها با <code>join_all</code> کار کنیم، تا زمانی که همه آن‌ها نوع یکسانی داشته باشند، یا می‌توانیم با یک تعداد ثابت از آینده‌ها با توابع <code>join</code> یا ماکروی <code>join!</code> کار کنیم، حتی اگر نوع‌های متفاوتی داشته باشند. این درست مثل کار با هر نوع دیگری در راست است. آینده‌ها خاص نیستند، حتی اگر سینتکس خوبی برای کار با آن‌ها داشته باشیم، و این چیز خوبی است.</p>
 <h3 id="racing-futures"><a class="header" href="#racing-futures">Racing futures</a></h3>
-<p>When we “join” futures with the <code>join</code> family of functions and macros, we
-require <em>all</em> of them to finish before we move on. Sometimes, though, we only
-need <em>some</em> future from a set to finish before we move on—kind of similar to
-racing one future against another.</p>
-<p>In Listing 17-21, we once again use <code>trpl::race</code> to run two futures, <code>slow</code> and
-<code>fast</code>, against each other. Each one prints a message when it starts running,
-pauses for some amount of time by calling and awaiting <code>sleep</code>, and then prints
-another message when it finishes. Then we pass both to <code>trpl::race</code> and wait for
-one of them to finish. (The outcome here won’t be too surprising: <code>fast</code> wins!)
-Unlike when we used <code>race</code> back in <a href="ch17-01-futures-and-syntax.html#our-first-async-program">“Our First Async Program”</a><!--
-ignore -->, we just ignore the <code>Either</code> instance it returns here, because all of
-the interesting behavior happens in the body of the async blocks.</p>
+<p>وقتی آینده‌ها را با خانواده توابع و ماکروهای <code>join</code> “منتظر می‌مانیم”، نیاز داریم <em>همه</em> آن‌ها تمام شوند قبل از اینکه به مرحله بعدی برویم. گاهی اوقات، اما، فقط نیاز داریم <em>یکی</em> از آینده‌ها از مجموعه‌ای تمام شود قبل از اینکه به مرحله بعدی برویم—کمی شبیه به مسابقه دادن یک آینده در برابر دیگری.</p>
+<p>در فهرست 17-21، دوباره از <code>trpl::race</code> برای اجرای دو آینده، <code>slow</code> و <code>fast</code>، در برابر یکدیگر استفاده می‌کنیم. هرکدام پیامی را هنگام شروع اجرا چاپ می‌کنند، مدتی با فراخوانی و انتظار <code>sleep</code> متوقف می‌شوند، و سپس پیامی دیگر را هنگام اتمام چاپ می‌کنند. سپس هر دو را به <code>trpl::race</code> ارسال می‌کنیم و منتظر می‌مانیم تا یکی از آن‌ها تمام شود. (نتیجه در اینجا چندان تعجب‌آور نخواهد بود: <code>fast</code> برنده می‌شود!) برخلاف زمانی که در <a href="ch17-01-futures-and-syntax.html#our-first-async-program">«اولین برنامه async ما»</a><!-- ignore --> از <code>race</code> استفاده کردیم، اینجا نمونه <code>Either</code> که بازمی‌گرداند را نادیده می‌گیریم، زیرا تمام رفتار جالب در بدنه بلوک‌های async اتفاق می‌افتد.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -794,38 +719,15 @@ the interesting behavior happens in the body of the async blocks.</p>
         trpl::race(slow, fast).await;
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-21: Using <code>race</code> to get the result of whichever future finishes first</figcaption>
+<figcaption>Listing 17-21: استفاده از <code>race</code> برای دریافت نتیجه اولین آینده‌ای که تمام می‌شود</figcaption>
 </figure>
-<p>Notice that if you flip the order of the arguments to <code>race</code>, the order of the
-“started” messages changes, even though the <code>fast</code> future always completes
-first. That’s because the implementation of this particular <code>race</code> function is
-not fair. It always runs the futures passed as arguments in the order they’re
-passed. Other implementations <em>are</em> fair, and will randomly choose which future
-to poll first. Regardless of whether the implementation of race we’re using is
-fair, though, <em>one</em> of the futures will run up to the first <code>await</code> in its body
-before another task can start.</p>
-<p>Recall from <a href="ch17-01-futures-and-syntax.html#our-first-async-program">Our First Async Program</a><!-- ignore --> that at each await point,
-Rust gives a runtime a chance to pause the task and switch to another one if the
-future being awaited isn’t ready. The inverse is also true: Rust <em>only</em> pauses
-async blocks and hands control back to a runtime at an await point. Everything
-between await points is synchronous.</p>
-<p>That means if you do a bunch of work in an async block without an await point,
-that future will block any other futures from making progress. You may sometimes
-hear this referred to as one future <em>starving</em> other futures. In some cases,
-that may not be a big deal. However, if you are doing some kind of expensive
-setup or long-running work, or if you have a future which will keep doing some
-particular task indefinitely, you’ll need to think about when and where to
-hand control back to the runtime.</p>
-<p>By the same token, if you have long-running blocking operations, async can be a
-useful tool for providing ways for different parts of the program to relate to
-each other.</p>
-<p>But <em>how</em> would you hand control back to the runtime in those cases?</p>
+<p>توجه داشته باشید که اگر ترتیب آرگومان‌ها را در <code>race</code> تغییر دهید، ترتیب پیام‌های “started” تغییر می‌کند، حتی اگر آینده <code>fast</code> همیشه زودتر تمام شود. این به این دلیل است که پیاده‌سازی این تابع خاص <code>race</code> منصفانه نیست. همیشه آینده‌هایی که به‌عنوان آرگومان ارسال شده‌اند را به ترتیبی که ارسال شده‌اند اجرا می‌کند. پیاده‌سازی‌های دیگر <em>منصفانه</em> هستند و به‌طور تصادفی انتخاب می‌کنند که کدام آینده را ابتدا بررسی (poll) کنند. با این حال، صرف‌نظر از اینکه پیاده‌سازی <code>race</code> که استفاده می‌کنیم منصفانه است یا نه، <em>یکی</em> از آینده‌ها تا اولین <code>await</code> در بدنه خود اجرا می‌شود قبل از اینکه تسک دیگری بتواند شروع شود.</p>
+<p>به یاد بیاورید از <a href="ch17-01-futures-and-syntax.html#our-first-async-program">اولین برنامه async ما</a><!-- ignore --> که در هر نقطه انتظار (await point)، راست به runtime این فرصت را می‌دهد که تسک را متوقف کند و به تسک دیگری سوئیچ کند اگر آینده‌ای که منتظر آن هستید آماده نباشد. عکس آن نیز صادق است: راست <em>فقط</em> بلوک‌های async را در نقاط انتظار متوقف می‌کند و کنترل را به runtime بازمی‌گرداند. همه چیز بین نقاط انتظار همگام (synchronous) است.</p>
+<p>این به این معنی است که اگر در یک بلوک async بدون نقطه انتظار کار زیادی انجام دهید، آن آینده مانع از پیشرفت سایر آینده‌ها خواهد شد. ممکن است گاهی اوقات به این موضوع به‌عنوان یک آینده که <em>آینده‌های دیگر را گرسنه</em> می‌کند اشاره شود. در برخی موارد، این ممکن است مشکل بزرگی نباشد. با این حال، اگر در حال انجام برخی تنظیمات گران‌قیمت یا کار طولانی‌مدت هستید، یا اگر آینده‌ای دارید که به‌طور نامحدود یک کار خاص انجام می‌دهد، باید در مورد زمان و مکان بازگرداندن کنترل به runtime فکر کنید.</p>
+<p>به همان اندازه، اگر عملیات‌های مسدودکننده طولانی‌مدت دارید، async می‌تواند ابزاری مفید برای ارائه راه‌هایی باشد که بخش‌های مختلف برنامه بتوانند با یکدیگر تعامل داشته باشند.</p>
+<p>اما در این موارد <em>چگونه</em> کنترل را به runtime بازمی‌گردانید؟</p>
 <h3 id="yielding"><a class="header" href="#yielding">Yielding</a></h3>
-<p>Let’s simulate a long-running operation. Listing 17-22 introduces a <code>slow</code>
-function. It uses <code>std::thread::sleep</code> instead of <code>trpl::sleep</code> so that calling
-<code>slow</code> will block the current thread for some number of milliseconds. We can use
-<code>slow</code> to stand in for real-world operations which are both long-running and
-blocking.</p>
+<p>بیایید یک عملیات طولانی‌مدت را شبیه‌سازی کنیم. فهرست 17-22 یک تابع <code>slow</code> معرفی می‌کند. از <code>std::thread::sleep</code> به جای <code>trpl::sleep</code> استفاده می‌کند تا فراخوانی <code>slow</code> نخ فعلی را به مدت مشخصی از میلی‌ثانیه مسدود کند. می‌توانیم از <code>slow</code> به‌عنوان جایگزین عملیات‌های واقعی دنیای واقعی استفاده کنیم که هم طولانی‌مدت و هم مسدودکننده هستند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -842,11 +744,9 @@ blocking.</p>
     thread::sleep(Duration::from_millis(ms));
     println!("'{name}' ran for {ms}ms");
 }</code></pre></pre>
-<figcaption>Listing 17-22: Using <code>thread::sleep</code> to simulate slow operations</figcaption>
+<figcaption>Listing 17-22: استفاده از <code>thread::sleep</code> برای شبیه‌سازی عملیات کند</figcaption>
 </figure>
-<p>In Listing 17-23, we use <code>slow</code> to emulate doing this kind of CPU-bound work in
-a pair of futures. To begin, each future only hands control back to the runtime
-<em>after</em> carrying out a bunch of slow operations.</p>
+<p>در فهرست 17-23، از <code>slow</code> برای شبیه‌سازی انجام این نوع کارهای وابسته به CPU در یک جفت آینده استفاده می‌کنیم. برای شروع، هر آینده فقط پس از انجام یک سری عملیات کند، کنترل را به runtime بازمی‌گرداند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -882,9 +782,9 @@ a pair of futures. To begin, each future only hands control back to the runtime
 </span><span class="boring">    thread::sleep(Duration::from_millis(ms));
 </span><span class="boring">    println!("'{name}' ran for {ms}ms");
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-23: Using <code>thread::sleep</code> to simulate slow operations</figcaption>
+<figcaption>Listing 17-23: استفاده از <code>thread::sleep</code> برای شبیه‌سازی عملیات کند</figcaption>
 </figure>
-<p>If you run this, you will see this output:</p>
+<p>اگر این کد را اجرا کنید، این خروجی را خواهید دید:</p>
 <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-23/
 cargo run
@@ -901,17 +801,8 @@ copy just the output
 'b' ran for 350ms
 'a' finished.
 </code></pre>
-<p>As with our earlier example, <code>race</code> still finishes as soon as <code>a</code> is done.
-There’s no interleaving between the two futures, though. The <code>a</code> future does all
-of its work until the <code>trpl::sleep</code> call is awaited, then the <code>b</code> future does
-all of its work until its own <code>trpl::sleep</code> call is awaited, and then the <code>a</code>
-future completes. To allow both futures to make progress between their slow
-tasks, we need await points so we can hand control back to the runtime. That
-means we need something we can await!</p>
-<p>We can already see this kind of handoff happening in Listing 17-23: if we
-removed the <code>trpl::sleep</code> at the end of the <code>a</code> future, it would complete
-without the <code>b</code> future running <em>at all</em>. Maybe we could use the <code>sleep</code> function
-as a starting point?</p>
+<p>همانطور که در مثال قبلی، <code>race</code> همچنان به محض اینکه آینده <code>a</code> کامل شود، تمام می‌شود. با این حال، هیچ درهم‌تنیدگی‌ای بین دو آینده وجود ندارد. آینده <code>a</code> تمام کار خود را انجام می‌دهد تا زمانی که فراخوانی <code>trpl::sleep</code> منتظر بماند، سپس آینده <code>b</code> تمام کار خود را انجام می‌دهد تا زمانی که فراخوانی <code>trpl::sleep</code> خودش منتظر بماند، و سپس آینده <code>a</code> کامل می‌شود. برای اجازه دادن به هر دو آینده برای پیشرفت بین کارهای کند خود، نیاز به نقاط انتظار داریم تا بتوانیم کنترل را به runtime بازگردانیم. این بدان معناست که نیاز به چیزی داریم که بتوانیم منتظر آن بمانیم!</p>
+<p>ما از قبل می‌توانیم این نوع واگذاری کنترل را در فهرست 17-23 ببینیم: اگر <code>trpl::sleep</code> را در انتهای آینده <code>a</code> حذف کنیم، این آینده بدون اجرای آینده <code>b</code> <em>به‌کلی</em> کامل می‌شود. شاید بتوانیم از تابع <code>sleep</code> به‌عنوان نقطه شروع استفاده کنیم؟</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -954,10 +845,9 @@ as a starting point?</p>
 </span><span class="boring">    thread::sleep(Duration::from_millis(ms));
 </span><span class="boring">    println!("'{name}' ran for {ms}ms");
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-24: Using <code>sleep</code> to let operations switch off making progress</figcaption>
+<figcaption>Listing 17-24: استفاده از <code>sleep</code> برای اجازه دادن به عملیات‌ها برای پیشرفت متناوب</figcaption>
 </figure>
-<p>In Listing 17-24, we add <code>trpl::sleep</code> calls with await points between each call
-to <code>slow</code>. Now the two futures’ work is interleaved:</p>
+<p>در فهرست 17-24، فراخوانی‌های <code>trpl::sleep</code> با نقاط انتظار بین هر فراخوانی به <code>slow</code> اضافه می‌کنیم. اکنون کار دو آینده درهم‌تنیده شده است:</p>
 <!-- manual-regeneration
 cd listings/ch17-async-await/listing-17-24
 cargo run
@@ -973,15 +863,8 @@ copy just the output
 'b' ran for 15ms
 'a' finished.
 </code></pre>
-<p>The <code>a</code> future still runs for a bit before handing off control to <code>b</code>, because
-it calls <code>slow</code> before ever calling <code>trpl::sleep</code>, but after that the futures
-swap back and forth each time one of them hits an await point. In this case, we
-have done that after every call to <code>slow</code>, but we could break up the work
-however makes the most sense to us.</p>
-<p>We don’t really want to <em>sleep</em> here, though: we want to make progress as fast
-as we can. We just need to hand back control to the runtime. We can do that
-directly, using the <code>yield_now</code> function. In Listing 17-25, we replace all those
-<code>sleep</code> calls with <code>yield_now</code>.</p>
+<p>آینده <code>a</code> هنوز برای مدتی اجرا می‌شود قبل از اینکه کنترل را به <code>b</code> واگذار کند، زیرا ابتدا <code>slow</code> را فراخوانی می‌کند قبل از اینکه اصلاً <code>trpl::sleep</code> را فراخوانی کند، اما پس از آن آینده‌ها هر بار که یکی از آن‌ها به یک نقطه انتظار برخورد می‌کند، به‌طور متناوب جابه‌جا می‌شوند. در این حالت، ما این کار را پس از هر فراخوانی به <code>slow</code> انجام داده‌ایم، اما می‌توانیم کار را به هر شکلی که برایمان منطقی‌تر است تقسیم کنیم.</p>
+<p>با این حال، واقعاً نمی‌خواهیم اینجا <em>sleep</em> کنیم؛ می‌خواهیم به سریع‌ترین شکلی که می‌توانیم پیشرفت کنیم. فقط نیاز داریم کنترل را به runtime بازگردانیم. می‌توانیم این کار را به‌طور مستقیم با استفاده از تابع <code>yield_now</code> انجام دهیم. در فهرست 17-25، تمام این فراخوانی‌های <code>sleep</code> را با <code>yield_now</code> جایگزین می‌کنیم.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -1022,21 +905,10 @@ directly, using the <code>yield_now</code> function. In Listing 17-25, we replac
 </span><span class="boring">    thread::sleep(Duration::from_millis(ms));
 </span><span class="boring">    println!("'{name}' ran for {ms}ms");
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-25: Using <code>yield_now</code> to let operations switch off making progress</figcaption>
+<figcaption>Listing 17-25: استفاده از <code>yield_now</code> برای اجازه دادن به عملیات‌ها برای پیشرفت متناوب</figcaption>
 </figure>
-<p>This is both clearer about the actual intent and can be significantly faster
-than using <code>sleep</code>, because timers such as the one used by <code>sleep</code> often have
-limits to how granular they can be. The version of <code>sleep</code> we are using, for
-example, will always sleep for at least a millisecond, even if we pass it a
-<code>Duration</code> of one nanosecond. Again, modern computers are <em>fast</em>: they can do a
-lot in one millisecond!</p>
-<p>You can see this for yourself by setting up a little benchmark, such as the one
-in Listing 17-26. (This isn’t an especially rigorous way to do performance
-testing, but it suffices to show the difference here.) Here, we skip all the
-status printing, pass a one-nanosecond <code>Duration</code> to <code>trpl::sleep</code>, and let
-each future run by itself, with no switching between the futures. Then we run
-for 1,000 iterations and see how long the future using <code>trpl::sleep</code> takes
-compared to the future using <code>trpl::yield_now</code>.</p>
+<p>این روش هم از نظر هدف واضح‌تر است و هم می‌تواند به‌طور قابل‌توجهی سریع‌تر از استفاده از <code>sleep</code> باشد، زیرا تایمرها مانند تایمری که توسط <code>sleep</code> استفاده می‌شود اغلب محدودیت‌هایی در مورد دقت خود دارند. نسخه‌ای از <code>sleep</code> که ما استفاده می‌کنیم، برای مثال، همیشه حداقل به مدت یک میلی‌ثانیه خواب خواهد رفت، حتی اگر یک <code>Duration</code> یک نانوثانیه به آن بدهیم. دوباره، کامپیوترهای مدرن <em>سریع</em> هستند: آن‌ها می‌توانند در یک میلی‌ثانیه کارهای زیادی انجام دهند!</p>
+<p>می‌توانید این موضوع را خودتان با تنظیم یک بنچمارک کوچک مشاهده کنید، مانند چیزی که در فهرست 17-26 آورده شده است. (این روش به‌طور خاص برای آزمایش عملکرد دقیق نیست، اما برای نشان دادن تفاوت اینجا کافی است.) اینجا، ما تمام چاپ وضعیت را نادیده می‌گیریم، یک <code>Duration</code> یک نانوثانیه به <code>trpl::sleep</code> ارسال می‌کنیم و اجازه می‌دهیم هر آینده به‌طور مستقل اجرا شود، بدون سوئیچ بین آینده‌ها. سپس برای 1,000 تکرار اجرا می‌کنیم و می‌بینیم آینده‌ای که از <code>trpl::sleep</code> استفاده می‌کند چقدر طول می‌کشد در مقایسه با آینده‌ای که از <code>trpl::yield_now</code> استفاده می‌کند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -1073,35 +945,17 @@ compared to the future using <code>trpl::yield_now</code>.</p>
         );
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-26: Comparing the performance of <code>sleep</code> and <code>yield_now</code></figcaption>
+<figcaption>Listing 17-26: مقایسه عملکرد <code>sleep</code> و <code>yield_now</code></figcaption>
 </figure>
-<p>The version with <code>yield_now</code> is <em>way</em> faster!</p>
-<p>This means that async can be useful even for compute-bound tasks, depending on
-what else your program is doing, because it provides a useful tool for
-structuring the relationships between different parts of the program. This is a
-form of <em>cooperative multitasking</em>, where each future has the power to determine
-when it hands over control via await points. Each future therefore also has the
-responsibility to avoid blocking for too long. In some Rust-based embedded
-operating systems, this is the <em>only</em> kind of multitasking!</p>
-<p>In real-world code, you won’t usually be alternating function calls with await
-points on every single line, of course. While yielding control in this way is
-relatively inexpensive, it’s not free! In many cases, trying to break up a
-compute-bound task might make it significantly slower, so sometimes it’s better
-for <em>overall</em> performance to let an operation block briefly. You should always
-measure to see what your code’s actual performance bottlenecks are. The
-underlying dynamic is an important one to keep in mind if you <em>are</em> seeing a
-lot of work happening in serial that you expected to happen concurrently,
-though!</p>
-<h3 id="building-our-own-async-abstractions"><a class="header" href="#building-our-own-async-abstractions">Building Our Own Async Abstractions</a></h3>
-<p>We can also compose futures together to create new patterns. For example, we can
-build a <code>timeout</code> function with async building blocks we already have. When
-we’re done, the result will be another building block we could use to build up
-yet further async abstractions.</p>
-<p>Listing 17-27 shows how we would expect this <code>timeout</code> to work with a slow
-future.</p>
+<p>نسخه با <code>yield_now</code> <em>خیلی</em> سریع‌تر است!</p>
+<p>این بدان معناست که async حتی برای وظایف وابسته به CPU می‌تواند مفید باشد، بسته به اینکه برنامه شما چه کار دیگری انجام می‌دهد، زیرا ابزاری مفید برای ساختاردهی روابط بین بخش‌های مختلف برنامه فراهم می‌کند. این نوعی از <em>چندوظیفه‌گی مشارکتی</em> است، جایی که هر آینده قدرت تصمیم‌گیری درباره زمان واگذاری کنترل از طریق نقاط انتظار را دارد. بنابراین، هر آینده نیز مسئولیت دارد که از مسدود کردن بیش از حد طولانی اجتناب کند. در برخی سیستم‌عامل‌های مبتنی بر راست برای سیستم‌های تعبیه‌شده، این <em>تنها</em> نوع چندوظیفه‌گی است!</p>
+<p>در کد دنیای واقعی، معمولاً با هر خط یک نقطه انتظار جایگزین نمی‌کنید. در حالی که واگذاری کنترل به این روش نسبتاً کم‌هزینه است، رایگان نیست! در بسیاری از موارد، تلاش برای تقسیم یک وظیفه وابسته به CPU ممکن است آن را به‌طور قابل‌توجهی کندتر کند، بنابراین گاهی اوقات برای عملکرد <em>کلی</em> بهتر است که به یک عملیات اجازه دهید برای مدت کوتاهی مسدود شود. همیشه باید عملکرد کد خود را اندازه‌گیری کنید تا ببینید تنگناهای واقعی آن کجاست. دینامیک اساسی نکته‌ای است که باید به خاطر بسپارید اگر <em>واقعاً</em> شاهد انجام مقدار زیادی از کار به‌صورت متوالی هستید که انتظار داشتید به‌طور همزمان انجام شود!</p>
+<h3 id="ساخت-انتزاعات-async-خودمان"><a class="header" href="#ساخت-انتزاعات-async-خودمان">ساخت انتزاعات Async خودمان</a></h3>
+<p>ما همچنین می‌توانیم آینده‌ها را با هم ترکیب کنیم تا الگوهای جدیدی ایجاد کنیم. برای مثال، می‌توانیم با استفاده از بلوک‌های سازنده async که از قبل داریم، یک تابع <code>timeout</code> بسازیم. وقتی کارمان تمام شد، نتیجه یک بلوک سازنده دیگر خواهد بود که می‌توانیم از آن برای ساخت انتزاعات async بیشتری استفاده کنیم.</p>
+<p>فهرست 17-27 نشان می‌دهد که چگونه انتظار داریم این <code>timeout</code> با یک آینده کند کار کند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::time::Duration;
 </span><span class="boring">
@@ -1119,22 +973,17 @@ future.</p>
             }
         }
 <span class="boring">    });
-</span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-27: Using our imagined <code>timeout</code> to run a slow operation with a time limit</figcaption>
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 17-27: تعریف نحوه کار <code>timeout</code> با یک آینده کند</figcaption>
 </figure>
-<p>Let’s implement this! To begin, let’s think about the API for <code>timeout</code>:</p>
+<p>بیایید این را پیاده‌سازی کنیم! برای شروع، بیایید به API مورد نیاز برای <code>timeout</code> فکر کنیم:</p>
 <ul>
-<li>It needs to be an async function itself so we can await it.</li>
-<li>Its first parameter should be a future to run. We can make it generic to allow
-it to work with any future.</li>
-<li>Its second parameter will be the maximum time to wait. If we use a <code>Duration</code>,
-that will make it easy to pass along to <code>trpl::sleep</code>.</li>
-<li>It should return a <code>Result</code>. If the future completes successfully, the
-<code>Result</code> will be <code>Ok</code> with the value produced by the future. If the timeout
-elapses first, the <code>Result</code> will be <code>Err</code> with the duration that the timeout
-waited for.</li>
+<li>باید خودش یک تابع async باشد تا بتوانیم منتظر آن بمانیم.</li>
+<li>پارامتر اول آن باید یک آینده برای اجرا باشد. می‌توانیم آن را عمومی کنیم تا بتواند با هر آینده‌ای کار کند.</li>
+<li>پارامتر دوم آن مدت‌زمان حداکثری برای انتظار خواهد بود. اگر از یک <code>Duration</code> استفاده کنیم، این کار ارسال آن به <code>trpl::sleep</code> را آسان می‌کند.</li>
+<li>باید یک <code>Result</code> بازگرداند. اگر آینده با موفقیت کامل شود، <code>Result</code> شامل <code>Ok</code> با مقدار تولیدشده توسط آینده خواهد بود. اگر زمان محدودیت زودتر سپری شود، <code>Result</code> شامل <code>Err</code> با مدت‌زمانی که زمان محدودیت برای آن منتظر ماند خواهد بود.</li>
 </ul>
-<p>Listing 17-28 shows this declaration.</p>
+<p>فهرست 17-28 این اعلان را نشان می‌دهد.</p>
 <!-- This is not tested because it intentionally does not compile. -->
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
@@ -1164,22 +1013,11 @@ waited for.</li>
 ) -&gt; Result&lt;F::Output, Duration&gt; {
     // Here is where our implementation will go!
 }</code></pre>
-<figcaption>Listing 17-28: Defining the signature of <code>timeout</code></figcaption>
+<figcaption>Listing 17-28: تعریف امضای <code>timeout</code></figcaption>
 </figure>
-<p>That satisfies our goals for the types. Now let’s think about the <em>behavior</em> we
-need: we want to race the future passed in against the duration. We can use
-<code>trpl::sleep</code> to make a timer future from the duration, and use <code>trpl::race</code> to
-run that timer with the future the caller passes in.</p>
-<p>We also know that <code>race</code> is not fair, and polls arguments in the order they are
-passed. Thus, we pass <code>future_to_try</code> to <code>race</code> first so it gets a chance to
-complete even if <code>max_time</code> is a very short duration. If <code>future_to_try</code>
-finishes first, <code>race</code> will return <code>Left</code> with the output from <code>future</code>. If
-<code>timer</code> finishes first, <code>race</code> will return <code>Right</code> with the timer’s output of
-<code>()</code>.</p>
-<p>In Listing 17-29, we match on the result of awaiting <code>trpl::race</code>. If the
-<code>future_to_try</code> succeeded and we get a <code>Left(output)</code>, we return <code>Ok(output)</code>.
-If the sleep timer elapsed instead and we get a <code>Right(())</code>, we ignore the <code>()</code>
-with <code>_</code> and return <code>Err(max_time)</code> instead.</p>
+<p>این اهداف ما برای نوع‌ها را برآورده می‌کند. حالا بیایید به <em>رفتاری</em> که نیاز داریم فکر کنیم: می‌خواهیم آینده ارسال‌شده به آن را در برابر مدت‌زمان محدودیت مسابقه دهیم. می‌توانیم از <code>trpl::sleep</code> برای ساختن یک آینده تایمر از مدت‌زمان استفاده کنیم و از <code>trpl::race</code> برای اجرای آن تایمر با آینده‌ای که کاربر ارسال می‌کند استفاده کنیم.</p>
+<p>همچنین می‌دانیم که <code>race</code> منصفانه نیست و آرگومان‌ها را به ترتیبی که ارسال شده‌اند بررسی می‌کند. بنابراین، ابتدا <code>future_to_try</code> را به <code>race</code> ارسال می‌کنیم تا حتی اگر <code>max_time</code> یک مدت‌زمان بسیار کوتاه باشد، فرصتی برای تکمیل داشته باشد. اگر <code>future_to_try</code> اول کامل شود، <code>race</code> مقدار <code>Left</code> با خروجی از <code>future</code> بازمی‌گرداند. اگر <code>timer</code> اول کامل شود، <code>race</code> مقدار <code>Right</code> با خروجی تایمر از نوع <code>()</code> بازمی‌گرداند.</p>
+<p>در فهرست 17-29، نتیجه انتظار برای <code>trpl::race</code> را با <code>match</code> مدیریت می‌کنیم. اگر <code>future_to_try</code> موفق شد و مقدار <code>Left(output)</code> دریافت کردیم، مقدار <code>Ok(output)</code> را بازمی‌گردانیم. اگر تایمر خواب به جای آن سپری شد و مقدار <code>Right(())</code> دریافت کردیم، <code>()</code> را با <code>_</code> نادیده می‌گیریم و مقدار <code>Err(max_time)</code> را بازمی‌گردانیم.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
@@ -1215,35 +1053,20 @@ async fn timeout&lt;F: Future&gt;(
         Either::Right(_) =&gt; Err(max_time),
     }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-29: Defining <code>timeout</code> with <code>race</code> and <code>sleep</code></figcaption>
+<figcaption>Listing 17-29: تعریف <code>timeout</code> با استفاده از <code>race</code> و <code>sleep</code></figcaption>
 </figure>
-<p>With that, we have a working <code>timeout</code>, built out of two other async helpers. If
-we run our code, it will print the failure mode after the timeout:</p>
+<p>با این کار، یک <code>timeout</code> کاربردی داریم که از دو ابزار کمکی async دیگر ساخته شده است. اگر کد خود را اجرا کنیم، حالت شکست پس از زمان محدودیت را چاپ می‌کند:</p>
 <pre><code class="language-text">Failed after 2 seconds
 </code></pre>
-<p>Because futures compose with other futures, you can build really powerful tools
-using smaller async building blocks. For example, you can use this same
-approach to combine timeouts with retries, and in turn use those with things
-such as network calls—one of the examples from the beginning of the chapter!</p>
-<p>In practice, you will usually work directly with <code>async</code> and <code>await</code>, and
-secondarily with functions and macros such as <code>join</code>, <code>join_all</code>, <code>race</code>, and
-so on. You’ll only need to reach for <code>pin</code> now and again to use them with those
-APIs.</p>
-<p>We’ve now seen a number of ways to work with multiple futures at the same
-time. Up next, we’ll look at how we can work with multiple futures in a
-sequence over time, with <em>streams</em>. Here are a couple more things you might want
-to consider first, though:</p>
+<p>از آنجا که آینده‌ها با آینده‌های دیگر ترکیب می‌شوند، می‌توانید با استفاده از بلوک‌های سازنده async کوچک‌تر ابزارهای بسیار قدرتمندی بسازید. برای مثال، می‌توانید از همین روش برای ترکیب زمان‌های محدودیت با تلاش‌های مجدد استفاده کنید، و سپس از آن‌ها با چیزهایی مانند تماس‌های شبکه‌ای—یکی از مثال‌های ابتدای فصل—استفاده کنید!</p>
+<p>در عمل، معمولاً مستقیماً با <code>async</code> و <code>await</code> کار خواهید کرد و به‌طور ثانویه با توابع و ماکروهایی مانند <code>join</code>، <code>join_all</code>، <code>race</code> و غیره. شما فقط گاهی نیاز خواهید داشت از <code>pin</code> استفاده کنید تا آن‌ها را با این API‌ها استفاده کنید.</p>
+<p>ما اکنون چندین روش برای کار با آینده‌های متعدد به‌طور همزمان دیده‌ایم. در مرحله بعدی، به این خواهیم پرداخت که چگونه می‌توانیم با آینده‌های متعدد در یک توالی زمانی کار کنیم، با <em>جریان‌ها (streams)</em>. با این حال، در اینجا چند نکته دیگر برای بررسی وجود دارد:</p>
 <ul>
 <li>
-<p>We used a <code>Vec</code> with <code>join_all</code> to wait for all of the futures in some group
-to finish. How could you use a <code>Vec</code> to process a group of futures in
-sequence, instead? What are the tradeoffs of doing that?</p>
+<p>ما از یک <code>Vec</code> با <code>join_all</code> استفاده کردیم تا منتظر تکمیل همه آینده‌ها در یک گروه باشیم. چگونه می‌توانید از یک <code>Vec</code> برای پردازش یک گروه از آینده‌ها به‌صورت متوالی استفاده کنید؟ مزایا و معایب انجام این کار چیست؟</p>
 </li>
 <li>
-<p>Take a look at the <code>futures::stream::FuturesUnordered</code> type from the <code>futures</code>
-crate. How would using it be different from using a <code>Vec</code>? (Don’t worry about
-the fact that it is from the <code>stream</code> part of the crate; it works just fine
-with any collection of futures.)</p>
+<p>نگاهی به نوع <code>futures::stream::FuturesUnordered</code> از crate <code>futures</code> بیندازید. چگونه استفاده از آن با استفاده از یک <code>Vec</code> متفاوت خواهد بود؟ (نگران این نباشید که این نوع از بخش <code>stream</code> crate است؛ این نوع با هر مجموعه‌ای از آینده‌ها به‌خوبی کار می‌کند.)</p>
 </li>
 </ul>
 

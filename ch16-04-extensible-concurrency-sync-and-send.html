@@ -181,72 +181,67 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="extensible-concurrency-with-the-sync-and-send-traits"><a class="header" href="#extensible-concurrency-with-the-sync-and-send-traits">Extensible Concurrency with the <code>Sync</code> and <code>Send</code> Traits</a></h2>
-<p>Interestingly, the Rust language has <em>very</em> few concurrency features. Almost
-every concurrency feature we’ve talked about so far in this chapter has been
-part of the standard library, not the language. Your options for handling
-concurrency are not limited to the language or the standard library; you can
-write your own concurrency features or use those written by others.</p>
-<p>However, two concurrency concepts are embedded in the language: the
-<code>std::marker</code> traits <code>Sync</code> and <code>Send</code>.</p>
-<h3 id="allowing-transference-of-ownership-between-threads-with-send"><a class="header" href="#allowing-transference-of-ownership-between-threads-with-send">Allowing Transference of Ownership Between Threads with <code>Send</code></a></h3>
-<p>The <code>Send</code> marker trait indicates that ownership of values of the type
-implementing <code>Send</code> can be transferred between threads. Almost every Rust type
-is <code>Send</code>, but there are some exceptions, including <code>Rc&lt;T&gt;</code>: this cannot be
-<code>Send</code> because if you cloned an <code>Rc&lt;T&gt;</code> value and tried to transfer ownership
-of the clone to another thread, both threads might update the reference count
-at the same time. For this reason, <code>Rc&lt;T&gt;</code> is implemented for use in
-single-threaded situations where you don’t want to pay the thread-safe
-performance penalty.</p>
-<p>Therefore, Rust’s type system and trait bounds ensure that you can never
-accidentally send an <code>Rc&lt;T&gt;</code> value across threads unsafely. When we tried to do
-this in Listing 16-14, we got the error <code>the trait Send is not implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code>. When we switched to <code>Arc&lt;T&gt;</code>, which is <code>Send</code>, the code
-compiled.</p>
-<p>Any type composed entirely of <code>Send</code> types is automatically marked as <code>Send</code> as
-well. Almost all primitive types are <code>Send</code>, aside from raw pointers, which
-we’ll discuss in Chapter 20.</p>
-<h3 id="allowing-access-from-multiple-threads-with-sync"><a class="header" href="#allowing-access-from-multiple-threads-with-sync">Allowing Access from Multiple Threads with <code>Sync</code></a></h3>
-<p>The <code>Sync</code> marker trait indicates that it is safe for the type implementing
-<code>Sync</code> to be referenced from multiple threads. In other words, any type <code>T</code> is
-<code>Sync</code> if <code>&amp;T</code> (an immutable reference to <code>T</code>) is <code>Send</code>, meaning the reference
-can be sent safely to another thread. Similar to <code>Send</code>, primitive types are
-<code>Sync</code>, and types composed entirely of types that are <code>Sync</code> are also <code>Sync</code>.</p>
-<p>The smart pointer <code>Rc&lt;T&gt;</code> is also not <code>Sync</code> for the same reasons that it’s not
-<code>Send</code>. The <code>RefCell&lt;T&gt;</code> type (which we talked about in Chapter 15) and the
-family of related <code>Cell&lt;T&gt;</code> types are not <code>Sync</code>. The implementation of borrow
-checking that <code>RefCell&lt;T&gt;</code> does at runtime is not thread-safe. The smart
-pointer <code>Mutex&lt;T&gt;</code> is <code>Sync</code> and can be used to share access with multiple
-threads as you saw in the <a href="ch16-03-shared-state.html#sharing-a-mutext-between-multiple-threads">“Sharing a <code>Mutex&lt;T&gt;</code> Between Multiple
-Threads”</a><!-- ignore --> section.</p>
-<h3 id="implementing-send-and-sync-manually-is-unsafe"><a class="header" href="#implementing-send-and-sync-manually-is-unsafe">Implementing <code>Send</code> and <code>Sync</code> Manually Is Unsafe</a></h3>
-<p>Because types that are made up of <code>Send</code> and <code>Sync</code> traits are automatically
-also <code>Send</code> and <code>Sync</code>, we don’t have to implement those traits manually. As
-marker traits, they don’t even have any methods to implement. They’re just
-useful for enforcing invariants related to concurrency.</p>
-<p>Manually implementing these traits involves implementing unsafe Rust code.
-We’ll talk about using unsafe Rust code in Chapter 20; for now, the important
-information is that building new concurrent types not made up of <code>Send</code> and
-<code>Sync</code> parts requires careful thought to uphold the safety guarantees. <a href="../nomicon/index.html">“The
-Rustonomicon”</a> has more information about these guarantees and how to
-uphold them.</p>
-<h2 id="summary"><a class="header" href="#summary">Summary</a></h2>
-<p>This isn’t the last you’ll see of concurrency in this book: the whole next
-chapter focuses on async programming, and the project in Chapter 21 will use the
-concepts in this chapter in a more realistic situation than the smaller examples
-discussed here.</p>
-<p>As mentioned earlier, because very little of how Rust handles concurrency is
-part of the language, many concurrency solutions are implemented as crates.
-These evolve more quickly than the standard library, so be sure to search
-online for the current, state-of-the-art crates to use in multithreaded
-situations.</p>
-<p>The Rust standard library provides channels for message passing and smart
-pointer types, such as <code>Mutex&lt;T&gt;</code> and <code>Arc&lt;T&gt;</code>, that are safe to use in
-concurrent contexts. The type system and the borrow checker ensure that the
-code using these solutions won’t end up with data races or invalid references.
-Once you get your code to compile, you can rest assured that it will happily
-run on multiple threads without the kinds of hard-to-track-down bugs common in
-other languages. Concurrent programming is no longer a concept to be afraid of:
-go forth and make your programs concurrent, fearlessly!</p>
+                        <h2 id="همزمانی-قابلتوسعه-با-ویژگیهای-sync-و-send"><a class="header" href="#همزمانی-قابلتوسعه-با-ویژگیهای-sync-و-send">همزمانی قابل‌توسعه با ویژگی‌های <code>Sync</code> و <code>Send</code></a></h2>
+<p>جالب است که زبان راست ویژگی‌های <em>بسیار</em> کمی برای همزمانی دارد. تقریباً هر ویژگی
+همزمانی که تاکنون در این فصل درباره آن صحبت کرده‌ایم بخشی از کتابخانه استاندارد
+بوده است، نه زبان. گزینه‌های شما برای مدیریت همزمانی محدود به زبان یا کتابخانه
+استاندارد نیستند؛ می‌توانید ویژگی‌های همزمانی خود را بنویسید یا از ویژگی‌هایی که
+دیگران نوشته‌اند استفاده کنید.</p>
+<p>با این حال، دو مفهوم همزمانی در زبان تعبیه شده‌اند: ویژگی‌های <code>std::marker</code>
+به نام‌های <code>Sync</code> و <code>Send</code>.</p>
+<h3 id="اجازه-انتقال-مالکیت-بین-نخها-با-send"><a class="header" href="#اجازه-انتقال-مالکیت-بین-نخها-با-send">اجازه انتقال مالکیت بین نخ‌ها با <code>Send</code></a></h3>
+<p>ویژگی نشانگر <code>Send</code> نشان می‌دهد که مالکیت مقادیر نوعی که <code>Send</code> را پیاده‌سازی
+می‌کند می‌تواند بین نخ‌ها منتقل شود. تقریباً هر نوعی در راست <code>Send</code> است، اما
+برخی استثناها وجود دارند، از جمله <code>Rc&lt;T&gt;</code>: این نوع نمی‌تواند <code>Send</code> باشد زیرا
+اگر یک مقدار <code>Rc&lt;T&gt;</code> را کلون کنید و سعی کنید مالکیت کلون را به نخ دیگری منتقل
+کنید، هر دو نخ ممکن است شمارش ارجاع را هم‌زمان به‌روزرسانی کنند. به این دلیل،
+<code>Rc&lt;T&gt;</code> برای استفاده در شرایط تک‌ریسمانی طراحی شده است که نمی‌خواهید جریمه
+عملکرد ایمنی نخ را پرداخت کنید.</p>
+<p>بنابراین، سیستم نوعی و محدودیت‌های ویژگی راست تضمین می‌کنند که هرگز به‌طور
+ناخواسته یک مقدار <code>Rc&lt;T&gt;</code> را به صورت ناایمن بین نخ‌ها ارسال نکنید. وقتی سعی
+کردیم این کار را در فهرست 16-14 انجام دهیم، خطای <code>the trait Send is not  implemented for Rc&lt;Mutex&lt;i32&gt;&gt;</code> دریافت کردیم. وقتی به <code>Arc&lt;T&gt;</code> که <code>Send</code> است
+تغییر دادیم، کد کامپایل شد.</p>
+<p>هر نوعی که به‌طور کامل از نوع‌های <code>Send</code> تشکیل شده باشد به‌طور خودکار به عنوان
+<code>Send</code> علامت‌گذاری می‌شود. تقریباً تمام نوع‌های اولیه <code>Send</code> هستند، به جز
+اشاره‌گرهای خام، که در فصل 20 درباره آن‌ها صحبت خواهیم کرد.</p>
+<h3 id="اجازه-دسترسی-از-چندین-نخ-با-sync"><a class="header" href="#اجازه-دسترسی-از-چندین-نخ-با-sync">اجازه دسترسی از چندین نخ با <code>Sync</code></a></h3>
+<p>ویژگی نشانگر <code>Sync</code> نشان می‌دهد که نوعی که <code>Sync</code> را پیاده‌سازی می‌کند می‌تواند
+از چندین نخ به آن ارجاع داده شود. به عبارت دیگر، هر نوع <code>T</code>، <code>Sync</code> است اگر
+<code>&amp;T</code> (یک ارجاع غیرقابل‌تغییر به <code>T</code>) <code>Send</code> باشد، به این معنی که ارجاع می‌تواند
+به صورت ایمن به نخ دیگری ارسال شود. مشابه <code>Send</code>، نوع‌های اولیه <code>Sync</code> هستند و
+نوع‌هایی که به طور کامل از نوع‌های <code>Sync</code> تشکیل شده‌اند نیز <code>Sync</code> هستند.</p>
+<p>اسمارت پوینتر <code>Rc&lt;T&gt;</code> نیز به همان دلایلی که <code>Send</code> نیست، <code>Sync</code> هم نیست. نوع
+<code>RefCell&lt;T&gt;</code> (که در فصل 15 درباره آن صحبت کردیم) و خانواده نوع‌های مرتبط <code>Cell&lt;T&gt;</code>
+نیز <code>Sync</code> نیستند. پیاده‌سازی بررسی وام‌دهی که <code>RefCell&lt;T&gt;</code> در زمان اجرا انجام
+می‌دهد، برای نخ ایمن نیست. اسمارت پوینتر <code>Mutex&lt;T&gt;</code>، <code>Sync</code> است و می‌تواند
+برای اشتراک‌گذاری دسترسی بین چندین نخ استفاده شود، همانطور که در بخش <a href="ch16-03-shared-state.html#sharing-a-mutext-between-multiple-threads">«اشتراک
+یک <code>Mutex&lt;T&gt;</code> بین چندین نخ»</a><!-- ignore -->
+مشاهده کردید.</p>
+<h3 id="پیادهسازی-دستی-send-و-sync-ناایمن-است"><a class="header" href="#پیادهسازی-دستی-send-و-sync-ناایمن-است">پیاده‌سازی دستی <code>Send</code> و <code>Sync</code> ناایمن است</a></h3>
+<p>از آنجا که نوع‌هایی که از ویژگی‌های <code>Send</code> و <code>Sync</code> تشکیل شده‌اند به‌طور خودکار
+به‌عنوان <code>Send</code> و <code>Sync</code> علامت‌گذاری می‌شوند، ما نیازی به پیاده‌سازی دستی این
+ویژگی‌ها نداریم. به عنوان ویژگی‌های نشانگر، آن‌ها حتی هیچ متدی برای پیاده‌سازی
+ندارند. آن‌ها فقط برای اعمال اصول مربوط به همزمانی مفید هستند.</p>
+<p>پیاده‌سازی دستی این ویژگی‌ها شامل پیاده‌سازی کد ناایمن در راست می‌شود. ما در فصل
+20 درباره استفاده از کد ناایمن در راست صحبت خواهیم کرد؛ فعلاً، اطلاعات مهم این
+است که ساخت نوع‌های همزمان جدید که از قسمت‌های <code>Send</code> و <code>Sync</code> تشکیل نشده‌اند
+نیاز به دقت زیادی دارد تا اصول ایمنی رعایت شوند. <a href="../nomicon/index.html">“The Rustonomicon”</a>
+اطلاعات بیشتری درباره این اصول و نحوه رعایت آن‌ها ارائه می‌دهد.</p>
+<h2 id="خلاصه"><a class="header" href="#خلاصه">خلاصه</a></h2>
+<p>این آخرین باری نیست که در این کتاب با همزمانی روبه‌رو می‌شوید: کل فصل بعدی بر برنامه‌نویسی
+async تمرکز دارد، و پروژه در فصل 21 از مفاهیم این فصل در یک موقعیت واقعی‌تر نسبت به
+مثال‌های کوچک‌تر مطرح‌شده در اینجا استفاده خواهد کرد.</p>
+<p>همانطور که قبلاً اشاره شد، به دلیل اینکه بخش بسیار کمی از نحوه مدیریت همزمانی در راست
+بخشی از زبان است، بسیاری از راه‌حل‌های همزمانی به‌عنوان crate پیاده‌سازی شده‌اند.
+این‌ها سریع‌تر از کتابخانه استاندارد تکامل می‌یابند، بنابراین حتماً به صورت آنلاین جستجو
+کنید تا crate‌های به‌روز و پیشرفته‌ای که برای موقعیت‌های چندریسمانی مناسب هستند را پیدا کنید.</p>
+<p>کتابخانه استاندارد راست کانال‌هایی برای ارسال پیام و انواع اسمارت پوینتر، مانند <code>Mutex&lt;T&gt;</code>
+و <code>Arc&lt;T&gt;</code>، فراهم می‌کند که استفاده از آن‌ها در زمینه‌های همزمان ایمن است. سیستم نوعی
+و کنترل‌کننده وام‌دهی تضمین می‌کنند که کدی که از این راه‌حل‌ها استفاده می‌کند با رقابت‌های
+داده یا ارجاع‌های نامعتبر مواجه نمی‌شود. هنگامی که کد شما کامپایل شود، می‌توانید مطمئن
+باشید که بدون آن دسته از اشکال‌های سخت‌ردیابی که در زبان‌های دیگر معمول است، به خوبی
+روی چندین نخ اجرا خواهد شد. برنامه‌نویسی همزمان دیگر مفهومی برای ترسیدن نیست:
+پیش بروید و برنامه‌های خود را بی‌باکانه همزمان کنید!</p>
 
                     </main>
 

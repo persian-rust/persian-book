@@ -181,78 +181,75 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="refcellt-and-the-interior-mutability-pattern"><a class="header" href="#refcellt-and-the-interior-mutability-pattern"><code>RefCell&lt;T&gt;</code> and the Interior Mutability Pattern</a></h2>
-<p><em>Interior mutability</em> is a design pattern in Rust that allows you to mutate
-data even when there are immutable references to that data; normally, this
-action is disallowed by the borrowing rules. To mutate data, the pattern uses
-<code>unsafe</code> code inside a data structure to bend Rust’s usual rules that govern
-mutation and borrowing. Unsafe code indicates to the compiler that we’re
-checking the rules manually instead of relying on the compiler to check them
-for us; we will discuss unsafe code more in Chapter 20.</p>
-<p>We can use types that use the interior mutability pattern only when we can
-ensure that the borrowing rules will be followed at runtime, even though the
-compiler can’t guarantee that. The <code>unsafe</code> code involved is then wrapped in a
-safe API, and the outer type is still immutable.</p>
-<p>Let’s explore this concept by looking at the <code>RefCell&lt;T&gt;</code> type that follows the
-interior mutability pattern.</p>
-<h3 id="enforcing-borrowing-rules-at-runtime-with-refcellt"><a class="header" href="#enforcing-borrowing-rules-at-runtime-with-refcellt">Enforcing Borrowing Rules at Runtime with <code>RefCell&lt;T&gt;</code></a></h3>
-<p>Unlike <code>Rc&lt;T&gt;</code>, the <code>RefCell&lt;T&gt;</code> type represents single ownership over the data
-it holds. So, what makes <code>RefCell&lt;T&gt;</code> different from a type like <code>Box&lt;T&gt;</code>?
-Recall the borrowing rules you learned in Chapter 4:</p>
+                        <h2 id="refcellt-و-الگوی-تغییرپذیری-داخلی"><a class="header" href="#refcellt-و-الگوی-تغییرپذیری-داخلی"><code>RefCell&lt;T&gt;</code> و الگوی تغییرپذیری داخلی</a></h2>
+<p><em>تغییرپذیری داخلی</em> یک الگوی طراحی در راست است که به شما اجازه می‌دهد داده‌ها را حتی زمانی که
+ارجاع‌های غیرقابل‌تغییر به آن داده‌ها وجود دارد، تغییر دهید؛ معمولاً این عمل توسط قوانین وام‌دهی
+(‌borrowing rules) ممنوع است. برای تغییر داده‌ها، این الگو از کد <code>unsafe</code> درون یک ساختار داده
+برای تغییر قوانین معمول راست که کنترل تغییرپذیری و وام‌دهی را بر عهده دارند، استفاده می‌کند. کد
+<code>unsafe</code> به کامپایلر نشان می‌دهد که ما قوانین را به صورت دستی بررسی می‌کنیم و دیگر به کامپایلر
+اعتماد نداریم که این کار را برای ما انجام دهد؛ ما در فصل 20 بیشتر درباره کد <code>unsafe</code> صحبت خواهیم کرد.</p>
+<p>ما می‌توانیم از انواعی که از الگوی تغییرپذیری داخلی استفاده می‌کنند تنها در صورتی استفاده کنیم که
+بتوانیم اطمینان حاصل کنیم که قوانین وام‌دهی در زمان اجرا رعایت خواهند شد، حتی اگر کامپایلر نتواند
+این را تضمین کند. کد <code>unsafe</code> مرتبط سپس در یک API ایمن پیچیده شده و نوع بیرونی همچنان
+غیرقابل‌تغییر باقی می‌ماند.</p>
+<p>بیایید این مفهوم را با بررسی نوع <code>RefCell&lt;T&gt;</code> که از الگوی تغییرپذیری داخلی پیروی می‌کند،
+بیشتر بررسی کنیم.</p>
+<h3 id="اجرای-قوانین-وامدهی-در-زمان-اجرا-با-refcellt"><a class="header" href="#اجرای-قوانین-وامدهی-در-زمان-اجرا-با-refcellt">اجرای قوانین وام‌دهی در زمان اجرا با <code>RefCell&lt;T&gt;</code></a></h3>
+<p>برخلاف <code>Rc&lt;T&gt;</code>، نوع <code>RefCell&lt;T&gt;</code> مالکیت واحد (single ownership) داده‌هایی که نگه می‌دارد
+را نشان می‌دهد. پس، چه چیزی <code>RefCell&lt;T&gt;</code> را از یک نوع مثل <code>Box&lt;T&gt;</code> متمایز می‌کند؟ قوانین
+وام‌دهی‌ای که در فصل 4 یاد گرفتید را به یاد آورید:</p>
 <ul>
-<li>At any given time, you can have <em>either</em> (but not both) one mutable reference
-or any number of immutable references.</li>
-<li>References must always be valid.</li>
+<li>در هر زمان معین، شما می‌توانید <em>یا</em> (اما نه هر دو) یک ارجاع متغیر یا تعداد زیادی ارجاع
+غیرقابل‌تغییر داشته باشید.</li>
+<li>ارجاع‌ها باید همیشه معتبر باشند.</li>
 </ul>
-<p>With references and <code>Box&lt;T&gt;</code>, the borrowing rules’ invariants are enforced at
-compile time. With <code>RefCell&lt;T&gt;</code>, these invariants are enforced <em>at runtime</em>.
-With references, if you break these rules, you’ll get a compiler error. With
-<code>RefCell&lt;T&gt;</code>, if you break these rules, your program will panic and exit.</p>
-<p>The advantages of checking the borrowing rules at compile time are that errors
-will be caught sooner in the development process, and there is no impact on
-runtime performance because all the analysis is completed beforehand. For those
-reasons, checking the borrowing rules at compile time is the best choice in the
-majority of cases, which is why this is Rust’s default.</p>
-<p>The advantage of checking the borrowing rules at runtime instead is that
-certain memory-safe scenarios are then allowed, where they would’ve been
-disallowed by the compile-time checks. Static analysis, like the Rust compiler,
-is inherently conservative. Some properties of code are impossible to detect by
-analyzing the code: the most famous example is the Halting Problem, which is
-beyond the scope of this book but is an interesting topic to research.</p>
-<p>Because some analysis is impossible, if the Rust compiler can’t be sure the
-code complies with the ownership rules, it might reject a correct program; in
-this way, it’s conservative. If Rust accepted an incorrect program, users
-wouldn’t be able to trust in the guarantees Rust makes. However, if Rust
-rejects a correct program, the programmer will be inconvenienced, but nothing
-catastrophic can occur. The <code>RefCell&lt;T&gt;</code> type is useful when you’re sure your
-code follows the borrowing rules but the compiler is unable to understand and
-guarantee that.</p>
-<p>Similar to <code>Rc&lt;T&gt;</code>, <code>RefCell&lt;T&gt;</code> is only for use in single-threaded scenarios
-and will give you a compile-time error if you try using it in a multithreaded
-context. We’ll talk about how to get the functionality of <code>RefCell&lt;T&gt;</code> in a
-multithreaded program in Chapter 16.</p>
-<p>Here is a recap of the reasons to choose <code>Box&lt;T&gt;</code>, <code>Rc&lt;T&gt;</code>, or <code>RefCell&lt;T&gt;</code>:</p>
+<p>با استفاده از ارجاع‌ها و <code>Box&lt;T&gt;</code>، ثابت‌های قوانین وام‌دهی در زمان کامپایل اعمال می‌شوند.
+اما با <code>RefCell&lt;T&gt;</code>، این ثابت‌ها در <em>زمان اجرا</em> اعمال می‌شوند. با ارجاع‌ها، اگر این قوانین
+را بشکنید، یک خطای کامپایل دریافت خواهید کرد. اما با <code>RefCell&lt;T&gt;</code>، اگر این قوانین را بشکنید،
+برنامه شما دچار وحشت (panic) می‌شود و متوقف می‌شود.</p>
+<p>مزیت بررسی قوانین وام‌دهی در زمان کامپایل این است که خطاها زودتر در فرایند توسعه شناسایی
+می‌شوند، و هیچ تأثیری بر عملکرد زمان اجرا وجود ندارد زیرا تمام تحلیل‌ها پیشاپیش انجام شده‌اند.
+به همین دلایل، بررسی قوانین وام‌دهی در زمان کامپایل بهترین انتخاب در اکثر موارد است، که به
+همین دلیل این روش پیش‌فرض راست است.</p>
+<p>مزیت بررسی قوانین وام‌دهی در زمان اجرا این است که سناریوهایی که ایمن از نظر حافظه هستند
+اجازه می‌یابند، در حالی که ممکن است توسط بررسی‌های زمان کامپایل مجاز نباشند. تحلیل
+ایستا (static analysis)، مانند کامپایلر راست، به‌طور ذاتی محافظه‌کارانه است. برخی
+خصوصیات کد غیرممکن است که با تحلیل کد شناسایی شوند: معروف‌ترین مثال، مشکل توقف
+(Halting Problem) است که فراتر از محدوده این کتاب است اما موضوع جالبی برای تحقیق
+می‌باشد.</p>
+<p>زیرا برخی تحلیل‌ها غیرممکن هستند، اگر کامپایلر راست نتواند مطمئن شود که کد با قوانین
+مالکیت سازگار است، ممکن است یک برنامه درست را رد کند؛ به این ترتیب، محافظه‌کارانه عمل
+می‌کند. اگر راست یک برنامه نادرست را بپذیرد، کاربران نمی‌توانند به تضمین‌هایی که راست
+می‌دهد، اعتماد کنند. اما اگر راست یک برنامه درست را رد کند، برنامه‌نویس ناراحت خواهد شد،
+اما هیچ چیز فاجعه‌باری رخ نخواهد داد. نوع <code>RefCell&lt;T&gt;</code> زمانی مفید است که مطمئن باشید
+کد شما قوانین وام‌دهی را دنبال می‌کند اما کامپایلر نمی‌تواند این را بفهمد و تضمین کند.</p>
+<p>مشابه <code>Rc&lt;T&gt;</code>، <code>RefCell&lt;T&gt;</code> تنها برای استفاده در سناریوهای تک‌ریسمانی (single-threaded)
+است و اگر بخواهید آن را در یک بافت چندریسمانی (multithreaded) استفاده کنید، یک خطای زمان
+کامپایل به شما خواهد داد. ما در فصل 16 درباره نحوه دریافت عملکرد <code>RefCell&lt;T&gt;</code> در یک برنامه
+چندریسمانی صحبت خواهیم کرد.</p>
+<p>در اینجا مروری بر دلایلی برای انتخاب <code>Box&lt;T&gt;</code>، <code>Rc&lt;T&gt;</code> یا <code>RefCell&lt;T&gt;</code> آمده است:</p>
 <ul>
-<li><code>Rc&lt;T&gt;</code> enables multiple owners of the same data; <code>Box&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code>
-have single owners.</li>
-<li><code>Box&lt;T&gt;</code> allows immutable or mutable borrows checked at compile time; <code>Rc&lt;T&gt;</code>
-allows only immutable borrows checked at compile time; <code>RefCell&lt;T&gt;</code> allows
-immutable or mutable borrows checked at runtime.</li>
-<li>Because <code>RefCell&lt;T&gt;</code> allows mutable borrows checked at runtime, you can
-mutate the value inside the <code>RefCell&lt;T&gt;</code> even when the <code>RefCell&lt;T&gt;</code> is
-immutable.</li>
+<li><code>Rc&lt;T&gt;</code> امکان چندین مالک برای یک داده را فراهم می‌کند؛ در حالی که <code>Box&lt;T&gt;</code> و
+<code>RefCell&lt;T&gt;</code> تنها یک مالک دارند.</li>
+<li><code>Box&lt;T&gt;</code> اجازه می‌دهد که وام‌دهی‌های غیرقابل‌تغییر یا قابل‌تغییر در زمان کامپایل
+بررسی شوند؛ <code>Rc&lt;T&gt;</code> تنها وام‌دهی‌های غیرقابل‌تغییر را در زمان کامپایل بررسی
+می‌کند؛ <code>RefCell&lt;T&gt;</code> اجازه می‌دهد که وام‌دهی‌های غیرقابل‌تغییر یا قابل‌تغییر در
+زمان اجرا بررسی شوند.</li>
+<li>از آنجا که <code>RefCell&lt;T&gt;</code> اجازه می‌دهد وام‌دهی‌های قابل‌تغییر در زمان اجرا بررسی شوند،
+شما می‌توانید مقدار درون <code>RefCell&lt;T&gt;</code> را حتی زمانی که خود <code>RefCell&lt;T&gt;</code> غیرقابل‌تغییر
+است، تغییر دهید.</li>
 </ul>
-<p>Mutating the value inside an immutable value is the <em>interior mutability</em>
-pattern. Let’s look at a situation in which interior mutability is useful and
-examine how it’s possible.</p>
-<h3 id="interior-mutability-a-mutable-borrow-to-an-immutable-value"><a class="header" href="#interior-mutability-a-mutable-borrow-to-an-immutable-value">Interior Mutability: A Mutable Borrow to an Immutable Value</a></h3>
-<p>A consequence of the borrowing rules is that when you have an immutable value,
-you can’t borrow it mutably. For example, this code won’t compile:</p>
+<p>تغییر مقدار درون یک مقدار غیرقابل‌تغییر همان الگوی <em>تغییرپذیری داخلی</em> است. بیایید به
+یک موقعیت که در آن تغییرپذیری داخلی مفید است نگاهی بیندازیم و بررسی کنیم چگونه این
+امر ممکن است.</p>
+<h3 id="تغییرپذیری-داخلی-وامدهی-قابلتغییر-به-یک-مقدار-غیرقابلتغییر"><a class="header" href="#تغییرپذیری-داخلی-وامدهی-قابلتغییر-به-یک-مقدار-غیرقابلتغییر">تغییرپذیری داخلی: وام‌دهی قابل‌تغییر به یک مقدار غیرقابل‌تغییر</a></h3>
+<p>یکی از پیامدهای قوانین وام‌دهی این است که وقتی شما یک مقدار غیرقابل‌تغییر دارید،
+نمی‌توانید آن را به صورت قابل‌تغییر وام دهید. برای مثال، این کد کامپایل نخواهد شد:</p>
 <pre><code class="language-rust ignore does_not_compile">fn main() {
     let x = 5;
     let y = &amp;mut x;
 }</code></pre>
-<p>If you tried to compile this code, you’d get the following error:</p>
+<p>اگر سعی کنید این کد را کامپایل کنید، خطای زیر را دریافت خواهید کرد:</p>
 <pre><code class="language-console">$ cargo run
    Compiling borrowing v0.1.0 (file:///projects/borrowing)
 error[E0596]: cannot borrow `x` as mutable, as it is not declared as mutable
@@ -269,40 +266,38 @@ help: consider changing this to be mutable
 For more information about this error, try `rustc --explain E0596`.
 error: could not compile `borrowing` (bin "borrowing") due to 1 previous error
 </code></pre>
-<p>However, there are situations in which it would be useful for a value to mutate
-itself in its methods but appear immutable to other code. Code outside the
-value’s methods would not be able to mutate the value. Using <code>RefCell&lt;T&gt;</code> is
-one way to get the ability to have interior mutability, but <code>RefCell&lt;T&gt;</code>
-doesn’t get around the borrowing rules completely: the borrow checker in the
-compiler allows this interior mutability, and the borrowing rules are checked
-at runtime instead. If you violate the rules, you’ll get a <code>panic!</code> instead of
-a compiler error.</p>
-<p>Let’s work through a practical example where we can use <code>RefCell&lt;T&gt;</code> to mutate
-an immutable value and see why that is useful.</p>
-<h4 id="a-use-case-for-interior-mutability-mock-objects"><a class="header" href="#a-use-case-for-interior-mutability-mock-objects">A Use Case for Interior Mutability: Mock Objects</a></h4>
-<p>Sometimes during testing a programmer will use a type in place of another type,
-in order to observe particular behavior and assert it’s implemented correctly.
-This placeholder type is called a <em>test double</em>. Think of it in the sense of a
-“stunt double” in filmmaking, where a person steps in and substitutes for an
-actor to do a particular tricky scene. Test doubles stand in for other types
-when we’re running tests. <em>Mock objects</em> are specific types of test doubles
-that record what happens during a test so you can assert that the correct
-actions took place.</p>
-<p>Rust doesn’t have objects in the same sense as other languages have objects,
-and Rust doesn’t have mock object functionality built into the standard library
-as some other languages do. However, you can definitely create a struct that
-will serve the same purposes as a mock object.</p>
-<p>Here’s the scenario we’ll test: we’ll create a library that tracks a value
-against a maximum value and sends messages based on how close to the maximum
-value the current value is. This library could be used to keep track of a
-user’s quota for the number of API calls they’re allowed to make, for example.</p>
-<p>Our library will only provide the functionality of tracking how close to the
-maximum a value is and what the messages should be at what times. Applications
-that use our library will be expected to provide the mechanism for sending the
-messages: the application could put a message in the application, send an
-email, send a text message, or something else. The library doesn’t need to know
-that detail. All it needs is something that implements a trait we’ll provide
-called <code>Messenger</code>. Listing 15-20 shows the library code:</p>
+<p>با این حال، موقعیت‌هایی وجود دارند که در آن‌ها مفید است یک مقدار بتواند خود را در
+متدهایش تغییر دهد اما برای کد دیگر غیرقابل‌تغییر به نظر برسد. کدی که خارج از متدهای
+مقدار قرار دارد نمی‌تواند مقدار را تغییر دهد. استفاده از <code>RefCell&lt;T&gt;</code> یکی از
+راه‌هایی است که می‌توانید قابلیت تغییرپذیری داخلی را به دست آورید، اما <code>RefCell&lt;T&gt;</code>
+به طور کامل قوانین وام‌دهی را دور نمی‌زند: کنترل‌کننده وام‌دهی در کامپایلر این
+تغییرپذیری داخلی را مجاز می‌کند و قوانین وام‌دهی در عوض در زمان اجرا بررسی می‌شوند.
+اگر این قوانین را نقض کنید، به جای خطای کامپایل، یک <code>panic!</code> دریافت خواهید کرد.</p>
+<p>بیایید با یک مثال عملی کار کنیم که در آن از <code>RefCell&lt;T&gt;</code> برای تغییر مقدار غیرقابل‌تغییر
+استفاده کنیم و ببینیم چرا این کار مفید است.</p>
+<h4 id="یک-کاربرد-برای-تغییرپذیری-داخلی-mock-objects"><a class="header" href="#یک-کاربرد-برای-تغییرپذیری-داخلی-mock-objects">یک کاربرد برای تغییرپذیری داخلی: Mock Objects</a></h4>
+<p>گاهی اوقات در طول تست، یک برنامه‌نویس از یک نوع به جای نوع دیگری استفاده می‌کند تا
+رفتار خاصی را مشاهده کند و اطمینان حاصل کند که به درستی پیاده‌سازی شده است. این نوع
+جایگزین <em>تست دابل</em> نامیده می‌شود. آن را به مانند یک “بدل‌کار” در فیلم‌سازی تصور
+کنید، جایی که یک نفر جایگزین بازیگر می‌شود تا یک صحنه خاص و دشوار را اجرا کند.
+تست دابل‌ها به جای انواع دیگر در زمان تست استفاده می‌شوند. <em>اشیاء Mock</em> نوع خاصی از
+تست دابل‌ها هستند که ثبت می‌کنند در طول یک تست چه اتفاقی می‌افتد تا شما بتوانید
+اطمینان حاصل کنید که اقدامات صحیح انجام شده‌اند.</p>
+<p>راست اشیاء را به همان شکلی که زبان‌های دیگر دارند، ندارد و قابلیت‌های اشیاء Mock
+را نیز در کتابخانه استاندارد، مانند برخی زبان‌های دیگر، ارائه نمی‌دهد. با این حال،
+شما می‌توانید یک ساختار (struct) ایجاد کنید که همان مقاصد اشیاء Mock را فراهم کند.</p>
+<p>در اینجا سناریویی که قصد تست آن را داریم آورده شده است: ما یک کتابخانه ایجاد
+خواهیم کرد که یک مقدار را نسبت به یک مقدار حداکثری ردیابی می‌کند و بر اساس
+نزدیکی مقدار فعلی به مقدار حداکثری پیام‌هایی ارسال می‌کند. به عنوان مثال، این
+کتابخانه می‌تواند برای پیگیری سهمیه تعداد درخواست‌های API که یک کاربر مجاز است
+انجام دهد، استفاده شود.</p>
+<p>کتابخانه ما فقط عملکرد ردیابی نزدیکی یک مقدار به حداکثر و تعیین پیام‌ها در زمان‌های
+خاص را فراهم خواهد کرد. انتظار می‌رود برنامه‌هایی که از کتابخانه ما استفاده می‌کنند
+مکانیسم ارسال پیام‌ها را فراهم کنند: برنامه می‌تواند پیامی را در برنامه قرار دهد، یک
+ایمیل ارسال کند، یک پیام متنی ارسال کند، یا چیز دیگری. کتابخانه نیازی به دانستن این
+جزئیات ندارد. همه چیزی که نیاز دارد چیزی است که یک ویژگی (trait) به نام
+<code>Messenger</code> که ما ارائه خواهیم کرد را پیاده‌سازی کند. کد کتابخانه در فهرست
+15-20 نشان داده شده است:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub trait Messenger {
@@ -343,24 +338,26 @@ where
         }
     }
 }</code></pre>
-<figcaption>Listing 15-20: A library to keep track of how close a value is to a maximum value and warn when the value is at certain levels</figcaption>
+<figcaption>Listing 15-20: یک کتابخانه برای پیگیری نزدیکی یک مقدار به یک مقدار حداکثری و هشدار در زمانی که مقدار در سطوح خاصی است</figcaption>
 </figure>
-<p>One important part of this code is that the <code>Messenger</code> trait has one method
-called <code>send</code> that takes an immutable reference to <code>self</code> and the text of the
-message. This trait is the interface our mock object needs to implement so that
-the mock can be used in the same way a real object is. The other important part
-is that we want to test the behavior of the <code>set_value</code> method on the
-<code>LimitTracker</code>. We can change what we pass in for the <code>value</code> parameter, but
-<code>set_value</code> doesn’t return anything for us to make assertions on. We want to be
-able to say that if we create a <code>LimitTracker</code> with something that implements
-the <code>Messenger</code> trait and a particular value for <code>max</code>, when we pass different
-numbers for <code>value</code>, the messenger is told to send the appropriate messages.</p>
-<p>We need a mock object that, instead of sending an email or text message when we
-call <code>send</code>, will only keep track of the messages it’s told to send. We can
-create a new instance of the mock object, create a <code>LimitTracker</code> that uses the
-mock object, call the <code>set_value</code> method on <code>LimitTracker</code>, and then check that
-the mock object has the messages we expect. Listing 15-21 shows an attempt to
-implement a mock object to do just that, but the borrow checker won’t allow it:</p>
+<p>یکی از بخش‌های مهم این کد این است که ویژگی <code>Messenger</code> یک متد به نام <code>send</code>
+دارد که یک ارجاع غیرقابل‌تغییر به <code>self</code> و متن پیام را می‌گیرد. این ویژگی رابطی
+است که شیء Mock ما باید برای استفاده به همان شیوه که یک شیء واقعی استفاده می‌شود،
+پیاده‌سازی کند. بخش مهم دیگر این است که ما می‌خواهیم رفتار متد <code>set_value</code> را
+روی <code>LimitTracker</code> تست کنیم. ما می‌توانیم چیزی را که به عنوان پارامتر به <code>value</code>
+می‌دهیم تغییر دهیم، اما <code>set_value</code> چیزی برای ما برنمی‌گرداند که بتوانیم روی آن
+ادعا کنیم. ما می‌خواهیم بتوانیم بگوییم اگر یک <code>LimitTracker</code> با چیزی که ویژگی
+<code>Messenger</code> را پیاده‌سازی کرده و مقدار خاصی برای <code>max</code> ایجاد کنیم، زمانی که
+مقادیر مختلفی برای <code>value</code> ارسال می‌کنیم، پیام‌رسان گفته شده است که پیام‌های
+مناسب را ارسال کند.</p>
+<p>ما به یک شیء Mock نیاز داریم که به جای ارسال یک ایمیل یا پیام متنی وقتی که
+<code>send</code> را فراخوانی می‌کنیم، فقط پیام‌هایی را که به آن گفته شده است ارسال کند،
+پیگیری کند. ما می‌توانیم یک نمونه جدید از شیء Mock ایجاد کنیم، یک
+<code>LimitTracker</code> که از شیء Mock استفاده می‌کند ایجاد کنیم، متد <code>set_value</code> را
+روی <code>LimitTracker</code> فراخوانی کنیم، و سپس بررسی کنیم که آیا شیء Mock پیام‌هایی که
+انتظار داریم را دارد یا نه. فهرست 15-21 تلاش برای پیاده‌سازی یک شیء Mock برای
+انجام همین کار را نشان می‌دهد، اما کنترل‌کننده وام‌دهی (borrow checker) این اجازه
+را نمی‌دهد:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">pub trait Messenger {
@@ -434,25 +431,24 @@ mod tests {
         assert_eq!(mock_messenger.sent_messages.len(), 1);
     }
 }</code></pre>
-<figcaption>Listing 15-21: An attempt to implement a <code>MockMessenger</code> that isn’t allowed by the borrow checker</figcaption>
+<figcaption>Listing 15-21: تلاش برای پیاده‌سازی یک <code>MockMessenger</code> که توسط کنترل‌کننده وام‌دهی اجازه داده نمی‌شود</figcaption>
 </figure>
-<p>This test code defines a <code>MockMessenger</code> struct that has a <code>sent_messages</code>
-field with a <code>Vec</code> of <code>String</code> values to keep track of the messages it’s told
-to send. We also define an associated function <code>new</code> to make it convenient to
-create new <code>MockMessenger</code> values that start with an empty list of messages. We
-then implement the <code>Messenger</code> trait for <code>MockMessenger</code> so we can give a
-<code>MockMessenger</code> to a <code>LimitTracker</code>. In the definition of the <code>send</code> method, we
-take the message passed in as a parameter and store it in the <code>MockMessenger</code>
-list of <code>sent_messages</code>.</p>
-<p>In the test, we’re testing what happens when the <code>LimitTracker</code> is told to set
-<code>value</code> to something that is more than 75 percent of the <code>max</code> value. First, we
-create a new <code>MockMessenger</code>, which will start with an empty list of messages.
-Then we create a new <code>LimitTracker</code> and give it a reference to the new
-<code>MockMessenger</code> and a <code>max</code> value of 100. We call the <code>set_value</code> method on the
-<code>LimitTracker</code> with a value of 80, which is more than 75 percent of 100. Then
-we assert that the list of messages that the <code>MockMessenger</code> is keeping track
-of should now have one message in it.</p>
-<p>However, there’s one problem with this test, as shown here:</p>
+<p>این کد تست یک ساختار <code>MockMessenger</code> تعریف می‌کند که یک فیلد <code>sent_messages</code> با یک
+<code>Vec</code> از مقادیر <code>String</code> دارد تا پیام‌هایی را که به آن گفته شده است ارسال کند،
+پیگیری کند. ما همچنین یک تابع مرتبط <code>new</code> تعریف می‌کنیم تا ایجاد مقادیر
+<code>MockMessenger</code> جدید که با یک لیست خالی از پیام‌ها شروع می‌شود، راحت باشد. سپس
+ویژگی <code>Messenger</code> را برای <code>MockMessenger</code> پیاده‌سازی می‌کنیم تا بتوانیم یک
+<code>MockMessenger</code> را به یک <code>LimitTracker</code> بدهیم. در تعریف متد <code>send</code>، ما پیام
+ارسال‌شده به عنوان یک پارامتر را می‌گیریم و آن را در لیست <code>sent_messages</code>
+درون <code>MockMessenger</code> ذخیره می‌کنیم.</p>
+<p>در تست، ما در حال تست این هستیم که وقتی به <code>LimitTracker</code> گفته می‌شود مقدار
+<code>value</code> را به چیزی تنظیم کند که بیش از 75 درصد مقدار <code>max</code> است، چه اتفاقی می‌افتد.
+ابتدا یک <code>MockMessenger</code> جدید ایجاد می‌کنیم که با یک لیست خالی از پیام‌ها شروع می‌شود.
+سپس یک <code>LimitTracker</code> جدید ایجاد می‌کنیم و یک ارجاع به <code>MockMessenger</code> جدید و یک
+مقدار <code>max</code> برابر 100 به آن می‌دهیم. متد <code>set_value</code> را روی <code>LimitTracker</code> با
+مقدار 80 که بیش از 75 درصد 100 است، فراخوانی می‌کنیم. سپس ادعا می‌کنیم که لیست
+پیام‌هایی که <code>MockMessenger</code> پیگیری می‌کند اکنون باید یک پیام در آن داشته باشد.</p>
+<p>با این حال، یک مشکل با این تست وجود دارد، همانطور که در اینجا نشان داده شده است:</p>
 <pre><code class="language-console">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
 error[E0596]: cannot borrow `self.sent_messages` as mutable, as it is behind a `&amp;` reference
@@ -473,16 +469,15 @@ help: consider changing this to be a mutable reference in the `impl` method and 
 For more information about this error, try `rustc --explain E0596`.
 error: could not compile `limit-tracker` (lib test) due to 1 previous error
 </code></pre>
-<p>We can’t modify the <code>MockMessenger</code> to keep track of the messages, because the
-<code>send</code> method takes an immutable reference to <code>self</code>. We also can’t take the
-suggestion from the error text to use <code>&amp;mut self</code> in both the <code>impl</code> method and
-the <code>trait</code> definition. We do not want to change the <code>Messenger</code> trait solely
-for the sake of testing. Instead, we need to find a way to make our test code
-work correctly with our existing design.</p>
-<p>This is a situation in which interior mutability can help! We’ll store the
-<code>sent_messages</code> within a <code>RefCell&lt;T&gt;</code>, and then the <code>send</code> method will be
-able to modify <code>sent_messages</code> to store the messages we’ve seen. Listing 15-22
-shows what that looks like:</p>
+<p>ما نمی‌توانیم <code>MockMessenger</code> را برای پیگیری پیام‌ها تغییر دهیم، زیرا متد <code>send</code> یک
+ارجاع غیرقابل‌تغییر به <code>self</code> می‌گیرد. همچنین نمی‌توانیم پیشنهاد متن خطا را برای استفاده
+از <code>&amp;mut self</code> در هر دو متد <code>impl</code> و تعریف ویژگی (trait) بپذیریم. ما نمی‌خواهیم فقط به
+خاطر تست، ویژگی <code>Messenger</code> را تغییر دهیم. در عوض، باید راهی پیدا کنیم که کد تست
+ما با طراحی موجود به درستی کار کند.</p>
+<p>این یک موقعیت است که در آن تغییرپذیری داخلی می‌تواند کمک کند! ما فیلد
+<code>sent_messages</code> را درون یک <code>RefCell&lt;T&gt;</code> ذخیره می‌کنیم، و سپس متد <code>send</code> قادر خواهد بود
+<code>sent_messages</code> را برای ذخیره پیام‌هایی که دیده‌ایم، تغییر دهد. فهرست 15-22 نشان می‌دهد
+این کار چگونه انجام می‌شود:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">pub trait Messenger {
@@ -558,40 +553,39 @@ mod tests {
         assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
     }
 }</code></pre>
-<figcaption>Listing 15-22: Using <code>RefCell&lt;T&gt;</code> to mutate an inner value while the outer value is considered immutable</figcaption>
+<figcaption>Listing 15-22: استفاده از <code>RefCell&lt;T&gt;</code> برای تغییر یک مقدار داخلی در حالی که مقدار بیرونی غیرقابل‌تغییر در نظر گرفته می‌شود</figcaption>
 </figure>
-<p>The <code>sent_messages</code> field is now of type <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> instead of
-<code>Vec&lt;String&gt;</code>. In the <code>new</code> function, we create a new <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>
-instance around the empty vector.</p>
-<p>For the implementation of the <code>send</code> method, the first parameter is still an
-immutable borrow of <code>self</code>, which matches the trait definition. We call
-<code>borrow_mut</code> on the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> in <code>self.sent_messages</code> to get a
-mutable reference to the value inside the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>, which is the
-vector. Then we can call <code>push</code> on the mutable reference to the vector to keep
-track of the messages sent during the test.</p>
-<p>The last change we have to make is in the assertion: to see how many items are
-in the inner vector, we call <code>borrow</code> on the <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> to get an
-immutable reference to the vector.</p>
-<p>Now that you’ve seen how to use <code>RefCell&lt;T&gt;</code>, let’s dig into how it works!</p>
-<h4 id="keeping-track-of-borrows-at-runtime-with-refcellt"><a class="header" href="#keeping-track-of-borrows-at-runtime-with-refcellt">Keeping Track of Borrows at Runtime with <code>RefCell&lt;T&gt;</code></a></h4>
-<p>When creating immutable and mutable references, we use the <code>&amp;</code> and <code>&amp;mut</code>
-syntax, respectively. With <code>RefCell&lt;T&gt;</code>, we use the <code>borrow</code> and <code>borrow_mut</code>
-methods, which are part of the safe API that belongs to <code>RefCell&lt;T&gt;</code>. The
-<code>borrow</code> method returns the smart pointer type <code>Ref&lt;T&gt;</code>, and <code>borrow_mut</code>
-returns the smart pointer type <code>RefMut&lt;T&gt;</code>. Both types implement <code>Deref</code>, so we
-can treat them like regular references.</p>
-<p>The <code>RefCell&lt;T&gt;</code> keeps track of how many <code>Ref&lt;T&gt;</code> and <code>RefMut&lt;T&gt;</code> smart
-pointers are currently active. Every time we call <code>borrow</code>, the <code>RefCell&lt;T&gt;</code>
-increases its count of how many immutable borrows are active. When a <code>Ref&lt;T&gt;</code>
-value goes out of scope, the count of immutable borrows goes down by one. Just
-like the compile-time borrowing rules, <code>RefCell&lt;T&gt;</code> lets us have many immutable
-borrows or one mutable borrow at any point in time.</p>
-<p>If we try to violate these rules, rather than getting a compiler error as we
-would with references, the implementation of <code>RefCell&lt;T&gt;</code> will panic at
-runtime. Listing 15-23 shows a modification of the implementation of <code>send</code> in
-Listing 15-22. We’re deliberately trying to create two mutable borrows active
-for the same scope to illustrate that <code>RefCell&lt;T&gt;</code> prevents us from doing this
-at runtime.</p>
+<p>فیلد <code>sent_messages</code> اکنون از نوع <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> به جای <code>Vec&lt;String&gt;</code> است.
+در تابع <code>new</code>، یک نمونه جدید از <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> را در اطراف وکتور خالی ایجاد
+می‌کنیم.</p>
+<p>برای پیاده‌سازی متد <code>send</code>، پارامتر اول همچنان یک وام‌دهی غیرقابل‌تغییر به <code>self</code>
+است، که با تعریف ویژگی مطابقت دارد. ما متد <code>borrow_mut</code> را روی <code>RefCell&lt;Vec&lt;String&gt;&gt;</code>
+در <code>self.sent_messages</code> فراخوانی می‌کنیم تا یک ارجاع متغیر به مقدار درون
+<code>RefCell&lt;Vec&lt;String&gt;&gt;</code>، که همان وکتور است، دریافت کنیم. سپس می‌توانیم روی ارجاع
+متغیر به وکتور، متد <code>push</code> را فراخوانی کنیم تا پیام‌های ارسال‌شده در طول تست را پیگیری
+کنیم.</p>
+<p>آخرین تغییری که باید انجام دهیم در ادعا (assertion) است: برای دیدن تعداد آیتم‌های
+درون وکتور داخلی، ما متد <code>borrow</code> را روی <code>RefCell&lt;Vec&lt;String&gt;&gt;</code> فراخوانی می‌کنیم تا
+یک ارجاع غیرقابل‌تغییر به وکتور دریافت کنیم.</p>
+<p>حالا که دیدید چگونه از <code>RefCell&lt;T&gt;</code> استفاده کنید، بیایید به نحوه کار آن بپردازیم!</p>
+<h4 id="پیگیری-وامها-در-زمان-اجرا-با-refcellt"><a class="header" href="#پیگیری-وامها-در-زمان-اجرا-با-refcellt">پیگیری وام‌ها در زمان اجرا با <code>RefCell&lt;T&gt;</code></a></h4>
+<p>هنگام ایجاد ارجاع‌های غیرقابل‌تغییر و قابل‌تغییر، ما از سینتکس <code>&amp;</code> و <code>&amp;mut</code> استفاده
+می‌کنیم. با <code>RefCell&lt;T&gt;</code>، از متدهای <code>borrow</code> و <code>borrow_mut</code> استفاده می‌کنیم، که
+بخشی از API ایمن متعلق به <code>RefCell&lt;T&gt;</code> هستند. متد <code>borrow</code> نوع اسمارت پوینتر
+<code>Ref&lt;T&gt;</code> را برمی‌گرداند، و <code>borrow_mut</code> نوع اسمارت پوینتر <code>RefMut&lt;T&gt;</code> را برمی‌گرداند.
+هر دو نوع، <code>Deref</code> را پیاده‌سازی می‌کنند، بنابراین می‌توانیم با آن‌ها مثل ارجاع‌های
+معمولی رفتار کنیم.</p>
+<p><code>RefCell&lt;T&gt;</code> تعداد اسمارت پوینترهای <code>Ref&lt;T&gt;</code> و <code>RefMut&lt;T&gt;</code> که در حال حاضر فعال هستند
+را پیگیری می‌کند. هر بار که <code>borrow</code> را فراخوانی می‌کنیم، <code>RefCell&lt;T&gt;</code> شمارش تعداد
+وام‌دهی‌های غیرقابل‌تغییر فعال را افزایش می‌دهد. وقتی یک مقدار <code>Ref&lt;T&gt;</code> از دامنه
+خارج می‌شود، شمارش وام‌دهی‌های غیرقابل‌تغییر یک عدد کاهش می‌یابد. دقیقاً مثل قوانین
+وام‌دهی در زمان کامپایل، <code>RefCell&lt;T&gt;</code> به ما اجازه می‌دهد که در هر لحظه تعداد زیادی
+وام‌دهی غیرقابل‌تغییر یا یک وام‌دهی قابل‌تغییر داشته باشیم.</p>
+<p>اگر سعی کنیم این قوانین را نقض کنیم، به جای دریافت یک خطای کامپایل مثل ارجاع‌ها،
+پیاده‌سازی <code>RefCell&lt;T&gt;</code> در زمان اجرا دچار وحشت (panic) خواهد شد. فهرست 15-23
+اصلاحی از پیاده‌سازی متد <code>send</code> در فهرست 15-22 را نشان می‌دهد. ما به عمد سعی داریم
+دو وام‌دهی قابل‌تغییر در یک دامنه ایجاد کنیم تا نشان دهیم <code>RefCell&lt;T&gt;</code> از انجام
+این کار در زمان اجرا جلوگیری می‌کند.</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore panics"><span class="boring">pub trait Messenger {
@@ -670,13 +664,13 @@ at runtime.</p>
 </span><span class="boring">        assert_eq!(mock_messenger.sent_messages.borrow().len(), 1);
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 15-23: Creating two mutable references in the same scope to see that <code>RefCell&lt;T&gt;</code> will panic</figcaption>
+<figcaption>Listing 15-23: ایجاد دو ارجاع متغیر در یک دامنه برای دیدن اینکه <code>RefCell&lt;T&gt;</code> وحشت خواهد کرد</figcaption>
 </figure>
-<p>We create a variable <code>one_borrow</code> for the <code>RefMut&lt;T&gt;</code> smart pointer returned
-from <code>borrow_mut</code>. Then we create another mutable borrow in the same way in the
-variable <code>two_borrow</code>. This makes two mutable references in the same scope,
-which isn’t allowed. When we run the tests for our library, the code in Listing
-15-23 will compile without any errors, but the test will fail:</p>
+<p>ما یک متغیر به نام <code>one_borrow</code> برای اسمارت پوینتر <code>RefMut&lt;T&gt;</code> که از <code>borrow_mut</code>
+بازگردانده شده است، ایجاد می‌کنیم. سپس یک وام‌دهی متغیر دیگر به همان روش در
+متغیر <code>two_borrow</code> ایجاد می‌کنیم. این کار دو ارجاع متغیر در یک دامنه ایجاد می‌کند،
+که مجاز نیست. هنگامی که تست‌ها را برای کتابخانه خود اجرا می‌کنیم، کد در فهرست
+15-23 بدون هیچ خطایی کامپایل می‌شود، اما تست شکست خواهد خورد:</p>
 <pre><code class="language-console">$ cargo test
    Compiling limit-tracker v0.1.0 (file:///projects/limit-tracker)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.91s
@@ -700,30 +694,32 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; 
 
 error: test failed, to rerun pass `--lib`
 </code></pre>
-<p>Notice that the code panicked with the message <code>already borrowed: BorrowMutError</code>. This is how <code>RefCell&lt;T&gt;</code> handles violations of the borrowing
-rules at runtime.</p>
-<p>Choosing to catch borrowing errors at runtime rather than compile time, as
-we’ve done here, means you’d potentially be finding mistakes in your code later
-in the development process: possibly not until your code was deployed to
-production. Also, your code would incur a small runtime performance penalty as
-a result of keeping track of the borrows at runtime rather than compile time.
-However, using <code>RefCell&lt;T&gt;</code> makes it possible to write a mock object that can
-modify itself to keep track of the messages it has seen while you’re using it
-in a context where only immutable values are allowed. You can use <code>RefCell&lt;T&gt;</code>
-despite its trade-offs to get more functionality than regular references
-provide.</p>
-<h3 id="having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt"><a class="header" href="#having-multiple-owners-of-mutable-data-by-combining-rct-and-refcellt">Having Multiple Owners of Mutable Data by Combining <code>Rc&lt;T&gt;</code> and <code>RefCell&lt;T&gt;</code></a></h3>
-<p>A common way to use <code>RefCell&lt;T&gt;</code> is in combination with <code>Rc&lt;T&gt;</code>. Recall that
-<code>Rc&lt;T&gt;</code> lets you have multiple owners of some data, but it only gives immutable
-access to that data. If you have an <code>Rc&lt;T&gt;</code> that holds a <code>RefCell&lt;T&gt;</code>, you can
-get a value that can have multiple owners <em>and</em> that you can mutate!</p>
-<p>For example, recall the cons list example in Listing 15-18 where we used
-<code>Rc&lt;T&gt;</code> to allow multiple lists to share ownership of another list. Because
-<code>Rc&lt;T&gt;</code> holds only immutable values, we can’t change any of the values in the
-list once we’ve created them. Let’s add in <code>RefCell&lt;T&gt;</code> to gain the ability to
-change the values in the lists. Listing 15-24 shows that by using a
-<code>RefCell&lt;T&gt;</code> in the <code>Cons</code> definition, we can modify the value stored in all
-the lists:</p>
+<p>توجه داشته باشید که کد با پیام <code>already borrowed: BorrowMutError</code> دچار وحشت
+(panic) شد. این نحوه عملکرد <code>RefCell&lt;T&gt;</code> برای مدیریت نقض قوانین وام‌دهی در زمان
+اجرا است.</p>
+<p>انتخاب اینکه خطاهای وام‌دهی در زمان اجرا و نه در زمان کامپایل بررسی شوند، همانطور
+که در اینجا انجام دادیم، به این معنا است که ممکن است اشتباهات در کد شما در مراحل
+بعدی فرآیند توسعه کشف شوند: شاید حتی تا زمانی که کد شما به محیط تولید
+(production) استقرار یابد. همچنین، کد شما جریمه عملکردی کوچکی را به دلیل پیگیری
+وام‌ها در زمان اجرا به جای زمان کامپایل متحمل خواهد شد. با این حال، استفاده از
+<code>RefCell&lt;T&gt;</code> امکان نوشتن یک شیء Mock را فراهم می‌کند که می‌تواند خود را تغییر
+دهد تا پیام‌هایی که مشاهده کرده است را پیگیری کند، در حالی که شما آن را در یک
+زمینه که تنها مقادیر غیرقابل‌تغییر مجاز هستند استفاده می‌کنید. شما می‌توانید
+با وجود این مبادلات، از <code>RefCell&lt;T&gt;</code> برای دریافت عملکرد بیشتری نسبت به
+ارجاع‌های معمولی استفاده کنید.</p>
+<h3 id="داشتن-چندین-مالک-برای-دادههای-قابلتغییر-با-ترکیب-rct-و-refcellt"><a class="header" href="#داشتن-چندین-مالک-برای-دادههای-قابلتغییر-با-ترکیب-rct-و-refcellt">داشتن چندین مالک برای داده‌های قابل‌تغییر با ترکیب <code>Rc&lt;T&gt;</code> و <code>RefCell&lt;T&gt;</code></a></h3>
+<p>یک روش رایج برای استفاده از <code>RefCell&lt;T&gt;</code> ترکیب آن با <code>Rc&lt;T&gt;</code> است. به خاطر
+بیاورید که <code>Rc&lt;T&gt;</code> به شما اجازه می‌دهد چندین مالک برای برخی داده‌ها داشته
+باشید، اما فقط دسترسی غیرقابل‌تغییر به آن داده‌ها را می‌دهد. اگر یک <code>Rc&lt;T&gt;</code>
+داشته باشید که یک <code>RefCell&lt;T&gt;</code> را نگه می‌دارد، می‌توانید یک مقداری داشته باشید
+که می‌تواند چندین مالک داشته باشد <em>و</em> شما بتوانید آن را تغییر دهید!</p>
+<p>برای مثال، مثال لیست cons در فهرست 15-18 را به خاطر بیاورید که در آن از <code>Rc&lt;T&gt;</code>
+برای اجازه دادن به چندین لیست برای اشتراک مالکیت یک لیست دیگر استفاده کردیم.
+چون <code>Rc&lt;T&gt;</code> تنها مقادیر غیرقابل‌تغییر را نگه می‌دارد، نمی‌توانیم هیچ یک از مقادیر
+در لیست را پس از ایجاد تغییر دهیم. بیایید <code>RefCell&lt;T&gt;</code> را اضافه کنیم تا توانایی
+تغییر مقادیر در لیست‌ها را کسب کنیم. فهرست 15-24 نشان می‌دهد که با استفاده از
+<code>RefCell&lt;T&gt;</code> در تعریف <code>Cons</code>، می‌توانیم مقدار ذخیره‌شده در تمام لیست‌ها را
+تغییر دهیم:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><pre class="playground"><code class="language-rust edition2021">#[derive(Debug)]
@@ -750,25 +746,26 @@ fn main() {
     println!("b after = {b:?}");
     println!("c after = {c:?}");
 }</code></pre></pre>
-<figcaption>Listing 15-24: Using <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> to create a <code>List</code> that we can mutate</figcaption>
+<figcaption>Listing 15-24: استفاده از <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> برای ایجاد یک <code>List</code> که می‌توانیم آن را تغییر دهیم</figcaption>
 </figure>
-<p>We create a value that is an instance of <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> and store it in a
-variable named <code>value</code> so we can access it directly later. Then we create a
-<code>List</code> in <code>a</code> with a <code>Cons</code> variant that holds <code>value</code>. We need to clone
-<code>value</code> so both <code>a</code> and <code>value</code> have ownership of the inner <code>5</code> value rather
-than transferring ownership from <code>value</code> to <code>a</code> or having <code>a</code> borrow from
-<code>value</code>.</p>
-<p>We wrap the list <code>a</code> in an <code>Rc&lt;T&gt;</code> so when we create lists <code>b</code> and <code>c</code>, they
-can both refer to <code>a</code>, which is what we did in Listing 15-18.</p>
-<p>After we’ve created the lists in <code>a</code>, <code>b</code>, and <code>c</code>, we want to add 10 to the
-value in <code>value</code>. We do this by calling <code>borrow_mut</code> on <code>value</code>, which uses the
-automatic dereferencing feature we discussed in Chapter 5 (see the section
-<a href="ch05-03-method-syntax.html#wheres-the---operator">“Where’s the <code>-&gt;</code> Operator?”</a><!-- ignore -->) to
-dereference the <code>Rc&lt;T&gt;</code> to the inner <code>RefCell&lt;T&gt;</code> value. The <code>borrow_mut</code>
-method returns a <code>RefMut&lt;T&gt;</code> smart pointer, and we use the dereference operator
-on it and change the inner value.</p>
-<p>When we print <code>a</code>, <code>b</code>, and <code>c</code>, we can see that they all have the modified
-value of 15 rather than 5:</p>
+<p>ما مقداری که نمونه‌ای از <code>Rc&lt;RefCell&lt;i32&gt;&gt;</code> است ایجاد می‌کنیم و آن را در یک
+متغیر به نام <code>value</code> ذخیره می‌کنیم تا بتوانیم بعداً به طور مستقیم به آن دسترسی
+داشته باشیم. سپس یک <code>List</code> در <code>a</code> با یک متغیر <code>Cons</code> که <code>value</code> را نگه می‌دارد
+ایجاد می‌کنیم. ما نیاز داریم <code>value</code> را کلون کنیم تا هر دو <code>a</code> و <code>value</code> مالک
+مقدار داخلی <code>5</code> باشند، به جای انتقال مالکیت از <code>value</code> به <code>a</code> یا اینکه <code>a</code> از
+<code>value</code> وام بگیرد.</p>
+<p>ما لیست <code>a</code> را در یک <code>Rc&lt;T&gt;</code> می‌پیچیم تا وقتی که لیست‌های <code>b</code> و <code>c</code> را ایجاد
+می‌کنیم، هر دو بتوانند به <code>a</code> ارجاع دهند، که این همان چیزی است که در فهرست 15-18
+انجام دادیم.</p>
+<p>پس از ایجاد لیست‌ها در <code>a</code>، <code>b</code> و <code>c</code>، می‌خواهیم 10 به مقدار درون <code>value</code> اضافه
+کنیم. این کار را با فراخوانی <code>borrow_mut</code> روی <code>value</code> انجام می‌دهیم، که از
+ویژگی بازارجاع خودکار (automatic dereferencing) که در فصل 5 بحث کردیم (به
+بخش <a href="ch05-03-method-syntax.html#wheres-the---operator">«عملگر <code>-&gt;</code> کجاست؟»</a><!-- ignore --> مراجعه کنید)
+برای بازارجاع <code>Rc&lt;T&gt;</code> به مقدار داخلی <code>RefCell&lt;T&gt;</code> استفاده می‌کند. متد
+<code>borrow_mut</code> یک اسمارت پوینتر <code>RefMut&lt;T&gt;</code> برمی‌گرداند، و ما از عملگر بازارجاع
+روی آن استفاده می‌کنیم و مقدار داخلی را تغییر می‌دهیم.</p>
+<p>وقتی <code>a</code>، <code>b</code> و <code>c</code> را چاپ می‌کنیم، می‌بینیم که همه آن‌ها مقدار تغییر‌یافته
+15 به جای 5 را دارند:</p>
 <pre><code class="language-console">$ cargo run
    Compiling cons-list v0.1.0 (file:///projects/cons-list)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.63s
@@ -777,14 +774,14 @@ a after = Cons(RefCell { value: 15 }, Nil)
 b after = Cons(RefCell { value: 3 }, Cons(RefCell { value: 15 }, Nil))
 c after = Cons(RefCell { value: 4 }, Cons(RefCell { value: 15 }, Nil))
 </code></pre>
-<p>This technique is pretty neat! By using <code>RefCell&lt;T&gt;</code>, we have an outwardly
-immutable <code>List</code> value. But we can use the methods on <code>RefCell&lt;T&gt;</code> that provide
-access to its interior mutability so we can modify our data when we need to.
-The runtime checks of the borrowing rules protect us from data races, and it’s
-sometimes worth trading a bit of speed for this flexibility in our data
-structures. Note that <code>RefCell&lt;T&gt;</code> does not work for multithreaded code!
-<code>Mutex&lt;T&gt;</code> is the thread-safe version of <code>RefCell&lt;T&gt;</code> and we’ll discuss
-<code>Mutex&lt;T&gt;</code> in Chapter 16.</p>
+<p>این تکنیک واقعاً جالب است! با استفاده از <code>RefCell&lt;T&gt;</code>، ما یک مقدار <code>List</code> داریم
+که به نظر غیرقابل‌تغییر است. اما می‌توانیم از متدهای موجود در <code>RefCell&lt;T&gt;</code> که
+دسترسی به تغییرپذیری داخلی آن را فراهم می‌کنند استفاده کنیم تا داده‌های خود را
+هر وقت که نیاز داشتیم تغییر دهیم. بررسی‌های زمان اجرا برای قوانین وام‌دهی ما را
+از رقابت‌های داده (data races) محافظت می‌کند، و گاهی اوقات ارزش آن را دارد که
+مقداری سرعت را برای این انعطاف‌پذیری در ساختار داده‌هایمان معامله کنیم. توجه داشته
+باشید که <code>RefCell&lt;T&gt;</code> برای کد چندریسمانی کار نمی‌کند! نسخه امن برای نخ (thread-safe)
+از <code>RefCell&lt;T&gt;</code>، نوع <code>Mutex&lt;T&gt;</code> است که در فصل 16 در مورد آن صحبت خواهیم کرد.</p>
 
                     </main>
 

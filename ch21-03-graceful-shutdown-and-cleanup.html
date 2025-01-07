@@ -292,7 +292,9 @@ error: could not compile `hello` (lib) due to 1 previous error
 <p>بنابراین باید پیاده‌سازی <code>drop</code> در <code>ThreadPool</code> را به این صورت به‌روزرسانی کنیم:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
-<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::{
 </span><span class="boring">    sync::{mpsc, Arc, Mutex},
 </span><span class="boring">    thread,
 </span><span class="boring">};
@@ -365,7 +367,8 @@ error: could not compile `hello` (lib) due to 1 previous error
 </span><span class="boring">
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
-</span><span class="boring">}</span></code></pre>
+</span><span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
 </figure>
 <p>این تغییر خطای کامپایلر را برطرف می‌کند و نیازی به تغییرات دیگر در کد ما ندارد.</p>
 <h3 id="علامتدهی-به-نخها-برای-توقف-گوش-دادن-به-وظایف"><a class="header" href="#علامتدهی-به-نخها-برای-توقف-گوش-دادن-به-وظایف">علامت‌دهی به نخ‌ها برای توقف گوش دادن به وظایف</a></h3>
