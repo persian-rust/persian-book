@@ -224,20 +224,16 @@ error: could not compile `patterns` (bin "patterns") due to 1 previous error
 <span class="boring">}</span></code></pre></pre>
 <figcaption>Listing 19-9: استفاده از <code>if let</code> و یک بلوک با الگوهای قابل‌رد به‌جای <code>let</code></figcaption>
 </figure>
-<p>We’ve given the code an out! This code is perfectly valid now. However,
-if we give <code>if let</code> an irrefutable pattern (a pattern that will always
-match), such as <code>x</code>, as shown in Listing 19-10, the compiler will give a
-warning.</p>
+<p>ما به کد یک مسیر خروجی دادیم! این کد اکنون کاملاً معتبر است. با این حال، اگر به <code>if let</code> یک الگوی غیرقابل‌رد (الگویی که همیشه مطابقت دارد)، مانند <code>x</code>، بدهیم، همان‌طور که در فهرست 19-10 نشان داده شده است، کامپایلر یک هشدار خواهد داد.</p>
 <figure class="listing">
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
 </span>    if let x = 5 {
         println!("{x}");
     };
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 19-10: Attempting to use an irrefutable pattern with <code>if let</code></figcaption>
+<figcaption>Listing 19-10: تلاش برای استفاده از یک الگوی غیرقابل‌رد با <code>if let</code></figcaption>
 </figure>
-<p>Rust complains that it doesn’t make sense to use <code>if let</code> with an irrefutable
-pattern:</p>
+<p>راست شکایت می‌کند که استفاده از <code>if let</code> با یک الگوی غیرقابل‌رد منطقی نیست:</p>
 <pre><code class="language-console">$ cargo run
    Compiling patterns v0.1.0 (file:///projects/patterns)
 warning: irrefutable `if let` pattern
@@ -255,14 +251,8 @@ warning: `patterns` (bin "patterns") generated 1 warning
      Running `target/debug/patterns`
 5
 </code></pre>
-<p>For this reason, match arms must use refutable patterns, except for the last
-arm, which should match any remaining values with an irrefutable pattern. Rust
-allows us to use an irrefutable pattern in a <code>match</code> with only one arm, but
-this syntax isn’t particularly useful and could be replaced with a simpler
-<code>let</code> statement.</p>
-<p>Now that you know where to use patterns and the difference between refutable
-and irrefutable patterns, let’s cover all the syntax we can use to create
-patterns.</p>
+<p>به این دلیل، بازوهای match باید از الگوهای قابل‌رد استفاده کنند، به‌جز بازوی آخر که باید با یک الگوی غیرقابل‌رد هر مقدار باقی‌مانده را مطابقت دهد. راست به ما اجازه می‌دهد از یک الگوی غیرقابل‌رد در یک <code>match</code> با تنها یک بازو استفاده کنیم، اما این نحو به‌ویژه مفید نیست و می‌تواند با یک عبارت ساده‌تر <code>let</code> جایگزین شود.</p>
+<p>اکنون که می‌دانید کجا می‌توان از الگوها استفاده کرد و تفاوت بین الگوهای قابل‌رد و غیرقابل‌رد چیست، بیایید تمام نحوهایی که می‌توانیم برای ایجاد الگوها استفاده کنیم را بررسی کنیم.</p>
 
                     </main>
 
