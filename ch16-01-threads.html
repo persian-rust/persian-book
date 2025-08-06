@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html" class="active"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -182,20 +184,22 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="استفاده-از-نخها-برای-اجرای-همزمان-کد"><a class="header" href="#استفاده-از-نخها-برای-اجرای-همزمان-کد">استفاده از نخ‌ها برای اجرای همزمان کد</a></h2>
-<p>در بیشتر سیستم‌عامل‌های مدرن، کدی که یک برنامه اجرا می‌کند در یک <em>فرایند</em> اجرا می‌شود و سیستم‌عامل به طور همزمان چندین فرایند را مدیریت می‌کند. در یک برنامه، شما همچنین می‌توانید بخش‌های مستقلی داشته باشید که به صورت همزمان اجرا شوند. ویژگی‌هایی که این بخش‌های مستقل را اجرا می‌کنند <em>نخ‌ها</em> نامیده می‌شوند. برای مثال، یک سرور وب می‌تواند چندین نخ داشته باشد تا بتواند به بیش از یک درخواست به طور همزمان پاسخ دهد.</p>
+<p>در اغلب سیستم‌عامل‌های امروزی، کدی که در یک برنامه اجرا می‌شود در قالب یک <em>پروسه (process)</em> اجرا می‌شود، و سیستم‌عامل به‌طور هم‌زمان چندین پروسه را مدیریت می‌کند.<br />
+در درون یک برنامه، می‌توان بخش‌های مستقلی نیز داشت که به‌صورت هم‌زمان اجرا می‌شوند. ویژگی‌هایی که این بخش‌های مستقل را اجرا می‌کنند، <em>ترد (thread)</em> نام دارند.<br />
+برای مثال، یک وب‌سرور می‌تواند چندین ترد داشته باشد تا بتواند هم‌زمان به چندین درخواست پاسخ دهد.</p>
 <p>تقسیم محاسبات در برنامه شما به چندین نخ برای اجرای چندین کار به طور همزمان می‌تواند عملکرد را بهبود بخشد، اما همچنین پیچیدگی را افزایش می‌دهد. از آنجایی که نخ‌ها می‌توانند به طور همزمان اجرا شوند، هیچ تضمینی برای ترتیب اجرای بخش‌های کد در نخ‌های مختلف وجود ندارد. این موضوع می‌تواند به مشکلاتی منجر شود، مانند:</p>
 <ul>
-<li>شرایط رقابتی (Race conditions)، جایی که نخ‌ها داده‌ها یا منابع را به ترتیب ناسازگار دسترسی دارند</li>
-<li>بن‌بست‌ها (Deadlocks)، جایی که دو نخ منتظر یکدیگر هستند و مانع از ادامه کار هر دو نخ می‌شوند</li>
-<li>باگ‌هایی که فقط در شرایط خاص رخ می‌دهند و به سختی قابل بازتولید و رفع هستند</li>
+<li>شرایط رقابتی (Race conditions)، زمانی که تردها به داده‌ها یا منابع به‌صورت نامنظم و ناسازگار دسترسی پیدا می‌کنند</li>
+<li>بن‌بست‌ها (Deadlocks)، زمانی که دو ترد منتظر یکدیگر هستند و هیچ‌کدام نمی‌توانند به اجرای خود ادامه دهند</li>
+<li>باگ‌هایی که تنها در شرایط خاصی رخ می‌دهند و بازتولید و رفع آن‌ها به‌صورت قابل‌اعتماد دشوار است</li>
 </ul>
 <p>Rust تلاش می‌کند اثرات منفی استفاده از نخ‌ها را کاهش دهد، اما برنامه‌نویسی در یک زمینه چندنخی همچنان نیاز به تفکر دقیق و ساختاری متفاوت از برنامه‌های تک‌نخی دارد.</p>
-<p>زبان‌های برنامه‌نویسی نخ‌ها را به چندین روش مختلف پیاده‌سازی می‌کنند و بسیاری از سیستم‌عامل‌ها API‌هایی ارائه می‌دهند که زبان می‌تواند برای ایجاد نخ‌های جدید فراخوانی کند. کتابخانه استاندارد Rust از یک مدل پیاده‌سازی نخ <em>1:1</em> استفاده می‌کند، به این معنا که برنامه یک نخ سیستم‌عامل به ازای هر نخ زبان استفاده می‌کند. جعبه‌ها (crates)یی وجود دارند که مدل‌های دیگر نخ را پیاده‌سازی می‌کنند و مبادله‌های متفاوتی نسبت به مدل 1:1 ارائه می‌دهند. (سیستم async در Rust، که در فصل بعدی آن را خواهیم دید، روش دیگری برای همزمانی ارائه می‌دهد.)</p>
+<p>زبان‌های برنامه‌نویسی، پیاده‌سازی تردها را به روش‌های مختلفی انجام می‌دهند و بسیاری از سیستم‌عامل‌ها یک API برای ایجاد تردهای جدید در اختیار زبان برنامه‌نویسی قرار می‌دهند. کتابخانه استاندارد Rust از مدل پیاده‌سازی ترد <strong>1:1</strong> استفاده می‌کند؛ به‌عبارت دیگر، هر ترد زبان، متناظر با یک ترد سیستم‌عامل است. کتابخانه‌هایی (crate) نیز وجود دارند که مدل‌های دیگری از تردینگ را پیاده‌سازی می‌کنند و نسبت به مدل 1:1، مصالحه‌ها و ویژگی‌های متفاوتی دارند. (سیستم async در Rust، که در فصل بعدی آن را خواهیم دید، نیز رویکردی دیگر برای هم‌زمانی ارائه می‌دهد.)</p>
 <h3 id="ایجاد-یک-نخ-جدید-با-spawn"><a class="header" href="#ایجاد-یک-نخ-جدید-با-spawn">ایجاد یک نخ جدید با <code>spawn</code></a></h3>
-<p>برای ایجاد یک نخ جدید، تابع <code>thread::spawn</code> را فراخوانی می‌کنیم و یک closure (که در فصل 13 در مورد آن صحبت کردیم) شامل کدی که می‌خواهیم در نخ جدید اجرا کنیم، به آن پاس می‌دهیم. مثال در لیستینگ 16-1 متنی را از نخ اصلی و متن دیگری را از یک نخ جدید چاپ می‌کند:</p>
-<figure class="listing">
+<p>برای ایجاد یک ترد جدید، از تابع <code>thread::spawn</code> استفاده می‌کنیم و یک closure (که در فصل ۱۳ درباره آن صحبت کردیم) را به آن می‌دهیم که حاوی کدی است که می‌خواهیم در ترد جدید اجرا شود. مثال موجود در لیستینگ 16-1، متنی را از ترد اصلی چاپ می‌کند و متنی دیگر را از یک ترد جدید.</p>
+<figure class="listing" id="listing-16-1">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -211,7 +215,7 @@ fn main() {
         thread::sleep(Duration::from_millis(1));
     }
 }</code></pre></pre>
-<figcaption>Listing 16-1: ایجاد یک نخ جدید برای چاپ یک چیز در حالی که نخ اصلی چیز دیگری چاپ می‌کند</figcaption>
+<figcaption><a href="#listing-16-1">Listing 16-1</a>: ایجاد یک نخ جدید برای چاپ یک چیز در حالی که نخ اصلی چیز دیگری چاپ می‌کند</figcaption>
 </figure>
 <p>توجه داشته باشید که وقتی نخ اصلی یک برنامه Rust تکمیل می‌شود، تمام نخ‌های ایجادشده متوقف می‌شوند، چه آن‌ها اجرای خود را تکمیل کرده باشند یا نه. خروجی این برنامه ممکن است هر بار کمی متفاوت باشد، اما به صورت مشابه زیر خواهد بود:</p>
 <!-- Not extracting output because changes to this output aren't significant;
@@ -227,14 +231,14 @@ hi number 4 from the main thread!
 hi number 4 from the spawned thread!
 hi number 5 from the spawned thread!
 </code></pre>
-<p>فراخوانی‌های <code>thread::sleep</code> باعث می‌شوند یک نخ اجرای خود را برای مدت کوتاهی متوقف کند و به نخ دیگری اجازه اجرا دهد. احتمالاً نخ‌ها نوبتی اجرا می‌شوند، اما این موضوع تضمین‌شده نیست: به نحوه زمان‌بندی نخ‌ها توسط سیستم‌عامل شما بستگی دارد. در این اجرای برنامه، نخ اصلی ابتدا چاپ کرد، حتی با اینکه دستور چاپ از نخ ایجادشده در کد ابتدا ظاهر می‌شود. و با اینکه به نخ ایجادشده گفتیم تا زمانی که مقدار <code>i</code> به 9 برسد چاپ کند، فقط تا مقدار 5 رسید قبل از اینکه نخ اصلی خاموش شود.</p>
+<p>فراخوانی‌های <code>thread::sleep</code> باعث می‌شوند یک ترد اجرای خود را برای مدت کوتاهی متوقف کند و به ترد دیگری اجازه اجرای کد را بدهد. احتمالاً تردها به نوبت اجرا خواهند شد، اما این موضوع تضمین‌شده نیست: این‌که کدام ترد اجرا شود بستگی به نحوه زمان‌بندی (scheduling) تردها توسط سیستم‌عامل دارد. در این اجرا، ترد اصلی زودتر چاپ کرد، با این‌که دستور چاپ ترد جدید زودتر در کد آمده است. و حتی با این‌که به ترد جدید گفتیم تا زمانی که مقدار <code>i</code> به <code>9</code> برسد چاپ کند، فقط تا مقدار <code>5</code> اجرا شد پیش از آن‌که ترد اصلی متوقف شود.</p>
 <p>اگر این کد را اجرا کردید و فقط خروجی نخ اصلی را دیدید یا هیچ تداخل زمانی مشاهده نکردید، سعی کنید اعداد موجود در بازه‌ها را افزایش دهید تا فرصت بیشتری برای سیستم‌عامل ایجاد شود تا بین نخ‌ها جابه‌جا شود.</p>
 <h3 id="منتظر-ماندن-برای-تکمیل-همه-نخها-با-استفاده-از-join-handles"><a class="header" href="#منتظر-ماندن-برای-تکمیل-همه-نخها-با-استفاده-از-join-handles">منتظر ماندن برای تکمیل همه نخ‌ها با استفاده از <code>join</code> Handles</a></h3>
 <p>کد موجود در لیستینگ 16-1 نه تنها بیشتر اوقات نخ ایجادشده را به دلیل پایان نخ اصلی زودتر از موعد متوقف می‌کند، بلکه به دلیل اینکه هیچ تضمینی برای ترتیب اجرای نخ‌ها وجود ندارد، نمی‌توانیم اطمینان حاصل کنیم که نخ ایجادشده اجرا خواهد شد!</p>
-<p>می‌توانیم مشکل اجرا نشدن یا پایان زودهنگام نخ ایجادشده را با ذخیره مقدار بازگشتی <code>thread::spawn</code> در یک متغیر رفع کنیم. نوع بازگشتی <code>thread::spawn</code> یک <code>JoinHandle</code> است. یک <code>JoinHandle</code> یک مقدار مالکیت‌دار است که وقتی متد <code>join</code> را روی آن فراخوانی می‌کنیم، منتظر می‌ماند تا نخ مرتبط با آن تکمیل شود. لیستینگ 16-2 نشان می‌دهد چگونه از <code>JoinHandle</code> نخ ایجادشده در لیستینگ 16-1 استفاده کنیم و <code>join</code> را فراخوانی کنیم تا مطمئن شویم نخ ایجادشده قبل از خروج <code>main</code> تکمیل می‌شود:</p>
-<figure class="listing">
+<p>ما می‌توانیم مشکل اجرا نشدن ترد جدید یا پایان زودهنگام آن را با ذخیره مقدار بازگشتی <code>thread::spawn</code> در یک متغیر حل کنیم. نوع بازگشتی <code>thread::spawn</code> برابر است با <code>JoinHandle&lt;T&gt;</code>. یک <code>JoinHandle&lt;T&gt;</code> یک مقدار مالک (owned) است که وقتی متد <code>join</code> را روی آن فراخوانی کنیم، منتظر می‌ماند تا اجرای ترد مربوطه به پایان برسد. در فهرست 16-2 نشان داده شده است که چگونه از <code>JoinHandle&lt;T&gt;</code> تردی که در فهرست 16-1 ایجاد کردیم استفاده کنیم و چگونه با فراخوانی <code>join</code> اطمینان حاصل کنیم که ترد جدید پیش از خروج <code>main</code> به پایان می‌رسد.</p>
+<figure class="listing" id="listing-16-2">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -252,7 +256,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre></pre>
-<figcaption>Listing 16-2: ذخیره یک <code>JoinHandle</code> از <code>thread::spawn</code> برای اطمینان از اینکه نخ تا پایان اجرا می‌شود</figcaption>
+<figcaption><a href="#listing-16-2">Listing 16-2</a>: ذخیره یک <code>JoinHandle&lt;T&gt;</code> از <code>thread::spawn</code> برای تضمین اجرای کامل ترد</figcaption>
 </figure>
 <p>فراخوانی <code>join</code> روی handle نخ جاری را مسدود می‌کند تا زمانی که نخ نمایانده‌شده توسط handle خاتمه یابد. <em>مسدود کردن</em> یک نخ به این معناست که آن نخ از انجام کار یا خروج جلوگیری می‌شود. چون فراخوانی <code>join</code> را بعد از حلقه <code>for</code> نخ اصلی قرار داده‌ایم، اجرای لیستینگ 16-2 باید خروجی مشابه زیر تولید کند:</p>
 <pre><code class="language-text">hi number 1 from the main thread!
@@ -273,7 +277,7 @@ hi number 9 from the spawned thread!
 <p>اما بیایید ببینیم چه اتفاقی می‌افتد اگر <code>handle.join()</code> را قبل از حلقه <code>for</code> در <code>main</code> منتقل کنیم، به این صورت:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 use std::time::Duration;
 
 fn main() {
@@ -312,9 +316,9 @@ hi number 4 from the main thread!
 </code></pre>
 <p>جزئیات کوچک، مانند مکان فراخوانی <code>join</code>، می‌توانند بر اینکه نخ‌های شما همزمان اجرا می‌شوند یا خیر تأثیر بگذارند.</p>
 <h3 id="استفاده-از-closureهای-move-با-نخها"><a class="header" href="#استفاده-از-closureهای-move-با-نخها">استفاده از Closureهای <code>move</code> با نخ‌ها</a></h3>
-<p>ما اغلب از کلمه کلیدی <code>move</code> با closureهایی که به <code>thread::spawn</code> پاس داده می‌شوند استفاده می‌کنیم، زیرا این closure سپس مالکیت مقادیری را که از محیط استفاده می‌کند، می‌گیرد و بنابراین مالکیت آن مقادیر را از یک نخ به نخ دیگر منتقل می‌کند. در بخش <a href="ch13-01-closures.html#capturing-references-or-moving-ownership">“گرفتن ارجاع‌ها یا انتقال مالکیت”</a><!-- ignore --> در فصل 13، <code>move</code> را در زمینه closureها مورد بحث قرار دادیم. اکنون بیشتر روی تعامل بین <code>move</code> و <code>thread::spawn</code> تمرکز خواهیم کرد.</p>
-<p>توجه کنید که در لیستینگ 16-1، closureی که به <code>thread::spawn</code> پاس می‌دهیم هیچ آرگومانی نمی‌گیرد: ما از هیچ داده‌ای از نخ اصلی در کد نخ ایجادشده استفاده نمی‌کنیم. برای استفاده از داده‌های نخ اصلی در نخ ایجادشده، closure نخ ایجادشده باید مقادیری که نیاز دارد را بگیرد. لیستینگ 16-3 تلاشی برای ایجاد یک بردار در نخ اصلی و استفاده از آن در نخ ایجادشده را نشان می‌دهد. با این حال، این کد هنوز کار نخواهد کرد، همان‌طور که در لحظه‌ای خواهید دید.</p>
-<figure class="listing">
+<p>ما اغلب از کلمه کلیدی <code>move</code> همراه با closuresهایی که به <code>thread::spawn</code> داده می‌شوند استفاده می‌کنیم، زیرا در این صورت closure مالکیت مقادیری که از محیط استفاده می‌کند را به خود می‌گیرد، و به این ترتیب مالکیت آن مقادیر از یک ترد به ترد دیگر منتقل می‌شود. در بخش <a href="ch13-01-closures.html#capturing-references-or-moving-ownership">«گرفتن رفرنس یا انتقال مالکیت»</a><!-- ignore --> در فصل 13، <code>move</code> را در زمینه‌ی closures بررسی کردیم. اکنون تمرکز بیشتری بر تعامل بین <code>move</code> و <code>thread::spawn</code> خواهیم داشت.</p>
+<p>در فهرست 16-1 توجه کنید که closureیی که به <code>thread::spawn</code> می‌دهیم هیچ آرگومانی نمی‌گیرد: ما در کد ترد ایجاد شده از هیچ داده‌ای از ترد اصلی استفاده نمی‌کنیم. برای استفاده از داده‌های ترد اصلی در ترد جدید، closure در ترد جدید باید مقادیری را که نیاز دارد capture کند. فهرست 16-3 تلاشی را برای ایجاد یک vector در ترد اصلی و استفاده از آن در ترد ایجاد شده نشان می‌دهد. با این حال، همان‌طور که در ادامه خواهید دید، این کد هنوز کار نخواهد کرد.</p>
+<figure class="listing" id="listing-16-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
@@ -327,7 +331,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre>
-<figcaption>Listing 16-3: تلاش برای استفاده از یک بردار ایجادشده توسط نخ اصلی در یک نخ دیگر</figcaption>
+<figcaption><a href="#listing-16-3">Listing 16-3</a>: تلاش برای استفاده از یک بردار ایجادشده توسط نخ اصلی در یک نخ دیگر</figcaption>
 </figure>
 <p>این closure از <code>v</code> استفاده می‌کند، بنابراین <code>v</code> را می‌گیرد و آن را بخشی از محیط closure می‌کند. از آنجا که <code>thread::spawn</code> این closure را در یک نخ جدید اجرا می‌کند، باید بتوانیم به <code>v</code> در داخل آن نخ جدید دسترسی داشته باشیم. اما وقتی این مثال را کامپایل می‌کنیم، خطای زیر را دریافت می‌کنیم:</p>
 <pre><code class="language-console">$ cargo run
@@ -356,9 +360,9 @@ help: to force the closure to take ownership of `v` (and any other referenced va
 For more information about this error, try `rustc --explain E0373`.
 error: could not compile `threads` (bin "threads") due to 1 previous error
 </code></pre>
-<p>Rust به طور <em>استنتاجی</em> تعیین می‌کند که چگونه <code>v</code> را بگیرد، و چون <code>println!</code> فقط به یک ارجاع به <code>v</code> نیاز دارد، closure سعی می‌کند <code>v</code> را قرض بگیرد. با این حال، مشکلی وجود دارد: Rust نمی‌تواند بگوید نخ ایجادشده چه مدت اجرا خواهد شد، بنابراین نمی‌داند که ارجاع به <code>v</code> همیشه معتبر خواهد بود.</p>
-<p>لیستینگ 16-4 سناریویی را ارائه می‌دهد که احتمال بیشتری برای داشتن یک ارجاع نامعتبر به <code>v</code> دارد:</p>
-<figure class="listing">
+<p>زبان Rust به صورت خودکار <em>تشخیص</em> می‌دهد که چگونه باید مقدار <code>v</code> را capture کند، و از آن‌جا که <code>println!</code> تنها به یک رفرنس به <code>v</code> نیاز دارد، closure تلاش می‌کند تا <code>v</code> را قرض بگیرد (borrow کند). اما مشکلی وجود دارد: Rust نمی‌تواند تشخیص دهد که ترد ایجادشده چه مدت اجرا خواهد شد، بنابراین نمی‌داند که آیا رفرنس به <code>v</code> همیشه معتبر خواهد ماند یا نه.</p>
+<p>فهرست 16-4 سناریویی را نشان می‌دهد که احتمال نامعتبر بودن رفرنس به <code>v</code> در آن بیشتر است.</p>
+<figure class="listing" id="listing-16-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::thread;
 
@@ -373,9 +377,9 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre>
-<figcaption>Listing 16-4: یک نخ با closureی که سعی می‌کند یک ارجاع به <code>v</code> را از نخ اصلی که <code>v</code> را حذف می‌کند بگیرد</figcaption>
+<figcaption><a href="#listing-16-4">Listing 16-4</a>: یک نخ با closureی که سعی می‌کند یک ارجاع به <code>v</code> را از نخ اصلی که <code>v</code> را حذف می‌کند بگیرد</figcaption>
 </figure>
-<p>اگر Rust به ما اجازه اجرای این کد را می‌داد، این احتمال وجود داشت که نخ ایجادشده بلافاصله به پس‌زمینه برود بدون اینکه اصلاً اجرا شود. نخ ایجادشده یک ارجاع به <code>v</code> داخل خود دارد، اما نخ اصلی بلافاصله <code>v</code> را حذف می‌کند، با استفاده از تابع <code>drop</code> که در فصل 15 مورد بحث قرار گرفت. سپس، وقتی نخ ایجادشده شروع به اجرا می‌کند، <code>v</code> دیگر معتبر نیست، بنابراین ارجاع به آن نیز نامعتبر است. اوه نه!</p>
+<p>اگر Rust اجازه اجرای این کد را به ما می‌داد، این احتمال وجود داشت که ترد ایجادشده بلافاصله به پس‌زمینه منتقل شود بدون آن‌که اجرا شود. این ترد ایجادشده، یک رفرنس به <code>v</code> در درون خود دارد، اما ترد اصلی بلافاصله <code>v</code> را drop می‌کند، با استفاده از تابع <code>drop</code> که در فصل ۱۵ درباره‌اش صحبت کردیم. سپس، زمانی که ترد ایجادشده شروع به اجرا کند، دیگر <code>v</code> وجود ندارد، بنابراین رفرنسی که به آن اشاره دارد نیز نامعتبر خواهد بود. اوه نه!</p>
 <p>برای رفع خطای کامپایل در لیستینگ 16-3، می‌توانیم از مشاوره پیام خطا استفاده کنیم:</p>
 <!-- manual-regeneration
 after automatic regeneration, look at listings/ch16-fearless-concurrency/listing-16-03/output.txt and copy the relevant part
@@ -385,10 +389,10 @@ after automatic regeneration, look at listings/ch16-fearless-concurrency/listing
 6 |     let handle = thread::spawn(move || {
   |                                ++++
 </code></pre>
-<p>با افزودن کلمه کلیدی <code>move</code> قبل از closure، ما closure را مجبور می‌کنیم که مالکیت مقادیری که استفاده می‌کند را بگیرد، به جای اینکه به Rust اجازه دهیم استنتاج کند که باید مقادیر را قرض بگیرد. تغییرات اعمال‌شده به لیستینگ 16-3 که در لیستینگ 16-5 نشان داده شده است، همان‌طور که انتظار داریم کامپایل و اجرا خواهد شد:</p>
-<figure class="listing">
+<p>با اضافه‌کردن کلمه‌ی کلیدی <code>move</code> قبل از closure، ما closure را مجبور می‌کنیم که مالکیت مقادیری را که استفاده می‌کند، بگیرد، به‌جای آن‌که اجازه دهیم Rust به‌طور ضمنی نتیجه بگیرد که باید آن مقادیر را قرض بگیرد. اصلاحات اعمال‌شده روی Listing 16-3 که در Listing 16-5 نشان داده شده‌اند، همان‌گونه که انتظار داریم کامپایل شده و اجرا خواهند شد.</p>
+<figure class="listing" id="listing-16-5">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::thread;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
 
 fn main() {
     let v = vec![1, 2, 3];
@@ -399,7 +403,7 @@ fn main() {
 
     handle.join().unwrap();
 }</code></pre></pre>
-<figcaption>Listing 16-5: استفاده از کلمه کلیدی <code>move</code> برای مجبور کردن یک closure به گرفتن مالکیت مقادیری که استفاده می‌کند</figcaption>
+<figcaption><a href="#listing-16-5">Listing 16-5</a>: استفاده از کلمه کلیدی <code>move</code> برای مجبور کردن یک closure به گرفتن مالکیت مقادیری که استفاده می‌کند</figcaption>
 </figure>
 <p>ممکن است وسوسه شویم که همین کار را برای رفع کد در لیستینگ 16-4 که نخ اصلی <code>drop</code> را فراخوانی می‌کند با استفاده از یک closure <code>move</code> انجام دهیم. با این حال، این راه‌حل کار نخواهد کرد زیرا آنچه لیستینگ 16-4 تلاش می‌کند انجام دهد به دلیل دیگری مجاز نیست. اگر <code>move</code> را به closure اضافه کنیم، <code>v</code> را به محیط closure منتقل می‌کنیم و دیگر نمی‌توانیم <code>drop</code> را در نخ اصلی روی آن فراخوانی کنیم. در عوض، این خطای کامپایل را دریافت خواهیم کرد:</p>
 <pre><code class="language-console">$ cargo run
@@ -421,8 +425,8 @@ error[E0382]: use of moved value: `v`
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `threads` (bin "threads") due to 1 previous error
 </code></pre>
-<p>قوانین مالکیت Rust دوباره ما را نجات دادند! ما از کد موجود در لیستینگ 16-3 خطا گرفتیم زیرا Rust محافظه‌کار بود و فقط <code>v</code> را برای نخ قرض گرفت، که به این معنا بود که نخ اصلی می‌توانست به‌صورت نظری مرجع نخ ایجادشده را نامعتبر کند. با گفتن به Rust که مالکیت <code>v</code> را به نخ ایجادشده منتقل کند، ما به Rust تضمین می‌دهیم که نخ اصلی دیگر از <code>v</code> استفاده نخواهد کرد. اگر لیستینگ 16-4 را به همان روش تغییر دهیم، آنگاه هنگام تلاش برای استفاده از <code>v</code> در نخ اصلی، قوانین مالکیت را نقض می‌کنیم. کلمه کلیدی <code>move</code> رفتار محافظه‌کارانه پیش‌فرض Rust در قرض‌گیری را لغو می‌کند؛ اما اجازه نمی‌دهد قوانین مالکیت را نقض کنیم.</p>
-<p>با داشتن درک اولیه‌ای از نخ‌ها و API مربوط به نخ‌ها، بیایید ببینیم که با نخ‌ها چه کاری می‌توانیم <em>انجام دهیم</em>.</p>
+<p>قوانین مالکیت Rust باز هم ما را نجات دادند! در کد موجود در Listing 16-3 خطا دریافت کردیم، زیرا Rust به‌صورت محافظه‌کارانه عمل کرده و تنها <code>v</code> را برای thread قرض گرفته بود، که این یعنی thread اصلی می‌توانست به‌طور نظری رفرنسی که thread ایجادشده به آن نیاز دارد را نامعتبر کند. با گفتن این موضوع به Rust که مالکیت <code>v</code> را به thread جدید منتقل کند (<code>move</code>)، ما این تضمین را به Rust می‌دهیم که thread اصلی دیگر از <code>v</code> استفاده نخواهد کرد. اگر Listing 16-4 را هم به همین شکل تغییر دهیم، در واقع داریم قوانین مالکیت را با تلاش برای استفاده از <code>v</code> در thread اصلی نقض می‌کنیم. کلمه‌ی کلیدی <code>move</code> رفتار پیش‌فرض محافظه‌کارانه‌ی Rust را که قرض‌گیری است، لغو می‌کند؛ اما اجازه نمی‌دهد قوانین مالکیت را زیر پا بگذاریم.</p>
+<p>اکنون که درک خوبی از چیستی threadها و متدهای ارائه‌شده توسط API مربوط به thread داریم، بیایید به بررسی برخی موقعیت‌ها بپردازیم که می‌توانیم در آن‌ها از threadها استفاده کنیم.</p>
 
                     </main>
 
@@ -453,6 +457,22 @@ error: could not compile `threads` (bin "threads") due to 1 previous error
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -471,6 +491,7 @@ error: could not compile `threads` (bin "threads") due to 1 previous error
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

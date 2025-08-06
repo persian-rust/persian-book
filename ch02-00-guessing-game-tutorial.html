@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html" class="active"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -195,19 +197,19 @@ $ cd guessing_game
 <pre><code class="language-toml">[package]
 name = "guessing_game"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 </code></pre>
 <p>همان‌طور که در فصل 1 دیدید، <code>cargo new</code> یک برنامه “Hello, world!” برای شما تولید می‌کند. فایل <em>src/main.rs</em> را بررسی کنید:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     println!("Hello, world!");
 }</code></pre></pre>
 <p>حالا این برنامه “Hello, world!” را کامپایل کرده و در همان مرحله با استفاده از دستور <code>cargo run</code> اجرا کنید:</p>
 <pre><code class="language-console">$ cargo run
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
      Running `target/debug/guessing_game`
 Hello, world!
 </code></pre>
@@ -215,7 +217,7 @@ Hello, world!
 <p>فایل <em>src/main.rs</em> را دوباره باز کنید. شما تمام کد را در این فایل خواهید نوشت.</p>
 <h2 id="پردازش-یک-حدس"><a class="header" href="#پردازش-یک-حدس">پردازش یک حدس</a></h2>
 <p>اولین بخش از برنامه بازی حدس زدن از کاربر درخواست ورودی می‌کند، آن ورودی را پردازش می‌کند و بررسی می‌کند که ورودی در قالب مورد انتظار باشد. برای شروع، به بازیکن اجازه می‌دهیم یک حدس وارد کند. کد موجود در لیستینگ 2-1 را در فایل <em>src/main.rs</em> وارد کنید.</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-1">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::io;
 
@@ -230,9 +232,9 @@ fn main() {
         .read_line(&amp;mut guess)
         .expect("Failed to read line");
 
-    println!("You guessed: {}", guess);
+    println!("You guessed: {guess}");
 }</code></pre>
-<figcaption>Listing 2-1: کدی که یک حدس از کاربر دریافت کرده و آن را چاپ می‌کند</figcaption>
+<figcaption><a href="#listing-2-1">Listing 2-1</a>: کدی که یک حدس از کاربر دریافت کرده و آن را چاپ می‌کند</figcaption>
 </figure>
 <p>این کد اطلاعات زیادی دارد، پس بیایید خط به خط آن را بررسی کنیم. برای گرفتن ورودی کاربر و سپس چاپ نتیجه به‌عنوان خروجی، نیاز داریم که کتابخانه ورودی/خروجی <code>io</code> را به دامنه بیاوریم. کتابخانه <code>io</code> از کتابخانه استاندارد که با نام <code>std</code> شناخته می‌شود، می‌آید:</p>
 <pre><code class="language-rust ignore">use std::io;
@@ -248,7 +250,7 @@ fn main() {
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>به‌طور پیش‌فرض، Rust مجموعه‌ای از آیتم‌ها را که در کتابخانه استاندارد تعریف شده‌اند به دامنه هر برنامه وارد می‌کند. این مجموعه <em>prelude</em> نامیده می‌شود و می‌توانید همه چیز در آن را <a href="https://doc.rust-lang.org/std/prelude/index.html">در مستندات کتابخانه استاندارد</a> ببینید.</p>
 <p>اگر نوعی که می‌خواهید استفاده کنید در prelude نباشد، باید آن نوع را به‌طور صریح با یک دستور <code>use</code> به دامنه بیاورید. استفاده از کتابخانه <code>std::io</code> به شما ویژگی‌های مفیدی مانند امکان پذیرش ورودی کاربر می‌دهد.</p>
@@ -266,7 +268,7 @@ fn main() {
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>نحو <code>fn</code> یک تابع جدید را اعلام می‌کند؛ پرانتزها <code>()</code> نشان می‌دهند که هیچ پارامتری وجود ندارد و کروشه باز <code>{</code> بدنه تابع را شروع می‌کند.</p>
 <p>همچنین در فصل 1 آموختید که <code>println!</code> یک ماکرو است که یک رشته را به صفحه چاپ می‌کند:</p>
@@ -283,7 +285,7 @@ fn main() {
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>این کد یک پیغام اعلام می‌کند که بازی چیست و از کاربر درخواست ورودی می‌کند.</p>
 <h3 id="ذخیره-مقادیر-با-متغیرها"><a class="header" href="#ذخیره-مقادیر-با-متغیرها">ذخیره مقادیر با متغیرها</a></h3>
@@ -301,7 +303,7 @@ fn main() {
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>حالا برنامه جالب‌تر می‌شود! در این خط کوچک چیزهای زیادی در حال اتفاق است. ما از دستور <code>let</code> برای ایجاد متغیر استفاده می‌کنیم. در اینجا یک مثال دیگر آورده شده است:</p>
 <pre><code class="language-rust ignore">let apples = 5;</code></pre>
@@ -329,9 +331,15 @@ let mut bananas = 5; // mutable</code></pre>
         .read_line(&amp;mut guess)
 <span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
-<p>اگر کتابخانه <code>io</code> را با <code>use std::io;</code> در ابتدای برنامه وارد نکرده بودیم، همچنان می‌توانستیم تابع را با نوشتن <code>std::io::stdin</code> فراخوانی کنیم. تابع <code>stdin</code> یک نمونه از نوع <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html"><code>std::io::Stdin</code></a><!-- ignore --> بازمی‌گرداند که یک نوع برای مدیریت ورودی استاندارد ترمینال شما است.</p>
+<p>اگر ماژول <code>io</code> را با دستور <code>use std::io;</code>
+در ابتدای برنامه وارد نکرده بودیم، همچنان
+می‌توانستیم از این تابع استفاده کنیم، به این شکل
+که آن را به‌صورت <code>std::io::stdin</code> فراخوانی کنیم.
+تابع <code>stdin</code> نمونه‌ای از <a href="https://doc.rust-lang.org/std/io/struct.Stdin.html"><code>std::io::Stdin</code></a>
+بازمی‌گرداند، که نوعی است برای نمایش یک
+دسته (handle) به ورودی استاندارد ترمینال شما.</p>
 <p>در خط بعدی، متد <code>.read_line(&amp;mut guess)</code> را روی handle ورودی استاندارد فراخوانی می‌کنیم تا ورودی کاربر را دریافت کنیم. همچنین <code>&amp;mut guess</code> را به‌عنوان آرگومان به <code>read_line</code> ارسال می‌کنیم تا به آن بگوییم ورودی کاربر را در چه رشته‌ای ذخیره کند. وظیفه کامل <code>read_line</code> این است که هر چیزی را که کاربر در ورودی استاندارد تایپ می‌کند به رشته‌ای اضافه کند (بدون بازنویسی محتوای آن)، بنابراین این رشته را به‌عنوان آرگومان ارسال می‌کنیم. آرگومان رشته باید تغییرپذیر باشد تا متد بتواند محتوای رشته را تغییر دهد.</p>
 <p>علامت <code>&amp;</code> نشان می‌دهد که این آرگومان یک <em>ارجاع</em> است، که به شما راهی می‌دهد تا به چندین بخش از کد اجازه دهید به یک قطعه داده دسترسی داشته باشند بدون اینکه نیاز به کپی کردن آن داده در حافظه چندین بار داشته باشید. ارجاعات یک ویژگی پیچیده هستند و یکی از مزایای اصلی Rust این است که استفاده از ارجاعات ایمن و آسان است. نیازی نیست جزئیات زیادی درباره آن بدانید تا این برنامه را کامل کنید. فعلاً، تنها چیزی که باید بدانید این است که، مانند متغیرها، ارجاعات به‌طور پیش‌فرض غیرقابل تغییر هستند. بنابراین، باید <code>&amp;mut guess</code> بنویسید به‌جای <code>&amp;guess</code> تا آن را تغییرپذیر کنید. (فصل 4 ارجاعات را به‌طور کامل توضیح خواهد داد.)</p>
 <h3 id="مدیریت-خطای-احتمالی-با-result"><a class="header" href="#مدیریت-خطای-احتمالی-با-result">مدیریت خطای احتمالی با <code>Result</code></a></h3>
@@ -349,7 +357,7 @@ let mut bananas = 5; // mutable</code></pre>
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span>        .expect("Failed to read line");
 <span class="boring">
-</span><span class="boring">    println!("You guessed: {}", guess);
+</span><span class="boring">    println!("You guessed: {guess}");
 </span><span class="boring">}</span></code></pre>
 <p>ما می‌توانستیم این کد را به این صورت بنویسیم:</p>
 <pre><code class="language-rust ignore">io::stdin().read_line(&amp;mut guess).expect("Failed to read line");</code></pre>
@@ -394,10 +402,10 @@ warning: `guessing_game` (bin "guessing_game") generated 1 warning
 </span><span class="boring">        .read_line(&amp;mut guess)
 </span><span class="boring">        .expect("Failed to read line");
 </span><span class="boring">
-</span>    println!("You guessed: {}", guess);
+</span>    println!("You guessed: {guess}");
 <span class="boring">}</span></code></pre>
 <p>این خط رشته‌ای را که اکنون ورودی کاربر را در خود دارد چاپ می‌کند. مجموعه <code>{}</code> از کروشه‌های باز و بسته یک جای‌نگهدار است: به <code>{}</code> به‌عنوان پنجه‌های کوچک خرچنگی فکر کنید که یک مقدار را در جای خود نگه می‌دارند. هنگام چاپ مقدار یک متغیر، نام متغیر می‌تواند داخل کروشه‌ها قرار گیرد. هنگام چاپ نتیجه ارزیابی یک عبارت، کروشه‌های باز و بسته خالی را در رشته فرمت قرار دهید، سپس رشته فرمت را با لیستی از عبارات جداشده با کاما دنبال کنید تا در هر جای‌نگهدار خالی به همان ترتیب چاپ شوند. چاپ یک متغیر و نتیجه یک عبارت در یک فراخوانی <code>println!</code> به این صورت خواهد بود:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let x = 5;
 let y = 10;
@@ -434,33 +442,29 @@ cd listings/ch02-guessing-game-tutorial/listing-02-02/
 rm Cargo.lock
 cargo clean
 cargo build -->
-<figure class="listing">
+<figure class="listing" id="listing-2-2">
 <pre><code class="language-console">$ cargo build
-    Updating crates.io index
-     Locking 16 packages to latest compatible versions
-      Adding wasi v0.11.0+wasi-snapshot-preview1 (latest: v0.13.3+wasi-0.2.2)
-      Adding zerocopy v0.7.35 (latest: v0.8.9)
-      Adding zerocopy-derive v0.7.35 (latest: v0.8.9)
-  Downloaded syn v2.0.87
-  Downloaded 1 crate (278.1 KB) in 0.16s
-   Compiling proc-macro2 v1.0.89
-   Compiling unicode-ident v1.0.13
-   Compiling libc v0.2.161
-   Compiling cfg-if v1.0.0
-   Compiling byteorder v1.5.0
-   Compiling getrandom v0.2.15
-   Compiling rand_core v0.6.4
-   Compiling quote v1.0.37
-   Compiling syn v2.0.87
-   Compiling zerocopy-derive v0.7.35
-   Compiling zerocopy v0.7.35
-   Compiling ppv-lite86 v0.2.20
-   Compiling rand_chacha v0.3.1
-   Compiling rand v0.8.5
-   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.69s
+  Updating crates.io index
+   Locking 15 packages to latest Rust 1.85.0 compatible versions
+    Adding rand v0.8.5 (available: v0.9.0)
+ Compiling proc-macro2 v1.0.93
+ Compiling unicode-ident v1.0.17
+ Compiling libc v0.2.170
+ Compiling cfg-if v1.0.0
+ Compiling byteorder v1.5.0
+ Compiling getrandom v0.2.15
+ Compiling rand_core v0.6.4
+ Compiling quote v1.0.38
+ Compiling syn v2.0.98
+ Compiling zerocopy-derive v0.7.35
+ Compiling zerocopy v0.7.35
+ Compiling ppv-lite86 v0.2.20
+ Compiling rand_chacha v0.3.1
+ Compiling rand v0.8.5
+ Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+  Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.48s
 </code></pre>
-<figcaption>Listing 2-2: خروجی اجرای <code>cargo build</code> پس از افزودن crate rand به عنوان وابستگی</figcaption>
+<figcaption><a href="#listing-2-2">Listing 2-2</a>: خروجی اجرای <code>cargo build</code> پس از افزودن crate rand به عنوان وابستگی</figcaption>
 </figure>
 <p>ممکن است نسخه‌های متفاوتی را ببینید (اما همه آن‌ها با کد سازگار خواهند بود، به لطف SemVer!) و خطوط متفاوتی (بسته به سیستم‌عامل) داشته باشید، و این خطوط ممکن است به ترتیب متفاوتی ظاهر شوند.</p>
 <p>وقتی یک وابستگی خارجی اضافه می‌کنیم، Cargo جدیدترین نسخه‌های هر چیزی که آن وابستگی نیاز دارد را از <em>رجیستری</em> دریافت می‌کند، که یک کپی از داده‌های <a href="https://crates.io/">Crates.io</a> است. Crates.io جایی است که افراد در اکوسیستم Rust پروژه‌های منبع‌باز Rust خود را برای استفاده دیگران ارسال می‌کنند.</p>
@@ -479,7 +483,8 @@ cargo build -->
 <p>وقتی <em>می‌خواهید</em> یک crate را به‌روزرسانی کنید، Cargo دستور <code>update</code> را فراهم می‌کند که فایل <em>Cargo.lock</em> را نادیده می‌گیرد و تمام نسخه‌های جدیدی که با مشخصات شما در فایل <em>Cargo.toml</em> سازگار هستند را پیدا می‌کند. سپس Cargo آن نسخه‌ها را به فایل <em>Cargo.lock</em> می‌نویسد. در این مورد، Cargo تنها به دنبال نسخه‌هایی می‌گردد که بالاتر از 0.8.5 و کمتر از 0.9.0 باشند. اگر crate <code>rand</code> دو نسخه جدید 0.8.6 و 0.9.0 را منتشر کرده باشد، با اجرای <code>cargo update</code> چنین چیزی را خواهید دید:</p>
 <pre><code class="language-console">$ cargo update
     Updating crates.io index
-    Updating rand v0.8.5 -&gt; v0.8.6
+     Locking 1 package to latest Rust 1.85.0 compatible version
+    Updating rand v0.8.5 -&gt; v0.8.6 (available: v0.9.0)
 </code></pre>
 <p>Cargo نسخه 0.9.0 را نادیده می‌گیرد. در این مرحله، شما همچنین تغییری در فایل <em>Cargo.lock</em> مشاهده می‌کنید که نشان می‌دهد نسخه crate <code>rand</code> که اکنون استفاده می‌کنید 0.8.6 است. برای استفاده از نسخه 0.9.0 <code>rand</code> یا هر نسخه‌ای در سری 0.9.<em>x</em>، باید فایل <em>Cargo.toml</em> را به این شکل تغییر دهید:</p>
 <pre><code class="language-toml">[dependencies]
@@ -489,9 +494,10 @@ rand = "0.9.0"
 <p>چیزهای بیشتری درباره <a href="https://doc.rust-lang.org/cargo/">Cargo</a><!-- ignore --> و <a href="https://doc.rust-lang.org/cargo/reference/publishing.html">اکوسیستم آن</a><!-- ignore --> وجود دارد که در فصل 14 بحث خواهیم کرد، اما فعلاً این تمام چیزی است که باید بدانید. Cargo استفاده از کتابخانه‌ها را بسیار آسان می‌کند، بنابراین Rustaceans می‌توانند پروژه‌های کوچک‌تری بنویسند که از تعدادی بسته تشکیل شده‌اند.</p>
 <h3 id="تولید-یک-عدد-تصادفی"><a class="header" href="#تولید-یک-عدد-تصادفی">تولید یک عدد تصادفی</a></h3>
 <p>بیایید استفاده از <code>rand</code> را برای تولید یک عدد برای حدس زدن شروع کنیم. مرحله بعد به‌روزرسانی فایل <em>src/main.rs</em> است، همان‌طور که در لیستینگ 2-3 نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-3">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::io;
+
 use rand::Rng;
 
 fn main() {
@@ -511,7 +517,7 @@ fn main() {
 
     println!("You guessed: {guess}");
 }</code></pre>
-<figcaption>Listing 2-3: اضافه کردن کدی برای تولید یک عدد تصادفی</figcaption>
+<figcaption><a href="#listing-2-3">Listing 2-3</a>: اضافه کردن کدی برای تولید یک عدد تصادفی</figcaption>
 </figure>
 <p>ابتدا خط <code>use rand::Rng;</code> را اضافه می‌کنیم. صفت (trait) <code>Rng</code> متدهایی را تعریف می‌کند که تولیدکنندگان اعداد تصادفی پیاده‌سازی می‌کنند، و این صفت باید در دامنه باشد تا بتوانیم از آن متدها استفاده کنیم. فصل 10 به‌طور مفصل به بررسی صفت‌ها خواهد پرداخت.</p>
 <p>سپس دو خط در وسط اضافه می‌کنیم. در خط اول، تابع <code>rand::thread_rng</code> را فراخوانی می‌کنیم که تولیدکننده اعداد تصادفی خاصی را که می‌خواهیم استفاده کنیم به ما می‌دهد: تولیدکننده‌ای که محلی برای نخ فعلی اجرا است و توسط سیستم‌عامل seed می‌شود. سپس متد <code>gen_range</code> را روی تولیدکننده اعداد تصادفی فراخوانی می‌کنیم. این متد توسط صفت <code>Rng</code> که با دستور <code>use rand::Rng;</code> وارد دامنه کردیم، تعریف شده است. متد <code>gen_range</code> یک عبارت بازه‌ای را به‌عنوان آرگومان می‌گیرد و یک عدد تصادفی در آن بازه تولید می‌کند. نوع عبارت بازه‌ای که در اینجا استفاده می‌کنیم به صورت <code>start..=end</code> است و شامل حد پایین و بالا می‌شود، بنابراین باید <code>1..=100</code> را مشخص کنیم تا عددی بین 1 تا 100 درخواست کنیم.</p>
@@ -549,11 +555,12 @@ You guessed: 5
 <p>شما باید اعداد تصادفی متفاوتی دریافت کنید و تمام آن‌ها باید بین 1 تا 100 باشند. عالی!</p>
 <h2 id="مقایسه-حدس-با-عدد-مخفی"><a class="header" href="#مقایسه-حدس-با-عدد-مخفی">مقایسه حدس با عدد مخفی</a></h2>
 <p>حالا که ورودی کاربر و یک عدد تصادفی داریم، می‌توانیم آن‌ها را مقایسه کنیم. این مرحله در لیستینگ 2-4 نشان داده شده است. توجه داشته باشید که این کد هنوز کامپایل نخواهد شد، همان‌طور که توضیح خواهیم داد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-4">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore does_not_compile">use rand::Rng;
-use std::cmp::Ordering;
+<pre><code class="language-rust ignore does_not_compile">use std::cmp::Ordering;
 use std::io;
+
+use rand::Rng;
 
 fn main() {
     // --snip--
@@ -579,7 +586,7 @@ fn main() {
         Ordering::Equal =&gt; println!("You win!"),
     }
 }</code></pre>
-<figcaption>Listing 2-4: مدیریت مقادیر بازگشتی ممکن از مقایسه دو عدد</figcaption>
+<figcaption><a href="#listing-2-4">Listing 2-4</a>: مدیریت مقادیر بازگشتی ممکن از مقایسه دو عدد</figcaption>
 </figure>
 <p>ابتدا یک دستور <code>use</code> دیگر اضافه می‌کنیم تا نوعی به نام <code>std::cmp::Ordering</code> را از کتابخانه استاندارد وارد دامنه کنیم. نوع <code>Ordering</code> یک enum دیگر است و دارای متغیرهای <code>Less</code>، <code>Greater</code> و <code>Equal</code> است. این‌ها سه نتیجه ممکن هنگام مقایسه دو مقدار هستند.</p>
 <p>سپس پنج خط جدید در انتهای کد اضافه می‌کنیم که از نوع <code>Ordering</code> استفاده می‌کنند. متد <code>cmp</code> دو مقدار را مقایسه می‌کند و می‌تواند روی هر چیزی که قابل مقایسه باشد فراخوانی شود. این متد یک ارجاع به مقداری که می‌خواهید مقایسه کنید می‌گیرد: در اینجا مقایسه بین <code>guess</code> و <code>secret_number</code> است. سپس یکی از متغیرهای enum <code>Ordering</code> که با دستور <code>use</code> به دامنه آوردیم را بازمی‌گرداند. از یک عبارت <a href="ch06-02-match.html"><code>match</code></a><!-- ignore --> برای تصمیم‌گیری در مورد اقدام بعدی بر اساس اینکه کدام متغیر <code>Ordering</code> از فراخوانی <code>cmp</code> با مقادیر <code>guess</code> و <code>secret_number</code> بازگشته است استفاده می‌کنیم.</p>
@@ -601,20 +608,17 @@ anchor or snip comments
    Compiling rand v0.8.5
    Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
 error[E0308]: mismatched types
-   --&gt; src/main.rs:22:21
-    |
-22  |     match guess.cmp(&amp;secret_number) {
-    |                 --- ^^^^^^^^^^^^^^ expected `&amp;String`, found `&amp;{integer}`
-    |                 |
-    |                 arguments to this method are incorrect
-    |
-    = note: expected reference `&amp;String`
-               found reference `&amp;{integer}`
+  --&gt; src/main.rs:23:21
+   |
+23 |     match guess.cmp(&amp;secret_number) {
+   |                 --- ^^^^^^^^^^^^^^ expected `&amp;String`, found `&amp;{integer}`
+   |                 |
+   |                 arguments to this method are incorrect
+   |
+   = note: expected reference `&amp;String`
+              found reference `&amp;{integer}`
 note: method defined here
-   --&gt; file:///home/.rustup/toolchains/1.82/lib/rustlib/src/rust/library/core/src/cmp.rs:838:8
-    |
-838 |     fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering;
-    |        ^^^
+  --&gt; /rustc/4eb161250e340c8f48f66e2b929ef4a5bed7c181/library/core/src/cmp.rs:964:8
 
 For more information about this error, try `rustc --explain E0308`.
 error: could not compile `guessing_game` (bin "guessing_game") due to 1 previous error
@@ -622,9 +626,10 @@ error: could not compile `guessing_game` (bin "guessing_game") due to 1 previous
 <p>هسته خطا بیان می‌کند که <em>انواع ناسازگار</em> وجود دارند. Rust دارای یک سیستم نوع قوی و ایستا است. با این حال، همچنین دارای استنباط نوع است. وقتی <code>let mut guess = String::new()</code> نوشتیم، Rust توانست استنباط کند که <code>guess</code> باید یک <code>String</code> باشد و نیازی نبود که نوع را به‌صورت صریح بنویسیم. از طرف دیگر، <code>secret_number</code> یک نوع عددی است. چند نوع عددی در Rust می‌توانند مقداری بین 1 و 100 داشته باشند: <code>i32</code>، یک عدد 32 بیتی؛ <code>u32</code>، یک عدد بدون علامت 32 بیتی؛ <code>i64</code>، یک عدد 64 بیتی؛ و دیگران. مگر اینکه خلاف آن مشخص شده باشد، Rust به‌طور پیش‌فرض از <code>i32</code> استفاده می‌کند، که نوع <code>secret_number</code> است مگر اینکه اطلاعات نوع دیگری اضافه کنید که باعث شود Rust نوع عددی دیگری را استنباط کند. دلیل خطا این است که Rust نمی‌تواند یک رشته و یک نوع عددی را مقایسه کند.</p>
 <p>در نهایت، می‌خواهیم <code>String</code> که برنامه به‌عنوان ورودی می‌خواند را به یک نوع عددی تبدیل کنیم تا بتوانیم آن را به‌صورت عددی با عدد مخفی مقایسه کنیم. این کار را با اضافه کردن این خط به بدنه تابع <code>main</code> انجام می‌دهیم:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -682,9 +687,10 @@ Too big!
 <h2 id="اجازه-دادن-به-چندین-حدس-با-استفاده-از-حلقه"><a class="header" href="#اجازه-دادن-به-چندین-حدس-با-استفاده-از-حلقه">اجازه دادن به چندین حدس با استفاده از حلقه</a></h2>
 <p>کلمه کلیدی <code>loop</code> یک حلقه بی‌نهایت ایجاد می‌کند. ما یک حلقه اضافه می‌کنیم تا به کاربران فرصت‌های بیشتری برای حدس زدن عدد بدهیم:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -749,16 +755,19 @@ You guessed: 59
 You win!
 Please input your guess.
 quit
-thread 'main' panicked at 'Please type a number!: ParseIntError { kind: InvalidDigit }', src/main.rs:28:47
+
+thread 'main' panicked at src/main.rs:28:47:
+Please type a number!: ParseIntError { kind: InvalidDigit }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </code></pre>
 <p>تایپ کردن <code>quit</code> باعث خروج از بازی می‌شود، اما همان‌طور که متوجه خواهید شد، وارد کردن هر ورودی غیرعددی دیگر نیز همین کار را انجام می‌دهد. این رفتار چندان بهینه نیست؛ ما می‌خواهیم بازی همچنین وقتی عدد درست حدس زده شد متوقف شود.</p>
 <h3 id="خروج-پس-از-حدس-درست"><a class="header" href="#خروج-پس-از-حدس-درست">خروج پس از حدس درست</a></h3>
 <p>بیایید برنامه را طوری تنظیم کنیم که وقتی کاربر برنده می‌شود، با افزودن یک دستور <code>break</code> از بازی خارج شود:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -795,11 +804,12 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>اضافه کردن خط <code>break</code> بعد از <code>You win!</code> باعث می‌شود که برنامه وقتی کاربر عدد مخفی را به‌درستی حدس می‌زند، از حلقه خارج شود. خروج از حلقه همچنین به معنای خروج از برنامه است، زیرا حلقه آخرین بخش از <code>main</code> است.</p>
 <h3 id="مدیریت-ورودی-نامعتبر"><a class="header" href="#مدیریت-ورودی-نامعتبر">مدیریت ورودی نامعتبر</a></h3>
 <p>برای بهبود بیشتر رفتار بازی، به جای اینکه برنامه هنگام ورود ورودی غیرعددی توسط کاربر متوقف شود، بیایید بازی را طوری تنظیم کنیم که ورودی غیرعددی را نادیده بگیرد تا کاربر بتواند به حدس زدن ادامه دهد. این کار را می‌توان با تغییر خطی که در آن <code>guess</code> از یک <code>String</code> به یک <code>u32</code> تبدیل می‌شود انجام داد، همان‌طور که در لیستینگ 2-5 نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-5">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
-</span><span class="boring">use std::cmp::Ordering;
+<pre><code class="language-rust ignore"><span class="boring">use std::cmp::Ordering;
 </span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">use rand::Rng;
 </span><span class="boring">
 </span><span class="boring">fn main() {
 </span><span class="boring">    println!("Guess the number!");
@@ -838,11 +848,24 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 </span><span class="boring">        }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 2-5: نادیده گرفتن یک حدس غیرعددی و درخواست یک حدس دیگر به جای متوقف کردن برنامه</figcaption>
+<figcaption><a href="#listing-2-5">Listing 2-5</a>: نادیده گرفتن یک حدس غیرعددی و درخواست یک حدس دیگر به جای متوقف کردن برنامه</figcaption>
 </figure>
 <p>ما از یک فراخوانی <code>expect</code> به یک عبارت <code>match</code> تغییر می‌دهیم تا به جای متوقف کردن برنامه در صورت خطا، خطا را مدیریت کنیم. به یاد داشته باشید که <code>parse</code> یک نوع <code>Result</code> بازمی‌گرداند و <code>Result</code> یک enum است که دارای متغیرهای <code>Ok</code> و <code>Err</code> است. ما در اینجا از یک عبارت <code>match</code> استفاده می‌کنیم، همان‌طور که با نتیجه <code>Ordering</code> از متد <code>cmp</code> انجام دادیم.</p>
 <p>اگر <code>parse</code> بتواند رشته را با موفقیت به یک عدد تبدیل کند، یک مقدار <code>Ok</code> بازمی‌گرداند که عدد تولیدشده را در خود دارد. مقدار <code>Ok</code> با الگوی شاخه اول مطابقت خواهد داشت و عبارت <code>match</code> فقط مقدار <code>num</code> که <code>parse</code> تولید کرده و در داخل مقدار <code>Ok</code> قرار داده است را بازمی‌گرداند. آن عدد در همان جایی که می‌خواهیم، در متغیر جدید <code>guess</code> که ایجاد می‌کنیم، قرار می‌گیرد.</p>
-<p>اگر <code>parse</code> <em>نتواند</em> رشته را به عدد تبدیل کند، یک مقدار <code>Err</code> بازمی‌گرداند که اطلاعات بیشتری درباره خطا دارد. مقدار <code>Err</code> با الگوی <code>Ok(num)</code> در شاخه اول <code>match</code> مطابقت ندارد، اما با الگوی <code>Err(_)</code> در شاخه دوم مطابقت دارد. کاراکتر زیرخط، <code>_</code>، یک مقدار کلی است؛ در این مثال، ما می‌گوییم که می‌خواهیم تمام مقادیر <code>Err</code> را بدون توجه به اطلاعات داخل آن‌ها مطابقت دهیم. بنابراین برنامه کد شاخه دوم، <code>continue</code> را اجرا می‌کند، که به برنامه می‌گوید به تکرار بعدی <code>loop</code> برود و یک حدس دیگر درخواست کند. بنابراین، برنامه به‌طور مؤثر تمام خطاهایی که <code>parse</code> ممکن است با آن‌ها مواجه شود را نادیده می‌گیرد!</p>
+<p>اگر <code>parse</code> نتواند رشته را به عدد تبدیل کند،
+یک مقدار <code>Err</code> بازمی‌گرداند که اطلاعات بیشتری
+درباره‌ی خطا در خود دارد. مقدار <code>Err</code> با الگوی
+<code>Ok(num)</code> در شاخه‌ی اول <code>match</code> تطابق ندارد،
+اما با الگوی <code>Err(_)</code> در شاخه‌ی دوم مطابقت دارد.
+کاراکتر زیرخط، یعنی <code>_</code>، یک مقدار عمومی است
+که همه‌چیز را شامل می‌شود؛ در این مثال، ما
+می‌گوییم که می‌خواهیم تمام مقادیر <code>Err</code> را
+صرف‌نظر از محتوای داخلی آن‌ها، تطبیق دهیم.
+در نتیجه، برنامه کد شاخه‌ی دوم یعنی <code>continue</code>
+را اجرا می‌کند، که به برنامه می‌گوید به دور بعدی
+حلقه‌ی <code>loop</code> برود و یک حدس دیگر بگیرد.
+در عمل، برنامه تمام خطاهایی را که <code>parse</code> ممکن است
+با آن مواجه شود نادیده می‌گیرد!</p>
 <p>حالا همه چیز در برنامه باید طبق انتظار کار کند. بیایید آن را امتحان کنیم:</p>
 <!-- manual-regeneration
 cd listings/ch02-guessing-game-tutorial/listing-02-05/
@@ -874,11 +897,12 @@ You guessed: 61
 You win!
 </code></pre>
 <p>عالی! با یک تغییر کوچک نهایی، بازی حدس زدن را کامل خواهیم کرد. به یاد داشته باشید که برنامه همچنان عدد مخفی را چاپ می‌کند. این کار برای آزمایش خوب بود، اما بازی را خراب می‌کند. بیایید دستور <code>println!</code> که عدد مخفی را خروجی می‌دهد حذف کنیم. لیستینگ 2-6 کد نهایی را نشان می‌دهد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-2-6">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore">use rand::Rng;
-use std::cmp::Ordering;
+<pre><code class="language-rust ignore">use std::cmp::Ordering;
 use std::io;
+
+use rand::Rng;
 
 fn main() {
     println!("Guess the number!");
@@ -911,7 +935,7 @@ fn main() {
         }
     }
 }</code></pre>
-<figcaption>Listing 2-6: کد کامل بازی حدس زدن</figcaption>
+<figcaption><a href="#listing-2-6">Listing 2-6</a>: کد کامل بازی حدس زدن</figcaption>
 </figure>
 <p>در این مرحله، شما با موفقیت بازی حدس زدن را ساخته‌اید. تبریک می‌گویم!</p>
 <h2 id="خلاصه"><a class="header" href="#خلاصه">خلاصه</a></h2>
@@ -946,6 +970,22 @@ fn main() {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -964,6 +1004,7 @@ fn main() {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

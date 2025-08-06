@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html" class="active"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -188,7 +190,7 @@
 بخورد، ممکن است بخواهید فایل را ایجاد کنید به جای اینکه فرآیند را متوقف کنید.</p>
 <p>به یاد بیاورید از بخش <a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-result">“Handling Potential Failure with <code>Result</code>”</a><!-- ignore -->
 در فصل ۲ که <code>Result</code> به صورت یک enum تعریف شده که دو حالت دارد، <code>Ok</code> و <code>Err</code>، به صورت زیر:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Result&lt;T, E&gt; {
     Ok(T),
@@ -202,14 +204,14 @@
 در بسیاری از شرایط مختلف که مقادیر موفقیت و خطا ممکن است متفاوت باشند، استفاده کنیم.</p>
 <p>بیایید تابعی را فراخوانی کنیم که یک مقدار <code>Result</code> را بازمی‌گرداند زیرا این تابع ممکن است با شکست
 مواجه شود. در لیست ۹-۳ سعی می‌کنیم یک فایل را باز کنیم.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-3">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file_result = File::open("hello.txt");
 }</code></pre></pre>
-<figcaption>Listing 9-3: باز کردن یک فایل</figcaption>
+<figcaption><a href="#listing-9-3">Listing 9-3</a>: باز کردن یک فایل</figcaption>
 </figure>
 <p>نوع بازگشتی <code>File::open</code> یک <code>Result&lt;T, E&gt;</code> است. پارامتر نوع جنریک <code>T</code> توسط پیاده‌سازی
 <code>File::open</code> با نوع مقدار موفقیت، یعنی <code>std::fs::File</code>، که یک فایل هندل است، مقداردهی
@@ -226,9 +228,9 @@ fn main() {
 <p>باید به کد در لیست ۹-۳ اضافه کنیم تا اقدامات متفاوتی بسته به مقداری که <code>File::open</code> بازمی‌گرداند
 انجام دهیم. لیست ۹-۴ یک روش برای مدیریت <code>Result</code> با استفاده از یک ابزار پایه، یعنی عبارت <code>match</code>
 که در فصل ۶ مورد بحث قرار گرفت، نشان می‌دهد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-4">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file_result = File::open("hello.txt");
@@ -238,7 +240,7 @@ fn main() {
         Err(error) =&gt; panic!("Problem opening the file: {error:?}"),
     };
 }</code></pre></pre>
-<figcaption>Listing 9-4: استفاده از عبارت <code>match</code> برای مدیریت حالت‌های <code>Result</code> که ممکن است بازگردانده شود</figcaption>
+<figcaption><a href="#listing-9-4">Listing 9-4</a>: استفاده از عبارت <code>match</code> برای مدیریت حالت‌های <code>Result</code> که ممکن است بازگردانده شود</figcaption>
 </figure>
 <p>توجه داشته باشید که مانند enum <code>Option</code>، enum <code>Result</code> و حالات آن به وسیله prelude به محدوده آورده شده‌اند، بنابراین نیازی نیست قبل از حالات <code>Ok</code> و <code>Err</code> در بازوهای <code>match</code> از <code>Result::</code> استفاده کنیم.</p>
 <p>وقتی نتیجه <code>Ok</code> باشد، این کد مقدار داخلی <code>file</code> را از حالت <code>Ok</code> بازمی‌گرداند و سپس آن مقدار فایل هندل را به متغیر <code>greeting_file</code> اختصاص می‌دهیم. بعد از <code>match</code>، می‌توانیم از فایل هندل برای خواندن یا نوشتن استفاده کنیم.</p>
@@ -247,6 +249,7 @@ fn main() {
    Compiling error-handling v0.1.0 (file:///projects/error-handling)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
      Running `target/debug/error-handling`
+
 thread 'main' panicked at src/main.rs:8:23:
 Problem opening the file: Os { code: 2, kind: NotFound, message: "No such file or directory" }
 note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
@@ -254,7 +257,7 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 <p>مثل همیشه، این خروجی دقیقاً به ما می‌گوید چه اشتباهی رخ داده است.</p>
 <h3 id="مطابقت-بر-اساس-خطاهای-مختلف"><a class="header" href="#مطابقت-بر-اساس-خطاهای-مختلف">مطابقت بر اساس خطاهای مختلف</a></h3>
 <p>کد در لیست ۹-۴ در هر صورتی که <code>File::open</code> با شکست مواجه شود، ماکروی <code>panic!</code> را فراخوانی می‌کند. با این حال، ما می‌خواهیم اقدامات متفاوتی برای دلایل مختلف شکست انجام دهیم. اگر <code>File::open</code> به دلیل وجود نداشتن فایل شکست بخورد، می‌خواهیم فایل را ایجاد کنیم و هندل فایل جدید را بازگردانیم. اگر <code>File::open</code> به دلایل دیگری شکست بخورد—برای مثال، به دلیل نداشتن مجوز باز کردن فایل—همچنان می‌خواهیم کد مانند لیست ۹-۴ <code>panic!</code> کند. برای این کار، یک عبارت <code>match</code> داخلی اضافه می‌کنیم که در لیست ۹-۵ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-5">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::fs::File;
 use std::io::ErrorKind;
@@ -269,13 +272,13 @@ fn main() {
                 Ok(fc) =&gt; fc,
                 Err(e) =&gt; panic!("Problem creating the file: {e:?}"),
             },
-            other_error =&gt; {
-                panic!("Problem opening the file: {other_error:?}");
+            _ =&gt; {
+                panic!("Problem opening the file: {error:?}");
             }
         },
     };
 }</code></pre>
-<figcaption>Listing 9-5: مدیریت انواع مختلف خطاها به روش‌های مختلف</figcaption>
+<figcaption><a href="#listing-9-5">Listing 9-5</a>: مدیریت انواع مختلف خطاها به روش‌های مختلف</figcaption>
 </figure>
 <p>نوع مقداری که <code>File::open</code> درون حالت <code>Err</code> بازمی‌گرداند، <code>io::Error</code> است که یک ساختار داده ارائه شده توسط کتابخانه استاندارد است. این ساختار دارای متدی به نام <code>kind</code> است که می‌توانیم آن را برای دریافت مقدار <code>io::ErrorKind</code> فراخوانی کنیم. enum <code>io::ErrorKind</code> توسط کتابخانه استاندارد ارائه شده و شامل حالت‌هایی است که انواع مختلف خطاهای ممکن در یک عملیات <code>io</code> را نمایش می‌دهد. حالتی که می‌خواهیم از آن استفاده کنیم <code>ErrorKind::NotFound</code> است که نشان می‌دهد فایل مورد نظر برای باز کردن هنوز وجود ندارد. بنابراین، ما بر روی <code>greeting_file_result</code> مطابقت می‌دهیم، اما همچنین یک <code>match</code> داخلی بر روی <code>error.kind()</code> داریم.</p>
 <p>شرطی که می‌خواهیم در <code>match</code> داخلی بررسی کنیم این است که آیا مقدار بازگردانده شده توسط <code>error.kind()</code> همان حالت <code>NotFound</code> از enum <code>ErrorKind</code> است یا خیر. اگر چنین باشد، سعی می‌کنیم فایل را با <code>File::create</code> ایجاد کنیم. با این حال، از آنجایی که <code>File::create</code> نیز ممکن است شکست بخورد، به یک بازوی دوم در عبارت <code>match</code> داخلی نیاز داریم. هنگامی که فایل نمی‌تواند ایجاد شود، یک پیام خطای متفاوت چاپ می‌شود. بازوی دوم <code>match</code> بیرونی به همان شکل باقی می‌ماند، بنابراین برنامه برای هر خطایی به جز خطای وجود نداشتن فایل، با خطا متوقف می‌شود.</p>
@@ -314,7 +317,7 @@ fn main() {
 یک مثال از استفاده از <code>unwrap</code> آورده شده است:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file = File::open("hello.txt").unwrap();
@@ -330,7 +333,7 @@ called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, messa
 یک خطا را آسان‌تر کند. سینتکس <code>expect</code> به این شکل است:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust should_panic edition2021">use std::fs::File;
+<pre><pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
 
 fn main() {
     let greeting_file = File::open("hello.txt")
@@ -343,11 +346,17 @@ hello.txt should be included in this project: Os { code: 2, kind: NotFound, mess
 </code></pre>
 <p>در کد با کیفیت تولید، بیشتر Rustaceanها <code>expect</code> را به جای <code>unwrap</code> انتخاب می‌کنند و اطلاعات بیشتری درباره اینکه چرا عملیات باید همیشه موفقیت‌آمیز باشد ارائه می‌دهند. به این ترتیب، اگر فرضیات شما هرگز اشتباه ثابت شوند، اطلاعات بیشتری برای استفاده در اشکال‌زدایی خواهید داشت.</p>
 <h3 id="انتشار-خطاها-propagating-errors"><a class="header" href="#انتشار-خطاها-propagating-errors">انتشار خطاها (Propagating Errors)</a></h3>
-<p>وقتی پیاده‌سازی یک تابع چیزی را فراخوانی می‌کند که ممکن است شکست بخورد، به جای مدیریت خطا درون خود تابع، می‌توانید خطا را به کدی که تابع را فراخوانی کرده است بازگردانید تا تصمیم بگیرد چه کاری انجام دهد. این به عنوان <em>انتشار خطا</em> شناخته می‌شود و کنترل بیشتری به کدی که فراخوانی می‌کند می‌دهد، جایی که ممکن است اطلاعات یا منطقی وجود داشته باشد که تعیین کند چگونه باید خطا مدیریت شود بیشتر از آنچه در زمینه کد شما موجود است.</p>
+<p>وقتی پیاده‌سازی یک تابع چیزی را فراخوانی می‌کند که ممکن است شکست بخورد،
+به‌جای آن‌که خطا را درون خود تابع مدیریت کند، می‌توانید آن خطا را به کدی که تابع را فراخوانی کرده برگردانید
+تا آن کد تصمیم بگیرد که چه کاری باید انجام شود.
+این روش به <em>انتقال (propagating)</em> خطا معروف است
+و کنترل بیشتری را به کد فراخواننده می‌دهد،
+جایی که ممکن است اطلاعات یا منطق بیشتری برای تصمیم‌گیری در مورد نحوه‌ی مدیریت خطا وجود داشته باشد
+نسبت به آن‌چه در زمینه‌ی تابع فعلی در دسترس است.</p>
 <p>برای مثال، لیست ۹-۶ یک تابع را نشان می‌دهد که یک نام کاربری را از یک فایل می‌خواند. اگر فایل وجود نداشته باشد یا قابل خواندن نباشد، این تابع آن خطاها را به کدی که تابع را فراخوانی کرده بازمی‌گرداند.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-6">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -368,7 +377,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     }
 }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-6: یک تابع که خطاها را به کد فراخوانی‌کننده بازمی‌گرداند با استفاده از <code>match</code></figcaption>
+<figcaption><a href="#listing-9-6">Listing 9-6</a>: یک تابع که خطاها را به کد فراخوانی‌کننده بازمی‌گرداند با استفاده از <code>match</code></figcaption>
 </figure>
 <p>این تابع می‌تواند به روشی بسیار کوتاه‌تر نوشته شود، اما ما قرار است با انجام بسیاری از کارها به صورت دستی، مدیریت خطاها را بررسی کنیم. در انتها، راه کوتاه‌تر را نشان خواهیم داد. بیایید ابتدا به نوع بازگشتی تابع نگاه کنیم: <code>Result&lt;String, io::Error&gt;</code>. این به این معناست که تابع مقداری از نوع <code>Result&lt;T, E&gt;</code> بازمی‌گرداند، جایی که پارامتر جنریک <code>T</code> با نوع مشخص <code>String</code> مقداردهی شده است و نوع جنریک <code>E</code> با نوع مشخص <code>io::Error</code>.</p>
 <p>اگر این تابع بدون هیچ مشکلی موفقیت‌آمیز باشد، کدی که این تابع را فراخوانی می‌کند یک مقدار <code>Ok</code> دریافت می‌کند که یک <code>String</code> را نگهداری می‌کند—نام کاربری‌ای که این تابع از فایل خوانده است. اگر این تابع با مشکلی مواجه شود، کدی که آن را فراخوانی کرده است یک مقدار <code>Err</code> دریافت می‌کند که یک نمونه از <code>io::Error</code> را نگهداری می‌کند که اطلاعات بیشتری درباره مشکلاتی که رخ داده‌اند شامل می‌شود. ما <code>io::Error</code> را به عنوان نوع بازگشتی این تابع انتخاب کردیم زیرا این همان نوعی است که مقدار خطا از هر دو عملیات فراخوانی شده در بدنه این تابع که ممکن است شکست بخورند بازمی‌گرداند: تابع <code>File::open</code> و متد <code>read_to_string</code>.</p>
@@ -398,9 +407,9 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <h4 id="یک-میانبر-برای-انتشار-خطاها-عملگر-"><a class="header" href="#یک-میانبر-برای-انتشار-خطاها-عملگر-">یک میان‌بر برای انتشار خطاها: عملگر <code>?</code></a></h4>
 <p>لیست ۹-۷ پیاده‌سازی <code>read_username_from_file</code> را نشان می‌دهد که همان عملکرد لیست ۹-۶ را دارد،
 اما این پیاده‌سازی از عملگر <code>?</code> استفاده می‌کند.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-7">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -412,7 +421,7 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     Ok(username)
 }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-7: یک تابع که خطاها را به کد فراخوانی‌کننده با استفاده از عملگر <code>?</code> بازمی‌گرداند</figcaption>
+<figcaption><a href="#listing-9-7">Listing 9-7</a>: یک تابع که خطاها را به کد فراخوانی‌کننده با استفاده از عملگر <code>?</code> بازمی‌گرداند</figcaption>
 </figure>
 <p>عملگر <code>?</code> که پس از یک مقدار <code>Result</code> قرار می‌گیرد تقریباً به همان شیوه‌ای عمل می‌کند که عبارات
 <code>match</code> که برای مدیریت مقادیر <code>Result</code> در لیست ۹-۶ تعریف کردیم. اگر مقدار <code>Result</code> در حالت
@@ -429,9 +438,9 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
 <p>برای مثال، می‌توانیم تابع <code>read_username_from_file</code> در لیست ۹-۷ را تغییر دهیم تا یک نوع خطای سفارشی به نام <code>OurError</code> که تعریف کرده‌ایم بازگرداند. اگر همچنین <code>impl From&lt;io::Error&gt; for OurError</code> را تعریف کنیم تا یک نمونه از <code>OurError</code> را از یک <code>io::Error</code> بسازد، سپس فراخوانی‌های عملگر <code>?</code> در بدنه تابع <code>read_username_from_file</code> تابع <code>from</code> را فراخوانی کرده و نوع خطاها را بدون نیاز به افزودن کد اضافی به تابع تبدیل می‌کنند.</p>
 <p>در زمینه لیست ۹-۷، عملگر <code>?</code> در انتهای فراخوانی <code>File::open</code> مقدار درون یک <code>Ok</code> را به متغیر <code>username_file</code> بازمی‌گرداند. اگر خطایی رخ دهد، عملگر <code>?</code> زودتر از کل تابع خارج شده و هر مقدار <code>Err</code> را به کد فراخوانی‌کننده بازمی‌گرداند. همین موضوع برای عملگر <code>?</code> در انتهای فراخوانی <code>read_to_string</code> صدق می‌کند.</p>
 <p>عملگر <code>?</code> مقدار زیادی از کد اضافی را حذف کرده و پیاده‌سازی این تابع را ساده‌تر می‌کند. حتی می‌توانیم این کد را بیشتر کوتاه کنیم با زنجیره کردن فراخوانی متدها بلافاصله بعد از <code>?</code>، همانطور که در لیست ۹-۸ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-8">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs::File;
 use std::io::{self, Read};
@@ -444,13 +453,13 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     Ok(username)
 }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-8: زنجیره کردن فراخوانی متدها پس از عملگر <code>?</code></figcaption>
+<figcaption><a href="#listing-9-8">Listing 9-8</a>: زنجیره کردن فراخوانی متدها پس از عملگر <code>?</code></figcaption>
 </figure>
 <p>ما ایجاد <code>String</code> جدید در <code>username</code> را به ابتدای تابع منتقل کرده‌ایم؛ آن قسمت تغییر نکرده است. به جای ایجاد یک متغیر <code>username_file</code>، ما فراخوانی <code>read_to_string</code> را مستقیماً به نتیجه <code>File::open("hello.txt")?</code> زنجیره کرده‌ایم. همچنان یک عملگر <code>?</code> در انتهای فراخوانی <code>read_to_string</code> داریم و همچنان مقدار <code>Ok</code> شامل <code>username</code> را زمانی که هر دو <code>File::open</code> و <code>read_to_string</code> موفق هستند بازمی‌گردانیم، به جای بازگرداندن خطاها. عملکرد دوباره همانند لیست ۹-۶ و لیست ۹-۷ است؛ این فقط یک روش متفاوت و کاربرپسندتر برای نوشتن آن است.</p>
 <p>لیست ۹-۹ روشی برای کوتاه‌تر کردن این کد با استفاده از <code>fs::read_to_string</code> را نشان می‌دهد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-9">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use std::fs;
 use std::io;
@@ -459,20 +468,20 @@ fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
     fs::read_to_string("hello.txt")
 }
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-9: استفاده از <code>fs::read_to_string</code> به جای باز کردن و سپس خواندن فایل</figcaption>
+<figcaption><a href="#listing-9-9">Listing 9-9</a>: استفاده از <code>fs::read_to_string</code> به جای باز کردن و سپس خواندن فایل</figcaption>
 </figure>
 <p>خواندن یک فایل به یک رشته یک عملیات نسبتاً رایج است، بنابراین کتابخانه استاندارد تابع مناسب <code>fs::read_to_string</code> را فراهم می‌کند که فایل را باز می‌کند، یک <code>String</code> جدید ایجاد می‌کند، محتوای فایل را می‌خواند، محتوا را در آن <code>String</code> قرار می‌دهد و آن را بازمی‌گرداند. البته، استفاده از <code>fs::read_to_string</code> به ما فرصتی برای توضیح تمام مدیریت خطاها نمی‌دهد، بنابراین ابتدا آن را به روش طولانی‌تر انجام دادیم.</p>
 <h4 id="جایی-که-میتوان-از-عملگر--استفاده-کرد"><a class="header" href="#جایی-که-میتوان-از-عملگر--استفاده-کرد">جایی که می‌توان از عملگر <code>?</code> استفاده کرد</a></h4>
 <p>عملگر <code>?</code> فقط در توابعی استفاده می‌شود که نوع بازگشتی آن‌ها با مقدار استفاده شده توسط <code>?</code> سازگار باشد. این به این دلیل است که عملگر <code>?</code> برای بازگرداندن زودهنگام یک مقدار از تابع تعریف شده است، به همان شیوه‌ای که عبارت <code>match</code> در لیست ۹-۶ تعریف شده است. در لیست ۹-۶، <code>match</code> از یک مقدار <code>Result</code> استفاده می‌کرد و بازوی بازگشتی زودهنگام یک مقدار <code>Err(e)</code> را بازمی‌گرداند. نوع بازگشتی تابع باید یک <code>Result</code> باشد تا با این بازگشت سازگار باشد.</p>
 <p>در لیست ۹-۱۰، بیایید به خطایی که دریافت می‌کنیم وقتی که از عملگر <code>?</code> در یک تابع <code>main</code> با نوع بازگشتی‌ای که با نوع مقدار استفاده شده در <code>?</code> سازگار نیست استفاده می‌کنیم نگاه کنیم.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-10">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile">use std::fs::File;
 
 fn main() {
     let greeting_file = File::open("hello.txt")?;
 }</code></pre>
-<figcaption>Listing 9-10: تلاش برای استفاده از <code>?</code> در تابع <code>main</code> که نوع بازگشتی آن <code>()</code> است و کامپایل نمی‌شود.</figcaption>
+<figcaption><a href="#listing-9-10">Listing 9-10</a>: تلاش برای استفاده از <code>?</code> در تابع <code>main</code> که نوع بازگشتی آن <code>()</code> است و کامپایل نمی‌شود.</figcaption>
 </figure>
 <p>این کد یک فایل را باز می‌کند، که ممکن است شکست بخورد. عملگر <code>?</code> مقدار <code>Result</code> بازگردانده شده توسط <code>File::open</code> را دنبال می‌کند، اما این تابع <code>main</code> نوع بازگشتی <code>()</code> دارد، نه <code>Result</code>. وقتی این کد را کامپایل می‌کنیم، پیام خطای زیر را دریافت می‌کنیم:</p>
 <pre><code class="language-console">$ cargo run
@@ -499,8 +508,8 @@ error: could not compile `error-handling` (bin "error-handling") due to 1 previo
 <p>این خطا نشان می‌دهد که فقط می‌توان از عملگر <code>?</code> در توابعی که نوع بازگشتی آن‌ها <code>Result</code>، <code>Option</code>، یا نوع دیگری که <code>FromResidual</code> را پیاده‌سازی می‌کند استفاده کرد.</p>
 <p>برای رفع این خطا، دو انتخاب دارید. یکی این است که نوع بازگشتی تابع خود را تغییر دهید تا با مقداری که از عملگر <code>?</code> استفاده می‌کنید سازگار باشد، به شرطی که محدودیتی مانع از انجام این کار نداشته باشید. انتخاب دیگر این است که از یک <code>match</code> یا یکی از متدهای <code>Result&lt;T, E&gt;</code> برای مدیریت <code>Result&lt;T, E&gt;</code> به شیوه‌ای که مناسب است استفاده کنید.</p>
 <p>پیام خطا همچنین اشاره کرد که <code>?</code> می‌تواند با مقادیر <code>Option&lt;T&gt;</code> نیز استفاده شود. همانند استفاده از <code>?</code> روی <code>Result</code>، فقط می‌توانید از <code>?</code> روی <code>Option</code> در تابعی استفاده کنید که یک <code>Option</code> بازمی‌گرداند. رفتار عملگر <code>?</code> وقتی روی یک <code>Option&lt;T&gt;</code> فراخوانی می‌شود شبیه به رفتار آن وقتی روی یک <code>Result&lt;T, E&gt;</code> فراخوانی می‌شود: اگر مقدار <code>None</code> باشد، <code>None</code> زودهنگام از تابع بازگردانده می‌شود. اگر مقدار <code>Some</code> باشد، مقدار داخل <code>Some</code> مقدار نتیجه عبارت است و تابع ادامه می‌دهد. لیست ۹-۱۱ مثالی از تابعی را نشان می‌دهد که آخرین کاراکتر خط اول متن داده شده را پیدا می‌کند.</p>
-<figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
+<figure class="listing" id="listing-9-11">
+<pre><pre class="playground"><code class="language-rust edition2024">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
     text.lines().next()?.chars().last()
 }
 <span class="boring">
@@ -513,14 +522,14 @@ error: could not compile `error-handling` (bin "error-handling") due to 1 previo
 </span><span class="boring">    assert_eq!(last_char_of_first_line(""), None);
 </span><span class="boring">    assert_eq!(last_char_of_first_line("\nhi"), None);
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 9-11: استفاده از عملگر <code>?</code> روی یک مقدار <code>Option&lt;T&gt;</code></figcaption>
+<figcaption><a href="#listing-9-11">Listing 9-11</a>: استفاده از عملگر <code>?</code> روی یک مقدار <code>Option&lt;T&gt;</code></figcaption>
 </figure>
 <p>این تابع <code>Option&lt;char&gt;</code> بازمی‌گرداند زیرا ممکن است یک کاراکتر وجود داشته باشد، اما ممکن است وجود نداشته باشد. این کد آرگومان قطعه رشته <code>text</code> را می‌گیرد و متد <code>lines</code> را روی آن فراخوانی می‌کند، که یک iterator روی خطوط درون رشته بازمی‌گرداند. چون این تابع می‌خواهد خط اول را بررسی کند، <code>next</code> را روی iterator فراخوانی می‌کند تا اولین مقدار از iterator را دریافت کند. اگر <code>text</code> رشته‌ای خالی باشد، این فراخوانی به <code>next</code> مقدار <code>None</code> بازمی‌گرداند، که در این صورت از <code>?</code> برای متوقف کردن و بازگرداندن <code>None</code> از <code>last_char_of_first_line</code> استفاده می‌کنیم. اگر <code>text</code> رشته خالی نباشد، <code>next</code> یک مقدار <code>Some</code> شامل یک قطعه رشته از خط اول در <code>text</code> بازمی‌گرداند.</p>
 <p>عملگر <code>?</code> قطعه رشته را استخراج می‌کند و می‌توانیم متد <code>chars</code> را روی آن فراخوانی کنیم تا یک iterator از کاراکترهای آن دریافت کنیم. ما به آخرین کاراکتر در این خط اول علاقه‌مند هستیم، بنابراین متد <code>last</code> را فراخوانی می‌کنیم تا آخرین مورد در iterator را بازگرداند. این یک <code>Option</code> است زیرا ممکن است خط اول رشته‌ای خالی باشد؛ برای مثال، اگر <code>text</code> با یک خط خالی شروع شود اما کاراکترهایی در خطوط دیگر داشته باشد، مانند <code>"\nhi"</code>. با این حال، اگر آخرین کاراکتری در خط اول وجود داشته باشد، در حالت <code>Some</code> بازگردانده می‌شود. عملگر <code>?</code> در میانه به ما راهی مختصر برای بیان این منطق می‌دهد و اجازه می‌دهد تابع را در یک خط پیاده‌سازی کنیم. اگر نمی‌توانستیم از عملگر <code>?</code> روی <code>Option</code> استفاده کنیم، باید این منطق را با فراخوانی متدهای بیشتر یا یک عبارت <code>match</code> پیاده‌سازی می‌کردیم.</p>
 <p>توجه داشته باشید که می‌توانید از عملگر <code>?</code> روی یک <code>Result</code> در یک تابع که یک <code>Result</code> بازمی‌گرداند استفاده کنید، و می‌توانید از عملگر <code>?</code> روی یک <code>Option</code> در یک تابع که یک <code>Option</code> بازمی‌گرداند استفاده کنید، اما نمی‌توانید این دو را با هم ترکیب کنید. عملگر <code>?</code> به طور خودکار یک <code>Result</code> را به یک <code>Option</code> یا برعکس تبدیل نمی‌کند؛ در این موارد، می‌توانید از متدهایی مانند <code>ok</code> روی <code>Result</code> یا <code>ok_or</code> روی <code>Option</code> برای تبدیل صریح استفاده کنید.</p>
 <p>تا کنون، تمام توابع <code>main</code> که استفاده کرده‌ایم مقدار <code>()</code> بازمی‌گرداندند. تابع <code>main</code> خاص است زیرا نقطه ورود و خروج یک برنامه اجرایی است، و محدودیت‌هایی در نوع بازگشتی آن وجود دارد تا برنامه همانطور که انتظار می‌رود رفتار کند.</p>
 <p>خوشبختانه، <code>main</code> می‌تواند یک <code>Result&lt;(), E&gt;</code> نیز بازگرداند. لیست ۹-۱۲ کد لیست ۹-۱۰ را دارد، اما نوع بازگشتی <code>main</code> را به <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code> تغییر داده‌ایم و یک مقدار بازگشتی <code>Ok(())</code> به انتهای آن اضافه کرده‌ایم. این کد اکنون کامپایل می‌شود.</p>
-<figure class="listing">
+<figure class="listing" id="listing-9-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use std::error::Error;
 use std::fs::File;
@@ -530,9 +539,17 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 
     Ok(())
 }</code></pre>
-<figcaption>Listing 9-12: تغییر تابع <code>main</code> برای بازگرداندن <code>Result&lt;(), E&gt;</code> اجازه می‌دهد از عملگر <code>?</code> روی مقادیر <code>Result</code> استفاده شود.</figcaption>
+<figcaption><a href="#listing-9-12">Listing 9-12</a>: تغییر تابع <code>main</code> برای بازگرداندن <code>Result&lt;(), E&gt;</code> اجازه می‌دهد از عملگر <code>?</code> روی مقادیر <code>Result</code> استفاده شود.</figcaption>
 </figure>
-<p>نوع <code>Box&lt;dyn Error&gt;</code> یک <em>شیء ویژگی</em> (trait object) است که در بخش <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“Using Trait Objects that Allow for Values of Different Types”</a><!-- ignore --> در فصل ۱۸ درباره آن صحبت خواهیم کرد. در حال حاضر، می‌توانید <code>Box&lt;dyn Error&gt;</code> را به معنای “هر نوع خطا” در نظر بگیرید. استفاده از <code>?</code> روی یک مقدار <code>Result</code> در یک تابع <code>main</code> با نوع خطای <code>Box&lt;dyn Error&gt;</code> مجاز است زیرا این امکان را می‌دهد که هر مقدار <code>Err</code> زودتر بازگردانده شود. اگرچه بدنه این تابع <code>main</code> فقط خطاهای نوع <code>std::io::Error</code> را بازمی‌گرداند، با مشخص کردن <code>Box&lt;dyn Error&gt;</code>، این امضا حتی اگر کد بیشتری که خطاهای دیگری بازمی‌گرداند به بدنه <code>main</code> اضافه شود، صحیح باقی می‌ماند.</p>
+<p>نوع <code>Box&lt;dyn Error&gt;</code> یک <em>trait object</em> است،
+که در فصل ۱۸ در بخش <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“استفاده از Trait Objectها برای مقادیر با انواع متفاوت”</a><!-- ignore -->
+درباره‌ی آن صحبت خواهیم کرد.
+فعلاً می‌توانید <code>Box&lt;dyn Error&gt;</code> را به معنای «هر نوع خطایی» در نظر بگیرید.
+استفاده از <code>?</code> روی یک مقدار <code>Result</code> در تابع <code>main</code> با نوع خطای <code>Box&lt;dyn Error&gt;</code> مجاز است،
+زیرا این امکان را می‌دهد که هر مقدار <code>Err</code> زودتر بازگردانده شود.
+حتی اگر بدنه‌ی این تابع <code>main</code> فقط خطاهایی از نوع <code>std::io::Error</code> بازگرداند،
+با مشخص کردن <code>Box&lt;dyn Error&gt;</code> در امضا، این امضا همچنان معتبر باقی خواهد ماند
+حتی اگر بعداً کدی به <code>main</code> اضافه شود که خطاهای دیگری را بازمی‌گرداند.</p>
 <p>وقتی یک تابع <code>main</code> یک <code>Result&lt;(), E&gt;</code> بازمی‌گرداند، برنامه اجرایی با مقدار <code>0</code> خارج می‌شود اگر <code>main</code> مقدار <code>Ok(())</code> بازگرداند و با یک مقدار غیر صفر خارج می‌شود اگر <code>main</code> مقدار <code>Err</code> بازگرداند. برنامه‌های اجرایی نوشته شده در C هنگام خروج مقادیر صحیح بازمی‌گردانند: برنامه‌هایی که با موفقیت خارج می‌شوند مقدار صحیح <code>0</code> را بازمی‌گردانند و برنامه‌هایی که دچار خطا می‌شوند مقداری غیر از <code>0</code> بازمی‌گردانند. Rust نیز مقادیر صحیح را از برنامه‌های اجرایی بازمی‌گرداند تا با این قرارداد سازگار باشد.</p>
 <p>تابع <code>main</code> می‌تواند هر نوعی را که ویژگی <a href="https://doc.rust-lang.org/std/process/trait.Termination.html"><code>std::process::Termination</code></a><!-- ignore --> را پیاده‌سازی می‌کند بازگرداند، که شامل تابع <code>report</code> است که یک <code>ExitCode</code> بازمی‌گرداند. مستندات کتابخانه استاندارد را برای اطلاعات بیشتر درباره پیاده‌سازی ویژگی <code>Termination</code> برای انواع خودتان مطالعه کنید.</p>
 <p>اکنون که جزئیات فراخوانی <code>panic!</code> یا بازگرداندن <code>Result</code> را بررسی کردیم، بیایید به موضوع نحوه تصمیم‌گیری درباره اینکه کدامیک در چه مواردی مناسب است بازگردیم.</p>
@@ -566,6 +583,22 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -584,6 +617,7 @@ fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

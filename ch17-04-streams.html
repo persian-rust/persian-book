@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html" class="active"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -183,9 +185,11 @@
                     <main>
                         <h2 id="streamها-futures-به-صورت-متوالی"><a class="header" href="#streamها-futures-به-صورت-متوالی">Stream‌ها: Futures به صورت متوالی</a></h2>
 <p>تا اینجا در این فصل، بیشتر به آینده‌های فردی (<em>individual futures</em>) پایبند بوده‌ایم. یک استثنای بزرگ استفاده از کانال async بود. به یاد بیاورید چگونه در ابتدای این فصل در بخش <a href="ch17-02-concurrency-with-async.html#message-passing">“ارسال پیام”</a><!-- ignore --> از گیرنده کانال async استفاده کردیم. متد async به نام <code>recv</code> یک دنباله از آیتم‌ها را در طول زمان تولید می‌کند. این یک نمونه از یک الگوی کلی‌تر به نام <em>stream</em> است.</p>
-<p>ما در فصل ۱۳ یک دنباله از آیتم‌ها را دیدیم، زمانی که ویژگی <code>Iterator</code> را در بخش <a href="ch13-02-iterators.html#the-iterator-trait-and-the-next-method">ویژگی Iterator و متد <code>next</code></a><!-- ignore --> بررسی کردیم، اما بین iteratorها و گیرنده کانال async دو تفاوت وجود دارد. تفاوت اول در زمان است: iteratorها همزمان (<em>synchronous</em>) هستند، در حالی که گیرنده کانال async است. تفاوت دوم در API است. هنگام کار مستقیم با <code>Iterator</code>، ما متد همزمان <code>next</code> را فراخوانی می‌کنیم. به طور خاص، با stream <code>trpl::Receiver</code>، به جای آن، یک متد async به نام <code>recv</code> را فراخوانی کردیم. در غیر این صورت، این APIها احساس بسیار مشابهی دارند و این شباهت تصادفی نیست. یک stream مانند یک شکل ناهمزمان از iteration است. در حالی که <code>trpl::Receiver</code> به طور خاص منتظر دریافت پیام‌ها است، API عمومی stream بسیار گسترده‌تر است: این API آیتم بعدی را همان‌طور که <code>Iterator</code> انجام می‌دهد ارائه می‌دهد، اما به صورت ناهمزمان.</p>
-<p>شباهت بین iteratorها و stream‌ها در Rust به این معناست که ما در واقع می‌توانیم از هر iterator یک stream ایجاد کنیم. مانند یک iterator، می‌توانیم با فراخوانی متد <code>next</code> یک stream کار کنیم و سپس خروجی را انتظار بکشیم، همان‌طور که در لیست ۱۷-۳۰ نشان داده شده است.</p>
-<figure class="listing">
+<p>ما پیش‌تر در فصل ۱۳ با یک توالی از آیتم‌ها مواجه شدیم، زمانی که به <code>Iterator</code> و متد <code>next</code> آن در بخش <a href="ch13-02-iterators.html#the-iterator-trait-and-the-next-method">ویژگی Iterator و متد <code>next</code></a><!-- ignore --> پرداختیم، اما بین <code>Iterator</code>ها و گیرنده‌ی ناهمگام کانال‌ها دو تفاوت وجود دارد.
+تفاوت اول مربوط به <em>زمان</em> است: <code>Iterator</code>ها همگام (synchronous) هستند، در حالی که گیرنده‌ی کانال ناهمگام (asynchronous) است.
+تفاوت دوم در <em>رابط برنامه‌نویسی کاربردی (API)</em> است. وقتی به‌صورت مستقیم با <code>Iterator</code> کار می‌کنیم، از متد همگام <code>next</code> استفاده می‌کنیم. در <code>stream</code>‌ مربوط به <code>trpl::Receiver</code>، ما به جای آن متد ناهمگام <code>recv</code> را فراخوانی کردیم.
+با این وجود، این APIها از لحاظ کارکرد بسیار مشابه هستند، و این شباهت اتفاقی نیست. یک <em>stream</em> در واقع شکل ناهمگام پیمایش (iteration) است. در حالی که <code>trpl::Receiver</code> به‌طور خاص منتظر دریافت پیام می‌ماند، API عمومی‌تر stream بسیار گسترده‌تر است: این API، آیتم بعدی را به همان شیوه‌ای که <code>Iterator</code> فراهم می‌کند، ولی به‌صورت ناهمگام ارائه می‌دهد.</p>
+<figure class="listing" id="listing-17-30">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -200,7 +204,7 @@
         }
 <span class="boring">    });
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-30: ایجاد یک stream از یک iterator و چاپ مقادیر آن</figcaption>
+<figcaption><a href="#listing-17-30">Listing 17-30</a>: ایجاد یک stream از یک iterator و چاپ مقادیر آن</figcaption>
 </figure>
 <p>ما با یک آرایه از اعداد شروع می‌کنیم، آن را به یک iterator تبدیل کرده و سپس متد <code>map</code> را فراخوانی می‌کنیم تا تمام مقادیر را دو برابر کنیم. سپس با استفاده از تابع <code>trpl::stream_from_iter</code>، این iterator را به یک stream تبدیل می‌کنیم. در ادامه، با استفاده از حلقه <code>while let</code>، بر روی آیتم‌های موجود در stream که به مرور می‌رسند، حلقه می‌زنیم.</p>
 <p>متأسفانه، وقتی سعی می‌کنیم این کد را اجرا کنیم، کامپایل نمی‌شود و به جای آن گزارش می‌دهد که متد <code>next</code> در دسترس نیست:</p>
@@ -215,7 +219,7 @@ copy only the error output
 10 |         while let Some(value) = stream.next().await {
    |                                        ^^^^
    |
-   = note: the full type name has been written to 'file:///projects/async_await/target/debug/deps/async_await-9de943556a6001b8.long-type-1281356139287206597.txt'
+   = note: the full type name has been written to 'file:///projects/async-await/target/debug/deps/async_await-575db3dd3197d257.long-type-14490787947592691573.txt'
    = note: consider using `--verbose` to print the full type name to the console
    = help: items from traits can only be used if the trait is in scope
 help: the following traits which provide `next` are implemented but not in scope; perhaps you want to import one of them
@@ -236,9 +240,9 @@ help: there is a method `try_next` with a similar name
 <p>همان‌طور که این خروجی توضیح می‌دهد، دلیل خطای کامپایلر این است که برای استفاده از متد <code>next</code> باید ویژگی مناسب در دامنه باشد. با توجه به بحث‌هایی که تاکنون داشته‌ایم، ممکن است منطقی باشد که انتظار داشته باشید این ویژگی <code>Stream</code> باشد، اما در واقع <code>StreamExt</code> است. <code>Ext</code> که مخفف <em>extension</em> است، یک الگوی رایج در جامعه Rust برای گسترش یک ویژگی با ویژگی دیگر است.</p>
 <p>ما در انتهای این فصل ویژگی‌های <code>Stream</code> و <code>StreamExt</code> را با جزئیات بیشتری توضیح خواهیم داد، اما فعلاً تنها چیزی که باید بدانید این است که ویژگی <code>Stream</code> یک رابط سطح پایین تعریف می‌کند که به طور مؤثری ویژگی‌های <code>Iterator</code> و <code>Future</code> را ترکیب می‌کند. <code>StreamExt</code> مجموعه‌ای از APIهای سطح بالاتر را روی <code>Stream</code> ارائه می‌دهد، از جمله متد <code>next</code> و همچنین متدهای کاربردی دیگر مشابه آنچه ویژگی <code>Iterator</code> ارائه می‌دهد. <code>Stream</code> و <code>StreamExt</code> هنوز بخشی از کتابخانه استاندارد Rust نیستند، اما بیشتر crateهای اکوسیستم از همین تعریف استفاده می‌کنند.</p>
 <p>برای رفع خطای کامپایل، باید یک دستور <code>use</code> برای <code>trpl::StreamExt</code> اضافه کنیم، همان‌طور که در فهرست 17-31 آمده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-31">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use trpl::StreamExt;
 
@@ -253,12 +257,12 @@ fn main() {
         }
     });
 }</code></pre></pre>
-<figcaption>Listing 17-31: استفاده موفق از یک iterator به‌عنوان پایه‌ای برای یک stream</figcaption>
+<figcaption><a href="#listing-17-31">Listing 17-31</a>: استفاده موفق از یک iterator به‌عنوان پایه‌ای برای یک stream</figcaption>
 </figure>
 <p>با قرار دادن همه این قطعات در کنار هم، این کد به همان روشی که می‌خواهیم کار می‌کند! مهم‌تر از همه، اکنون که <code>StreamExt</code> در دامنه داریم، می‌توانیم از تمام متدهای کاربردی آن استفاده کنیم، درست مانند iteratorها. برای مثال، در فهرست 17-32، از متد <code>filter</code> برای فیلتر کردن همه چیز به جز مضرب‌های سه و پنج استفاده می‌کنیم.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-32">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use trpl::StreamExt;
 
@@ -276,15 +280,15 @@ fn main() {
         }
     });
 }</code></pre></pre>
-<figcaption>Listing 17-32: فیلتر کردن یک <code>Stream</code> با استفاده از متد <code>StreamExt::filter</code></figcaption>
+<figcaption><a href="#listing-17-32">Listing 17-32</a>: فیلتر کردن یک <code>Stream</code> با استفاده از متد <code>StreamExt::filter</code></figcaption>
 </figure>
 <p>البته این خیلی جالب نیست، چون می‌توانستیم همین کار را با iteratorهای معمولی و بدون هیچ async انجام دهیم. بیایید ببینیم چه کاری می‌توانیم انجام دهیم که <em>منحصربه‌فرد</em> برای stream‌ها باشد.</p>
 <h3 id="ترکیب-streamها"><a class="header" href="#ترکیب-streamها">ترکیب Stream‌ها</a></h3>
 <p>بسیاری از مفاهیم به طور طبیعی به‌عنوان stream‌ها نمایش داده می‌شوند: آیتم‌هایی که در یک صف در دسترس می‌شوند، بخش‌هایی از داده که به صورت تدریجی از سیستم فایل خوانده می‌شوند وقتی مجموعه داده کامل برای حافظه کامپیوتر بیش از حد بزرگ است، یا داده‌هایی که به مرور زمان از طریق شبکه می‌رسند. چون stream‌ها نیز futures هستند، می‌توانیم از آن‌ها با هر نوع دیگر future استفاده کنیم و آن‌ها را به روش‌های جالبی ترکیب کنیم. برای مثال، می‌توانیم رویدادها را به صورت دسته‌ای جمع کنیم تا از ایجاد تعداد زیادی فراخوانی شبکه جلوگیری کنیم، تایم‌اوت‌هایی روی دنباله‌ای از عملیات‌های طولانی تنظیم کنیم، یا رویدادهای رابط کاربری را کنترل کنیم تا از انجام کارهای غیرضروری اجتناب کنیم.</p>
 <p>بیایید با ساخت یک stream کوچک از پیام‌ها شروع کنیم که به‌عنوان یک جایگزین برای یک stream از داده‌هایی که ممکن است از یک WebSocket یا یک پروتکل ارتباطی بلادرنگ دیگر ببینیم، همان‌طور که در لیست ۱۷-۳۳ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-33">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use trpl::{ReceiverStream, Stream, StreamExt};
 
@@ -308,7 +312,7 @@ fn get_messages() -&gt; impl Stream&lt;Item = String&gt; {
 
     ReceiverStream::new(rx)
 }</code></pre></pre>
-<figcaption>Listing 17-33: استفاده از گیرنده <code>rx</code> به‌عنوان یک <code>ReceiverStream</code></figcaption>
+<figcaption><a href="#listing-17-33">Listing 17-33</a>: استفاده از گیرنده <code>rx</code> به‌عنوان یک <code>ReceiverStream</code></figcaption>
 </figure>
 <p>ابتدا یک تابع به نام <code>get_messages</code> ایجاد می‌کنیم که <code>impl Stream&lt;Item = String&gt;</code> را بازمی‌گرداند. برای پیاده‌سازی آن، یک کانال async ایجاد می‌کنیم، بر روی ۱۰ حرف اول الفبای انگلیسی حلقه می‌زنیم، و آن‌ها را از طریق کانال ارسال می‌کنیم.</p>
 <p>همچنین از یک نوع جدید به نام <code>ReceiverStream</code> استفاده می‌کنیم، که <code>rx</code> گیرنده از <code>trpl::channel</code> را به یک <code>Stream</code> با متد <code>next</code> تبدیل می‌کند. دوباره در <code>main</code>، از یک حلقه <code>while let</code> برای چاپ تمام پیام‌ها از stream استفاده می‌کنیم.</p>
@@ -328,9 +332,9 @@ Message: 'i'
 Message: 'j'
 </code></pre>
 <p>دوباره، می‌توانستیم این کار را با API معمولی <code>Receiver</code> یا حتی API معمولی <code>Iterator</code> انجام دهیم، اما بیایید ویژگی‌ای اضافه کنیم که نیاز به streams داشته باشد: اضافه کردن یک تایم‌اوت که برای هر آیتم در stream اعمال شود، و یک تأخیر روی آیتم‌هایی که ارسال می‌کنیم، همان‌طور که در لیست ۱۷-۳۴ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-34">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span>use std::{pin::pin, time::Duration};
 use trpl::{ReceiverStream, Stream, StreamExt};
@@ -359,13 +363,13 @@ fn main() {
 </span><span class="boring">
 </span><span class="boring">    ReceiverStream::new(rx)
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-34: استفاده از متد <code>StreamExt::timeout</code> برای تعیین یک محدودیت زمانی برای آیتم‌های موجود در یک stream</figcaption>
+<figcaption><a href="#listing-17-34">Listing 17-34</a>: استفاده از متد <code>StreamExt::timeout</code> برای تعیین یک محدودیت زمانی برای آیتم‌های موجود در یک stream</figcaption>
 </figure>
 <p>ابتدا یک تایم‌اوت به stream با استفاده از متد <code>timeout</code> اضافه می‌کنیم، که از ویژگی <code>StreamExt</code> می‌آید. سپس بدنه حلقه <code>while let</code> را به‌روزرسانی می‌کنیم، زیرا اکنون stream یک <code>Result</code> بازمی‌گرداند. حالت <code>Ok</code> نشان‌دهنده این است که یک پیام به‌موقع رسیده است؛ حالت <code>Err</code> نشان می‌دهد که تایم‌اوت قبل از رسیدن هر پیامی منقضی شده است. روی این نتیجه یک <code>match</code> انجام می‌دهیم و یا پیام را وقتی با موفقیت دریافت می‌کنیم چاپ می‌کنیم، یا اخطاری درباره تایم‌اوت چاپ می‌کنیم. در نهایت، توجه کنید که پس از اعمال تایم‌اوت به پیام‌ها، آن‌ها را pin می‌کنیم، زیرا ابزار تایم‌اوت یک stream تولید می‌کند که باید pin شود تا بتوان آن را poll کرد.</p>
 <p>با این حال، چون بین پیام‌ها تأخیری وجود ندارد، این تایم‌اوت رفتار برنامه را تغییر نمی‌دهد. بیایید یک تأخیر متغیر به پیام‌هایی که ارسال می‌کنیم اضافه کنیم، همان‌طور که در لیست ۱۷-۳۵ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-35">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{pin::pin, time::Duration};
 </span><span class="boring">
@@ -400,7 +404,7 @@ fn main() {
 
     ReceiverStream::new(rx)
 }</code></pre></pre>
-<figcaption>Listing 17-35: ارسال پیام‌ها از طریق <code>tx</code> با یک تأخیر async بدون تبدیل <code>get_messages</code> به یک تابع async</figcaption>
+<figcaption><a href="#listing-17-35">Listing 17-35</a>: ارسال پیام‌ها از طریق <code>tx</code> با یک تأخیر async بدون تبدیل <code>get_messages</code> به یک تابع async</figcaption>
 </figure>
 <p>برای خوابیدن بین پیام‌ها در تابع <code>get_messages</code> بدون مسدود کردن، باید از async استفاده کنیم. با این حال، نمی‌توانیم خود <code>get_messages</code> را به یک تابع async تبدیل کنیم، زیرا در این صورت یک <code>Future&lt;Output = Stream&lt;Item = String&gt;&gt;</code> به جای یک <code>Stream&lt;Item = String&gt;</code> بازمی‌گرداند. کاربر باید خود <code>get_messages</code> را منتظر بماند تا به stream دسترسی پیدا کند. اما به یاد داشته باشید: هر چیزی در یک آینده مشخص به‌صورت خطی اتفاق می‌افتد؛ همزمانی <em>بین</em> آینده‌ها اتفاق می‌افتد. انتظار برای <code>get_messages</code> نیاز دارد که تمام پیام‌ها را ارسال کند، از جمله خوابیدن بین ارسال هر پیام، قبل از بازگرداندن stream گیرنده. در نتیجه، زمان محدود بی‌فایده می‌شود. هیچ تأخیری در خود stream وجود نخواهد داشت: تمام تأخیرها قبل از در دسترس قرار گرفتن stream اتفاق می‌افتد.</p>
 <p>در عوض، <code>get_messages</code> را به‌عنوان یک تابع معمولی که یک stream بازمی‌گرداند باقی می‌گذاریم و یک تسک برای مدیریت فراخوانی‌های async <code>sleep</code> ایجاد می‌کنیم.</p>
@@ -408,11 +412,9 @@ fn main() {
 <p>نکته: فراخوانی <code>spawn_task</code> به این روش کار می‌کند زیرا ما از قبل runtime خود را تنظیم کرده‌ایم. فراخوانی این پیاده‌سازی خاص از <code>spawn_task</code> <em>بدون</em> تنظیم اولیه یک runtime باعث panic می‌شود. پیاده‌سازی‌های دیگر معاملات متفاوتی انتخاب می‌کنند: ممکن است یک runtime جدید ایجاد کنند و بنابراین از panic اجتناب کنند، اما با کمی سربار اضافی مواجه شوند، یا به سادگی راهی مستقل برای ایجاد تسک‌ها بدون ارجاع به یک runtime ارائه ندهند. باید مطمئن شوید که می‌دانید runtime شما چه معامله‌ای انتخاب کرده است و کد خود را بر این اساس بنویسید!</p>
 </blockquote>
 <p>اکنون کد ما نتیجه بسیار جالب‌تری دارد! بین هر جفت پیام، یک خطا گزارش می‌شود: <code>Problem: Elapsed(())</code>.</p>
-<!-- manual-regeneration
-cd listings/ch17-async-await/listing-17-35
-cargo run
-copy only the program output, *not* the compiler output
--->
+<!-- Not extracting output because changes to this output aren't significant;
+the changes are likely to be due to the threads running differently rather than
+changes in the compiler -->
 <pre><code class="language-text">Message: 'a'
 Problem: Elapsed(())
 Message: 'b'
@@ -433,9 +435,9 @@ Message: 'j'
 <p>اگر به رفتار متفاوتی نیاز دارید، می‌توانید از انواع دیگر کانال‌ها یا به طور کلی انواع دیگر streamها استفاده کنید. بیایید یکی از این موارد را در عمل ببینیم، با ترکیب یک stream از فواصل زمانی با این stream از پیام‌ها.</p>
 <h3 id="ترکیب-streamها-1"><a class="header" href="#ترکیب-streamها-1">ترکیب Streamها</a></h3>
 <p>ابتدا، یک stream دیگر ایجاد می‌کنیم که اگر به طور مستقیم اجرا شود، هر میلی‌ثانیه یک آیتم ارسال می‌کند. برای سادگی، می‌توانیم از تابع <code>sleep</code> برای ارسال یک پیام با تأخیر استفاده کنیم و آن را با همان روشی که در <code>get_messages</code> استفاده کردیم—ایجاد یک stream از یک کانال—ترکیب کنیم. تفاوت این است که این بار، می‌خواهیم تعداد فواصل زمانی که گذشته‌اند را بازگردانیم، بنابراین نوع بازگشتی <code>impl Stream&lt;Item = u32&gt;</code> خواهد بود، و می‌توانیم تابع را <code>get_intervals</code> بنامیم (نگاه کنید به لیست ۱۷-۳۶).</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-36">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{pin::pin, time::Duration};
 </span><span class="boring">
@@ -485,12 +487,12 @@ Message: 'j'
 
     ReceiverStream::new(rx)
 }</code></pre></pre>
-<figcaption>Listing 17-36: ایجاد یک stream با یک شمارنده که هر میلی‌ثانیه یک بار ارسال می‌شود</figcaption>
+<figcaption><a href="#listing-17-36">Listing 17-36</a>: ایجاد یک stream با یک شمارنده که هر میلی‌ثانیه یک بار ارسال می‌شود</figcaption>
 </figure>
 <p>ابتدا یک متغیر <code>count</code> را درون task تعریف می‌کنیم. (می‌توانستیم آن را خارج از task نیز تعریف کنیم، اما محدود کردن دامنه هر متغیر داده‌شده واضح‌تر است.) سپس یک حلقه بی‌نهایت ایجاد می‌کنیم. در هر تکرار حلقه، به صورت ناهمزمان به مدت یک میلی‌ثانیه می‌خوابد، مقدار <code>count</code> را افزایش می‌دهد و سپس آن را از طریق کانال ارسال می‌کند. از آنجا که همه این‌ها درون taskی که توسط <code>spawn_task</code> ایجاد شده است قرار دارد، همه آن—از جمله حلقه بی‌نهایت—همراه با runtime پاک‌سازی می‌شود.</p>
 <p>این نوع حلقه بی‌نهایت، که تنها زمانی به پایان می‌رسد که کل runtime از بین برود، در async Rust نسبتاً رایج است: بسیاری از برنامه‌ها نیاز دارند که به طور نامحدود اجرا شوند. با async، این کار چیزی دیگر را مسدود نمی‌کند، تا زمانی که حداقل یک نقطه انتظار (<em>await point</em>) در هر تکرار از حلقه وجود داشته باشد.</p>
 <p>حالا، درون بلوک async تابع اصلی ما، می‌توانیم تلاش کنیم که streamهای <code>messages</code> و <code>intervals</code> را با هم ترکیب کنیم، همان‌طور که در لیست ۱۷-۳۷ نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-37">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -503,9 +505,9 @@ Message: 'j'
 </span>        let messages = get_messages().timeout(Duration::from_millis(200));
         let intervals = get_intervals();
         let merged = messages.merge(intervals);
-<span class="boring">
-</span><span class="boring">        while let Some(result) = merged.next().await {
-</span><span class="boring">            match result {
+
+        while let Some(result) = merged.next().await {
+<span class="boring">            match result {
 </span><span class="boring">                Ok(message) =&gt; println!("{message}"),
 </span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
 </span><span class="boring">            }
@@ -543,12 +545,12 @@ Message: 'j'
 </span><span class="boring">
 </span><span class="boring">    ReceiverStream::new(rx)
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-37: تلاش برای ترکیب streamهای <code>messages</code> و <code>intervals</code></figcaption>
+<figcaption><a href="#listing-17-37">Listing 17-37</a>: تلاش برای ترکیب streamهای <code>messages</code> و <code>intervals</code></figcaption>
 </figure>
 <p>ابتدا <code>get_intervals</code> را فراخوانی می‌کنیم. سپس streamهای <code>messages</code> و <code>intervals</code> را با استفاده از متد <code>merge</code> ترکیب می‌کنیم. این متد چندین stream را به یک stream ترکیب می‌کند که آیتم‌ها را از هر یک از streamهای منبع، به محض در دسترس بودن، تولید می‌کند، بدون اینکه ترتیب خاصی را اعمال کند. در نهایت، به جای اینکه روی <code>messages</code> حلقه بزنیم، روی این stream ترکیبی حلقه می‌زنیم.</p>
 <p>در این مرحله، نه <code>messages</code> و نه <code>intervals</code> نیازی به pin یا mutable بودن ندارند، زیرا هر دو در یک stream واحد به نام <code>merged</code> ترکیب می‌شوند. با این حال، این فراخوانی به <code>merge</code> کامپایل نمی‌شود! (فراخوانی <code>next</code> در حلقه <code>while let</code> هم کامپایل نمی‌شود، اما به آن برمی‌گردیم.) دلیل آن این است که این دو stream انواع مختلفی دارند. stream <code>messages</code> نوع <code>Timeout&lt;impl Stream&lt;Item = String&gt;&gt;</code> دارد، جایی که <code>Timeout</code> نوعی است که ویژگی <code>Stream</code> را برای فراخوانی <code>timeout</code> پیاده‌سازی می‌کند. stream <code>intervals</code> نوع <code>impl Stream&lt;Item = u32&gt;</code> دارد. برای ترکیب این دو stream، باید یکی از آن‌ها را به نوع دیگری تبدیل کنیم. ما stream <code>intervals</code> را بازبینی می‌کنیم، زیرا <code>messages</code> قبلاً در قالب اصلی مورد نظر ما است و باید خطاهای timeout را مدیریت کند (نگاه کنید به لیست ۱۷-۳۸).</p>
 <!-- We cannot directly test this one, because it never stops. -->
-<figure class="listing">
+<figure class="listing" id="listing-17-38">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
@@ -564,9 +566,9 @@ Message: 'j'
             .timeout(Duration::from_secs(10));
         let merged = messages.merge(intervals);
         let mut stream = pin!(merged);
-<span class="boring">
-</span><span class="boring">        while let Some(result) = stream.next().await {
-</span><span class="boring">            match result {
+
+        while let Some(result) = stream.next().await {
+<span class="boring">            match result {
 </span><span class="boring">                Ok(message) =&gt; println!("{message}"),
 </span><span class="boring">                Err(reason) =&gt; eprintln!("Problem: {reason:?}"),
 </span><span class="boring">            }
@@ -604,7 +606,7 @@ Message: 'j'
 </span><span class="boring">
 </span><span class="boring">    ReceiverStream::new(rx)
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 17-38: هماهنگ کردن نوع‌های stream <code>intervals</code> با نوع stream <code>messages</code></figcaption>
+<figcaption><a href="#listing-17-38">Listing 17-38</a>: هماهنگ کردن نوع‌های stream <code>intervals</code> با نوع stream <code>messages</code></figcaption>
 </figure>
 <p>ابتدا می‌توانیم از متد کمکی <code>map</code> برای تبدیل <code>intervals</code> به یک رشته استفاده کنیم. دوم، نیاز داریم که <code>Timeout</code> از <code>messages</code> را مدیریت کنیم. با این حال، چون واقعاً <em>نمی‌خواهیم</em> تایم‌اوتی برای <code>intervals</code> داشته باشیم، می‌توانیم یک تایم‌اوت ایجاد کنیم که طولانی‌تر از مدت‌های دیگر مورد استفاده ما باشد. در اینجا، یک تایم‌اوت ۱۰ ثانیه‌ای با استفاده از <code>Duration::from_secs(10)</code> ایجاد می‌کنیم. در نهایت، نیاز داریم که <code>stream</code> را متغیر (<code>mutable</code>) کنیم تا فراخوانی‌های <code>next</code> در حلقه <code>while let</code> بتوانند روی stream تکرار کنند و آن را pin کنیم تا این کار ایمن باشد. این ما را <em>تقریباً</em> به جایی که باید برسیم می‌رساند. همه چیز از نظر نوع بررسی می‌شود. اما اگر این کد را اجرا کنید، دو مشکل وجود خواهد داشت. اول، هیچ‌گاه متوقف نمی‌شود! باید با زدن <span class="keystroke">ctrl-c</span> آن را متوقف کنید. دوم، پیام‌های الفبای انگلیسی در میان تمام پیام‌های شمارنده interval دفن خواهند شد:</p>
 <!-- Not extracting output because changes to this output aren't significant;
@@ -621,9 +623,9 @@ Interval: 43
 --snip--
 </code></pre>
 <p>لیست ۱۷-۳۹ یک روش برای حل این دو مشکل آخر را نشان می‌دهد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-17-39">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{pin::pin, time::Duration};
 </span><span class="boring">
@@ -678,16 +680,14 @@ Interval: 43
 </span><span class="boring">
 </span><span class="boring">    ReceiverStream::new(rx)
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 17-39: استفاده از <code>throttle</code> و <code>take</code> برای مدیریت streams ترکیب‌شده</figcaption>
+<figcaption><a href="#listing-17-39">Listing 17-39</a>: استفاده از <code>throttle</code> و <code>take</code> برای مدیریت streams ترکیب‌شده</figcaption>
 </figure>
 <p>ابتدا از متد <code>throttle</code> روی stream <code>intervals</code> استفاده می‌کنیم تا این stream باعث غرق شدن stream <code>messages</code> نشود. <em>Throttling</em> روشی برای محدود کردن نرخ فراخوانی یک تابع است—یا در این مورد، محدود کردن نرخ poll کردن یک stream. یک بار در هر ۱۰۰ میلی‌ثانیه کافی خواهد بود، زیرا تقریباً به همان اندازه پیام‌های ما می‌رسند.</p>
 <p>برای محدود کردن تعداد آیتم‌هایی که از یک stream قبول می‌کنیم، متد <code>take</code> را روی stream <code>merged</code> اعمال می‌کنیم، زیرا می‌خواهیم خروجی نهایی را محدود کنیم، نه فقط یکی از streamها را.</p>
 <p>اکنون وقتی برنامه را اجرا می‌کنیم، پس از دریافت ۲۰ آیتم از stream متوقف می‌شود و intervals باعث غرق شدن messages نمی‌شود. همچنین، ما دیگر <code>Interval: 100</code> یا <code>Interval: 200</code> و موارد مشابه را نمی‌بینیم، بلکه به جای آن <code>Interval: 1</code>، <code>Interval: 2</code> و به همین ترتیب دریافت می‌کنیم—حتی اگر یک stream منبع داریم که <em>می‌تواند</em> هر میلی‌ثانیه یک رویداد تولید کند. دلیل این است که فراخوانی <code>throttle</code> یک stream جدید تولید می‌کند که stream اصلی را بسته‌بندی می‌کند تا stream اصلی فقط با نرخ throttle و نه با نرخ “ذاتی” خود poll شود. ما یک سری پیام interval غیرقابل پردازش نداریم که انتخاب کرده باشیم آن‌ها را نادیده بگیریم. بلکه، ما هرگز آن پیام‌های interval را در وهله اول تولید نمی‌کنیم! این همان “تنبلی” ذاتی futures در Rust است که دوباره به کار گرفته می‌شود و به ما اجازه می‌دهد ویژگی‌های عملکردی خود را انتخاب کنیم.</p>
-<!-- manual-regeneration
-cd listings/ch17-async-await/listing-17-39
-cargo run
-copy and paste only the program output
--->
+<!-- Not extracting output because changes to this output aren't significant;
+the changes are likely to be due to the threads running differently rather than
+changes in the compiler -->
 <pre><code class="language-text">Interval: 1
 Message: 'a'
 Interval: 2
@@ -710,8 +710,8 @@ Problem: Elapsed(())
 Interval: 12
 </code></pre>
 <p>تنها یک مورد باقی مانده که باید مدیریت کنیم: خطاها! با هر دو stream مبتنی بر کانال، فراخوانی‌های <code>send</code> ممکن است در صورتی که طرف دیگر کانال بسته شود، با شکست مواجه شوند—و این به نحوه اجرای runtime برای futures که stream را تشکیل می‌دهند بستگی دارد. تاکنون این احتمال را با فراخوانی <code>unwrap</code> نادیده گرفته‌ایم، اما در یک برنامه با رفتار مناسب، باید به‌طور صریح خطا را مدیریت کنیم، حداقل با پایان دادن به حلقه تا دیگر پیام ارسال نکنیم. لیست ۱۷-۴۰ یک استراتژی ساده برای مدیریت خطا را نشان می‌دهد: چاپ مشکل و سپس <code>break</code> از حلقه‌ها.</p>
-<figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">extern crate trpl; // required for mdbook test
+<figure class="listing" id="listing-17-40">
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">extern crate trpl; // required for mdbook test
 </span><span class="boring">
 </span><span class="boring">use std::{pin::pin, time::Duration};
 </span><span class="boring">
@@ -774,7 +774,7 @@ fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
 
     ReceiverStream::new(rx)
 }</code></pre></pre>
-<figcaption>Listing 17-40: مدیریت خطاها و خاتمه دادن به حلقه‌ها</figcaption>
+<figcaption><a href="#listing-17-40">Listing 17-40</a>: مدیریت خطاها و خاتمه دادن به حلقه‌ها</figcaption>
 </figure>
 <p>همان‌طور که معمول است، روش درست برای مدیریت یک خطای ارسال پیام می‌تواند متفاوت باشد؛ فقط مطمئن شوید که یک استراتژی دارید.</p>
 <p>اکنون که مقدار زیادی از کد async را در عمل مشاهده کردیم، بیایید کمی به عقب برگردیم و به جزئیات نحوه کارکرد <code>Future</code>، <code>Stream</code> و ویژگی‌های کلیدی دیگر که Rust برای اجرای async استفاده می‌کند، بپردازیم.</p>
@@ -808,6 +808,22 @@ fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -826,6 +842,7 @@ fn get_intervals() -&gt; impl Stream&lt;Item = u32&gt; {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

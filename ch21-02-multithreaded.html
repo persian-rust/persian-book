@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html" class="active"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -182,14 +184,22 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="تبدیل-سرور-single-threaded-به-یک-سرور-multithreaded"><a class="header" href="#تبدیل-سرور-single-threaded-به-یک-سرور-multithreaded">تبدیل سرور Single-Threaded به یک سرور Multithreaded</a></h2>
-<p>در حال حاضر، سرور هر درخواست را به نوبت پردازش می‌کند، به این معنی که تا زمانی که پردازش اولین اتصال تمام نشده باشد، اتصال دوم پردازش نمی‌شود. اگر سرور درخواست‌های بیشتری دریافت کند، این اجرای سریال کمتر و کمتر بهینه خواهد بود. اگر سرور درخواستی دریافت کند که پردازش آن زمان زیادی می‌برد، درخواست‌های بعدی باید منتظر بمانند تا درخواست طولانی تمام شود، حتی اگر بتوان درخواست‌های جدید را به سرعت پردازش کرد. ما باید این مشکل را رفع کنیم، اما ابتدا به این مشکل در عمل نگاه می‌کنیم.</p>
-<h3 id="شبیهسازی-یک-درخواست-کند-در-پیادهسازی-فعلی-سرور"><a class="header" href="#شبیهسازی-یک-درخواست-کند-در-پیادهسازی-فعلی-سرور">شبیه‌سازی یک درخواست کند در پیاده‌سازی فعلی سرور</a></h3>
-<p>ما بررسی می‌کنیم که چگونه یک درخواست با پردازش کند می‌تواند بر سایر درخواست‌های ارسال‌شده به پیاده‌سازی فعلی سرور تأثیر بگذارد. لیست ۲۱-۱۰ پیاده‌سازی مدیریت یک درخواست به <em>/sleep</em> را نشان می‌دهد که یک پاسخ کند شبیه‌سازی‌شده است و باعث می‌شود سرور قبل از پاسخ دادن به مدت ۵ ثانیه بخوابد.</p>
-<figure class="listing">
+<p>در حال حاضر، سرور هر درخواست را به‌صورت ترتیبی پردازش می‌کند،<br />
+یعنی تا زمانی که پردازش درخواست اول به پایان نرسد، درخواست دوم پردازش نخواهد شد.<br />
+اگر سرور درخواست‌های بیشتری دریافت کند، این اجرای سریالی به مرور زمان کمتر بهینه خواهد بود.<br />
+اگر سروری درخواستی دریافت کند که پردازش آن زمان زیادی ببرد،<br />
+درخواست‌های بعدی باید تا پایان پردازش آن درخواست طولانی صبر کنند،<br />
+حتی اگر درخواست‌های جدید بتوانند سریع‌تر پردازش شوند.<br />
+ما باید این مشکل را برطرف کنیم، اما ابتدا مشکل را به صورت عملی بررسی می‌کنیم.</p>
+<h3 id="شبیهسازی-یک-درخواست-کند"><a class="header" href="#شبیهسازی-یک-درخواست-کند">شبیه‌سازی یک درخواست کند</a></h3>
+<p>می‌خواهیم ببینیم چگونه یک درخواست با پردازش کند می‌تواند بر درخواست‌های دیگر به سرور فعلی ما تأثیر بگذارد.<br />
+لیستینگ 21-10 نحوه‌ی رسیدگی به درخواستی به مسیر <em>/sleep</em> را پیاده‌سازی می‌کند<br />
+که با یک پاسخ شبیه‌سازی شده‌ی کند، باعث می‌شود سرور پنج ثانیه قبل از پاسخ دادن بخوابد.</p>
+<figure class="listing" id="listing-21-10">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024">use std::{
     fs,
-    io::{prelude::*, BufReader},
+    io::{BufReader, prelude::*},
     net::{TcpListener, TcpStream},
     thread,
     time::Duration,
@@ -231,26 +241,58 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">
 </span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
 </span>}</code></pre></pre>
-<figcaption>Listing 21-10: شبیه‌سازی یک درخواست کند با خوابیدن سرور به مدت ۵ ثانیه</figcaption>
+<figcaption><a href="#listing-21-10">Listing 21-10</a>: شبیه‌سازی یک درخواست کند با خوابیدن به مدت پنج ثانیه</figcaption>
 </figure>
-<p>ما از <code>if</code> به <code>match</code> تغییر داده‌ایم زیرا اکنون سه حالت داریم. باید به‌طور صریح روی یک برش از <code>request_line</code> الگو تطابق ایجاد کنیم تا مقادیر رشته‌ای را تطابق دهیم؛ <code>match</code> به طور خودکار مرجع‌دهی و عدم مرجع‌دهی را مانند متد برابری انجام نمی‌دهد.</p>
-<p>بازوی اول همان بلوک <code>if</code> از لیست ۲۱-۹ است. بازوی دوم یک درخواست به <em>/sleep</em> را تطابق می‌دهد. وقتی آن درخواست دریافت شود، سرور به مدت ۵ ثانیه می‌خوابد قبل از اینکه صفحه HTML موفقیت‌آمیز را نمایش دهد. بازوی سوم همان بلوک <code>else</code> از لیست ۲۱-۹ است.</p>
+<p>حالا که سه حالت داریم، به جای <code>if</code> از <code>match</code> استفاده کرده‌ایم.
+باید صریحاً روی یک <code>slice</code> از <code>request_line</code> تطبیق الگو (pattern matching) انجام دهیم
+تا بتوانیم با مقادیر رشته‌ای literal تطبیق دهیم؛
+چون <code>match</code> مانند متد برابری به‌صورت خودکار رفرنس‌گذاری و dereference نمی‌کند.</p>
+<p>بازوی اول مشابه بلاک <code>if</code> در لیستینگ 21-9 است.
+بازوی دوم با درخواستی به مسیر <em>/sleep</em> مطابقت دارد.
+وقتی این درخواست دریافت شود، سرور به مدت پنج ثانیه می‌خوابد
+و سپس صفحه‌ی HTML موفقیت‌آمیز را رندر می‌کند.
+بازوی سوم همانند بلاک <code>else</code> در لیستینگ 21-9 است.</p>
 <p>می‌توانید ببینید که سرور ما چقدر ابتدایی است: کتابخانه‌های واقعی مدیریت تشخیص درخواست‌های متعدد را به روشی بسیار کمتر پرحرف انجام می‌دهند!</p>
-<p>سرور را با استفاده از <code>cargo run</code> اجرا کنید. سپس دو پنجره مرورگر باز کنید: یکی برای آدرس <em>http://127.0.0.1:7878/</em> و دیگری برای آدرس <em>http://127.0.0.1:7878/sleep</em>. اگر چند بار آدرس <em>/</em> را وارد کنید، می‌بینید که سریع پاسخ می‌دهد. اما اگر آدرس <em>/sleep</em> را وارد کنید و سپس <em>/</em> را بارگذاری کنید، خواهید دید که <em>/</em> منتظر می‌ماند تا درخواست <em>/sleep</em> برای ۵ ثانیه کامل بخوابد و سپس بارگذاری شود.</p>
+<p>سرور را با دستور <code>cargo run</code> اجرا کنید.<br />
+سپس دو پنجره‌ی مرورگر باز کنید: یکی برای آدرس <em>http://127.0.0.1:7878</em> و دیگری برای <em>http://127.0.0.1:7878/sleep</em>.<br />
+اگر چند بار آدرس <em>/</em> را وارد کنید، مانند قبل پاسخ سریع دریافت خواهید کرد.<br />
+اما اگر ابتدا آدرس <em>/sleep</em> را وارد کنید و سپس آدرس <em>/</em> را بارگذاری کنید،<br />
+خواهید دید که <em>/</em> تا پایان پنج ثانیه خوابیدن <code>sleep</code> منتظر می‌ماند و سپس بارگذاری می‌شود.</p>
 <h3 id="بهبود-توان-عملیاتی-با-یک-thread-pool"><a class="header" href="#بهبود-توان-عملیاتی-با-یک-thread-pool">بهبود توان عملیاتی با یک Thread Pool</a></h3>
 <p>یک <em>Thread Pool</em> گروهی از Threadهای ایجادشده است که منتظر و آماده برای مدیریت یک وظیفه هستند. وقتی برنامه یک وظیفه جدید دریافت می‌کند، یکی از Threadهای موجود در Pool به وظیفه اختصاص داده می‌شود و آن Thread وظیفه را پردازش می‌کند. Threadهای باقی‌مانده در Pool در دسترس هستند تا هر وظیفه دیگری که وارد شود را در حالی که Thread اول وظیفه خود را پردازش می‌کند، مدیریت کنند. وقتی Thread اول پردازش وظیفه خود را به پایان می‌رساند، به Pool Threadهای بیکار بازمی‌گردد و آماده برای مدیریت یک وظیفه جدید است. یک Thread Pool به شما امکان می‌دهد اتصالات را به صورت همزمان پردازش کنید و توان عملیاتی سرور خود را افزایش دهید.</p>
 <p>ما تعداد Threadهای موجود در Pool را به یک عدد کوچک محدود خواهیم کرد تا از حملات Denial of Service (DoS) محافظت کنیم؛ اگر برنامه ما برای هر درخواست جدید یک Thread ایجاد کند، کسی که ۱۰ میلیون درخواست به سرور ما ارسال کند می‌تواند با استفاده از تمام منابع سرور، پردازش درخواست‌ها را متوقف کند.</p>
-<p>به جای ایجاد تعداد نامحدودی از Threadها، تعداد ثابتی از Threadها را در Pool خواهیم داشت که منتظر پردازش وظایف هستند. درخواست‌هایی که وارد می‌شوند به Pool ارسال می‌شوند. Pool یک صف از درخواست‌های ورودی را مدیریت خواهد کرد. هر یک از Threadها در Pool یک درخواست از صف برداشته، درخواست را پردازش می‌کند و سپس درخواست دیگری از صف درخواست می‌کند. با این طراحی، می‌توانیم حداکثر تا <code>N</code> درخواست را به صورت همزمان پردازش کنیم، جایی که <code>N</code> تعداد Threadها است. اگر هر Thread به یک درخواست طولانی پاسخ دهد، درخواست‌های بعدی ممکن است در صف پشتیبانی شوند، اما تعداد درخواست‌های طولانی که می‌توانیم قبل از رسیدن به این نقطه مدیریت کنیم افزایش یافته است.</p>
-<p>این تکنیک تنها یکی از راه‌های بهبود توان عملیاتی یک وب سرور است. گزینه‌های دیگری که ممکن است بررسی کنید شامل <em>مدل fork/join</em>، <em>مدل I/O async تک‌Threaded</em>، یا <em>مدل I/O async چندThreaded</em> هستند. اگر به این موضوع علاقه دارید، می‌توانید بیشتر در مورد راه‌حل‌های دیگر بخوانید و آن‌ها را پیاده‌سازی کنید؛ با یک زبان سطح پایین مانند Rust، همه این گزینه‌ها ممکن هستند.</p>
-<p>پیش از آنکه پیاده‌سازی یک Thread Pool را شروع کنیم، بیایید در مورد نحوه استفاده از Pool صحبت کنیم. وقتی قصد طراحی کدی را دارید، ابتدا نوشتن رابط کاربری (client interface) می‌تواند به طراحی شما کمک کند. API کد را به گونه‌ای بنویسید که ساختاری برای نحوه فراخوانی آن داشته باشد؛ سپس قابلیت‌ها را در آن ساختار پیاده‌سازی کنید به جای اینکه ابتدا قابلیت‌ها را پیاده‌سازی کنید و سپس API عمومی را طراحی کنید.</p>
+<p>برای محافظت در برابر حملات DoS، تعداد threadهای موجود در thread pool را محدود می‌کنیم؛
+زیرا اگر برنامه‌ی ما برای هر درخواست یک thread جدید بسازد،
+کسی که ۱۰ میلیون درخواست به سرور ما ارسال کند می‌تواند با مصرف همه‌ی منابع سرور،
+عملیات پردازش درخواست‌ها را کاملاً متوقف کند.</p>
+<p>به جای ایجاد threadهای نامحدود، یک تعداد ثابت thread در pool خواهیم داشت که منتظر می‌مانند.
+درخواست‌های ورودی به این pool ارسال می‌شوند تا پردازش شوند.
+pool صفی از درخواست‌های ورودی را نگه می‌دارد.
+هر یک از threadهای pool یک درخواست را از صف بیرون می‌کشد، آن را پردازش می‌کند،
+و سپس درخواست بعدی را از صف دریافت می‌کند.
+با این طراحی، می‌توانیم تا <em><code>N</code></em> درخواست را به‌صورت همزمان پردازش کنیم،
+که <em><code>N</code></em> برابر با تعداد threadها است.
+اگر هر thread در حال پاسخ دادن به یک درخواست طولانی باشد،
+درخواست‌های بعدی می‌توانند در صف منتظر بمانند،
+اما ما تعداد درخواست‌های طولانی که می‌توانیم قبل از رسیدن به این نقطه پردازش کنیم را افزایش داده‌ایم.</p>
+<p>این تکنیک یکی از روش‌های متعددی است که برای افزایش throughput یک وب سرور وجود دارد.
+گزینه‌های دیگری که می‌توانید بررسی کنید عبارت‌اند از مدل fork/join،
+مدل async I/O تک‌نخی، و مدل async I/O چندنخی.
+اگر به این موضوع علاقه‌مند هستید، می‌توانید درباره‌ی راه‌حل‌های دیگر مطالعه کنید و سعی کنید آن‌ها را پیاده‌سازی کنید؛
+با زبانی سطح پایین مانند Rust، تمام این گزینه‌ها ممکن هستند.</p>
 <p>مشابه روش توسعه مبتنی بر تست که در پروژه فصل ۱۲ استفاده کردیم، اینجا از توسعه مبتنی بر کامپایلر استفاده می‌کنیم. کدی را که توابع مورد نظرمان را فراخوانی می‌کند، می‌نویسیم و سپس به خطاهای کامپایلر نگاه می‌کنیم تا مشخص کنیم چه تغییراتی باید انجام دهیم تا کد کار کند. با این حال، پیش از انجام این کار، روش دیگری را که قرار نیست استفاده کنیم، به عنوان نقطه شروع بررسی خواهیم کرد.</p>
-<h4 id="ایجاد-یک-thread-جدید-برای-هر-درخواست"><a class="header" href="#ایجاد-یک-thread-جدید-برای-هر-درخواست">ایجاد یک Thread جدید برای هر درخواست</a></h4>
-<p>ابتدا، بیایید بررسی کنیم که اگر کد ما برای هر اتصال یک Thread جدید ایجاد کند، چگونه به نظر می‌رسد. همان‌طور که قبلاً ذکر شد، این طرح نهایی ما نیست به دلیل مشکلاتی که ممکن است با ایجاد تعداد نامحدودی از Threadها پیش بیاید، اما این یک نقطه شروع برای ایجاد یک سرور Multithreaded کارا است. سپس Thread Pool را به عنوان یک بهبود اضافه خواهیم کرد، و مقایسه این دو راه‌حل آسان‌تر خواهد بود. لیست ۲۱-۱۱ تغییراتی را که باید در <code>main</code> انجام دهیم تا برای هر جریان در حلقه <code>for</code> یک Thread جدید ایجاد کنیم، نشان می‌دهد.</p>
-<figure class="listing">
+<p><a id="code-structure-if-we-could-spawn-a-thread-for-each-request"></a></p>
+<h4 id="ایجاد-یک-thread-برای-هر-درخواست"><a class="header" href="#ایجاد-یک-thread-برای-هر-درخواست">ایجاد یک thread برای هر درخواست</a></h4>
+<p>ابتدا بیایید ببینیم کد ما چگونه خواهد بود اگر برای هر اتصال یک thread جدید ایجاد کند.
+همان‌طور که قبلاً گفته شد، این برنامه‌ی نهایی ما نیست به دلیل مشکلات احتمالی ایجاد تعداد نامحدود thread،
+اما نقطه‌ی شروع خوبی برای داشتن یک سرور چندنخی عملی است.
+سپس به‌عنوان بهبود، thread pool را اضافه خواهیم کرد و مقایسه‌ی این دو راه‌حل ساده‌تر خواهد بود.</p>
+<p>لیستینگ 21-11 تغییرات لازم در تابع <code>main</code> را نشان می‌دهد تا برای هر stream در حلقه‌ی <code>for</code> یک thread جدید ایجاد کند و آن را مدیریت نماید.</p>
+<figure class="listing" id="listing-21-11">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust no_run edition2021"><span class="boring">use std::{
+<pre><pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -289,19 +331,23 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">
 </span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
 </span><span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 21-11: ایجاد یک Thread جدید برای هر جریان</figcaption>
+<figcaption><a href="#listing-21-11">Listing 21-11</a>: ایجاد یک Thread جدید برای هر جریان</figcaption>
 </figure>
 <p>همان‌طور که در فصل ۱۶ یاد گرفتید، <code>thread::spawn</code> یک Thread جدید ایجاد کرده و سپس کد موجود در کلوزر را در Thread جدید اجرا می‌کند. اگر این کد را اجرا کنید و در مرورگر خود <em>/sleep</em> را باز کنید، سپس <em>/</em> را در دو تب دیگر باز کنید، خواهید دید که درخواست‌های <em>/</em> لازم نیست منتظر پایان درخواست <em>/sleep</em> باشند. با این حال، همان‌طور که ذکر شد، این روش در نهایت سیستم را تحت فشار قرار می‌دهد زیرا شما تعداد نامحدودی Thread بدون محدودیت ایجاد می‌کنید.</p>
 <p>ممکن است به یاد بیاورید که این دقیقاً همان شرایطی است که async و await در آن می‌درخشند! این نکته را در ذهن داشته باشید در حالی که Thread Pool را می‌سازیم و به این فکر کنید که چگونه این شرایط با async متفاوت یا مشابه خواهد بود.</p>
 <!-- Old headings. Do not remove or links may break. -->
 <p><a id="creating-a-similar-interface-for-a-finite-number-of-threads"></a></p>
 <h4 id="creating-a-finite-number-of-threads"><a class="header" href="#creating-a-finite-number-of-threads">Creating a Finite Number of Threads</a></h4>
-<p>ما می‌خواهیم Thread Pool ما به روشی مشابه و آشنا کار کند، به طوری که تغییر از استفاده از Threadها به Thread Pool نیاز به تغییرات زیادی در کدی که از API ما استفاده می‌کند نداشته باشد. لیست ۲۱-۱۲ رابط فرضی برای یک ساختار <code>ThreadPool</code> را نشان می‌دهد که می‌خواهیم به جای <code>thread::spawn</code> استفاده کنیم.</p>
-<figure class="listing">
+<p>می‌خواهیم thread pool ما به روشی مشابه و آشنا کار کند،<br />
+به‌طوری که تغییر از استفاده‌ی مستقیم از threadها به استفاده از thread pool<br />
+نیاز به تغییرات بزرگ در کدی که از API ما استفاده می‌کند نداشته باشد.<br />
+لیستینگ 21-12 رابط فرضی ساختار <code>ThreadPool</code> را نشان می‌دهد<br />
+که می‌خواهیم به جای <code>thread::spawn</code> از آن استفاده کنیم.</p>
+<figure class="listing" id="listing-21-12">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -341,11 +387,20 @@ fn handle_connection(mut stream: TcpStream) {
 </span><span class="boring">
 </span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-12: رابط ایده‌آل برای <code>ThreadPool</code></figcaption>
+<figcaption><a href="#listing-21-12">Listing 21-12</a>: رابط ایده‌آل برای <code>ThreadPool</code></figcaption>
 </figure>
-<p>ما از <code>ThreadPool::new</code> برای ایجاد یک Thread Pool جدید با تعداد قابل تنظیم Threadها استفاده می‌کنیم، که در اینجا چهار است. سپس، در حلقه <code>for</code>، متد <code>pool.execute</code> رابطی مشابه با <code>thread::spawn</code> دارد، به طوری که یک Closure را می‌گیرد که Pool باید برای هر جریان اجرا کند. ما نیاز داریم <code>pool.execute</code> را پیاده‌سازی کنیم تا Closure را بگیرد و به یکی از Threadهای موجود در Pool برای اجرا بدهد. این کد هنوز کامپایل نمی‌شود، اما آن را امتحان می‌کنیم تا کامپایلر راهنمایی کند که چگونه آن را اصلاح کنیم.</p>
-<h4 id="ساخت-threadpool-با-استفاده-از-توسعه-مبتنی-بر-کامپایلر"><a class="header" href="#ساخت-threadpool-با-استفاده-از-توسعه-مبتنی-بر-کامپایلر">ساخت <code>ThreadPool</code> با استفاده از توسعه مبتنی بر کامپایلر</a></h4>
-<p>تغییرات لیست ۲۱-۱۲ را در فایل <em>src/main.rs</em> اعمال کنید و سپس از خطاهای کامپایلر که توسط <code>cargo check</code> ارائه می‌شود برای هدایت توسعه استفاده کنید. اولین خطایی که دریافت می‌کنیم به صورت زیر است:</p>
+<p>ما با استفاده از <code>ThreadPool::new</code> یک thread pool جدید با تعداد قابل تنظیم thread ایجاد می‌کنیم،
+در این مثال تعداد چهار thread است.
+سپس در حلقه‌ی <code>for</code>، متد <code>pool.execute</code> رابطی مشابه با <code>thread::spawn</code> دارد،
+که یک closure می‌گیرد و pool باید آن را برای هر stream اجرا کند.
+ما باید <code>pool.execute</code> را پیاده‌سازی کنیم تا این closure را بگیرد
+و به یک thread در pool بدهد تا اجرا شود.
+این کد هنوز کامپایل نخواهد شد، اما این کار را انجام می‌دهیم تا کامپایلر ما را در رفع خطاها راهنمایی کند.</p>
+<p><a id="building-the-threadpool-struct-using-compiler-driven-development"></a></p>
+<h4 id="ساخت-threadpool-با-استفاده-از-توسعهی-مبتنی-بر-خطاهای-کامپایلر"><a class="header" href="#ساخت-threadpool-با-استفاده-از-توسعهی-مبتنی-بر-خطاهای-کامپایلر">ساخت <code>ThreadPool</code> با استفاده از توسعه‌ی مبتنی بر خطاهای کامپایلر</a></h4>
+<p>تغییرات لیستینگ 21-12 را در فایل <em>src/main.rs</em> اعمال کنید،
+سپس اجازه دهید خطاهای کامپایلر از دستور <code>cargo check</code> روند توسعه‌ی ما را هدایت کنند.
+در اینجا اولین خطایی که دریافت می‌کنیم آمده است:</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
 error[E0433]: failed to resolve: use of undeclared type `ThreadPool`
@@ -357,19 +412,26 @@ error[E0433]: failed to resolve: use of undeclared type `ThreadPool`
 For more information about this error, try `rustc --explain E0433`.
 error: could not compile `hello` (bin "hello") due to 1 previous error
 </code></pre>
-<p>عالی! این خطا به ما می‌گوید که به یک نوع یا ماژول <code>ThreadPool</code> نیاز داریم، بنابراین اکنون آن را خواهیم ساخت. پیاده‌سازی <code>ThreadPool</code> ما مستقل از نوع کاری است که وب سرور ما انجام می‌دهد. بنابراین، بیایید crate <code>hello</code> را از یک crate باینری به یک crate کتابخانه‌ای تغییر دهیم تا پیاده‌سازی <code>ThreadPool</code> خود را در آن قرار دهیم. پس از تغییر به یک crate کتابخانه‌ای، می‌توانیم از کتابخانه Thread Pool جداگانه برای هر کاری که می‌خواهیم با استفاده از Thread Pool انجام دهیم استفاده کنیم، نه فقط برای سرویس‌دهی به درخواست‌های وب.</p>
-<p>فایلی به نام <em>src/lib.rs</em> ایجاد کنید که شامل تعریف زیر باشد، که ساده‌ترین تعریف ممکن برای یک ساختار <code>ThreadPool</code> است:</p>
+<p>عالی! این خطا به ما می‌گوید که به یک نوع یا ماژول <code>ThreadPool</code> نیاز داریم،
+پس اکنون یکی می‌سازیم. پیاده‌سازی <code>ThreadPool</code> ما مستقل از نوع کاری است که وب‌سرور انجام می‌دهد.
+بنابراین، بیایید crate <code>hello</code> را از یک crate دودویی به یک crate کتابخانه‌ای تبدیل کنیم
+تا پیاده‌سازی <code>ThreadPool</code> را در آن قرار دهیم.
+پس از تبدیل به crate کتابخانه‌ای، می‌توانیم از این کتابخانه‌ی thread pool جداگانه برای هر کاری که می‌خواهیم با thread pool انجام دهیم استفاده کنیم،
+نه فقط برای سرویس‌دهی به درخواست‌های وب.</p>
+<p>یک فایل <em>src/lib.rs</em> ایجاد کنید که شامل کد زیر باشد،
+که ساده‌ترین تعریف ممکن برای <code>ThreadPool</code> است که فعلاً می‌توانیم داشته باشیم:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">pub struct ThreadPool;</code></pre>
 </figure>
-<p>سپس فایل <em>main.rs</em> را ویرایش کنید تا <code>ThreadPool</code> را از crate کتابخانه‌ای وارد دامنه کنید. برای این کار کد زیر را به بالای فایل <em>src/main.rs</em> اضافه کنید:</p>
+<p>سپس فایل <em>main.rs</em> را ویرایش کنید تا با افزودن کد زیر به بالای فایل <em>src/main.rs</em>،
+<code>ThreadPool</code> را از crate کتابخانه‌ای وارد حوزه (scope) کنید:</p>
 <figure class="listing">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use hello::ThreadPool;
 <span class="boring">use std::{
 </span><span class="boring">    fs,
-</span><span class="boring">    io::{prelude::*, BufReader},
+</span><span class="boring">    io::{BufReader, prelude::*},
 </span><span class="boring">    net::{TcpListener, TcpStream},
 </span><span class="boring">    thread,
 </span><span class="boring">    time::Duration,
@@ -433,7 +495,10 @@ impl ThreadPool {
     }
 }</code></pre>
 </figure>
-<p>ما نوع <code>usize</code> را برای پارامتر <code>size</code> انتخاب کردیم، زیرا می‌دانیم که تعداد منفی Threadها منطقی نیست. همچنین می‌دانیم که این مقدار <code>4</code> را به عنوان تعداد عناصر در یک مجموعه از Threadها استفاده خواهیم کرد، که نوع <code>usize</code> برای آن مناسب است، همان‌طور که در بخش <a href="ch03-02-data-types.html#integer-types">“نوع‌های عدد صحیح”</a><!-- ignore --> از فصل ۳ توضیح داده شد.</p>
+<p>ما نوع پارامتر <code>size</code> را <code>usize</code> انتخاب کردیم چون می‌دانیم تعداد منفی thread منطقی نیست.
+همچنین می‌دانیم که این مقدار <code>4</code> را به‌عنوان تعداد عناصر در یک مجموعه از threadها استفاده خواهیم کرد،
+که برای همین منظور نوع <code>usize</code> مناسب است،
+همان‌طور که در بخش <a href="ch03-02-data-types.html#integer-types">“انواع عدد صحیح”</a><!-- ignore --> در فصل ۳ توضیح داده شده است.</p>
 <p>بیایید دوباره کد را بررسی کنیم:</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
@@ -446,8 +511,18 @@ error[E0599]: no method named `execute` found for struct `ThreadPool` in the cur
 For more information about this error, try `rustc --explain E0599`.
 error: could not compile `hello` (bin "hello") due to 1 previous error
 </code></pre>
-<p>اکنون خطا به این دلیل است که متد <code>execute</code> روی <code>ThreadPool</code> تعریف نشده است. به یاد بیاورید که در بخش <a href="#creating-a-finite-number-of-threads">“ایجاد تعداد محدودی از Threadها”</a><!-- ignore --> تصمیم گرفتیم که Thread Pool ما باید رابطی مشابه <code>thread::spawn</code> داشته باشد. علاوه بر این، متد <code>execute</code> را طوری پیاده‌سازی خواهیم کرد که Closure داده شده را بگیرد و آن را به یک Thread بیکار در Pool برای اجرا بدهد.</p>
-<p>ما متد <code>execute</code> را روی <code>ThreadPool</code> تعریف می‌کنیم تا یک Closure را به عنوان پارامتر بپذیرد. به یاد بیاورید که در بخش <a href="ch13-01-closures.html#moving-captured-values-out-of-the-closure-and-the-fn-traits">“انتقال مقادیر گرفته‌شده از Closure و ویژگی‌های <code>Fn</code>”</a><!-- ignore --> از فصل ۱۳ توضیح داده شد که می‌توانیم Closureها را با سه ویژگی مختلف به عنوان پارامتر بپذیریم: <code>Fn</code>، <code>FnMut</code>، و <code>FnOnce</code>. باید تصمیم بگیریم که در اینجا از کدام نوع Closure استفاده کنیم. می‌دانیم که چیزی مشابه با پیاده‌سازی <code>thread::spawn</code> در کتابخانه استاندارد انجام خواهیم داد، بنابراین می‌توانیم به محدودیت‌های امضای <code>thread::spawn</code> روی پارامترش نگاه کنیم. مستندات به ما موارد زیر را نشان می‌دهد:</p>
+<p>اکنون خطا رخ می‌دهد چون متد <code>execute</code> روی <code>ThreadPool</code> تعریف نشده است.<br />
+به یاد بیاورید از بخش <a href="#creating-a-finite-number-of-threads">“ایجاد تعداد محدودی thread”</a><!-- ignore --><br />
+که تصمیم گرفتیم رابط کاربری thread pool ما شبیه به <code>thread::spawn</code> باشد.<br />
+علاوه بر این، متد <code>execute</code> را پیاده‌سازی خواهیم کرد تا closure دریافت‌شده را بگیرد<br />
+و آن را به یک thread بیکار در pool بدهد تا اجرا کند.</p>
+<p>متد <code>execute</code> را روی <code>ThreadPool</code> تعریف می‌کنیم تا یک closure را به‌عنوان پارامتر بگیرد.<br />
+به یاد بیاورید از بخش <a href="ch13-01-closures.html#moving-captured-values-out-of-the-closure-and-the-fn-traits">“انتقال مقادیر گرفته‌شده از closure و traitهای <code>Fn</code>”</a><!-- ignore --> در فصل ۱۳<br />
+که می‌توانیم closureها را با سه trait مختلف به‌عنوان پارامتر بگیریم: <code>Fn</code>، <code>FnMut</code> و <code>FnOnce</code>.<br />
+باید تصمیم بگیریم در اینجا از کدام نوع closure استفاده کنیم.<br />
+می‌دانیم که قرار است کاری مشابه پیاده‌سازی <code>thread::spawn</code> در کتابخانه استاندارد انجام دهیم،<br />
+پس می‌توانیم به محدودیت‌هایی که امضای تابع <code>thread::spawn</code> روی پارامترش دارد نگاه کنیم.<br />
+مستندات به ما موارد زیر را نشان می‌دهد:</p>
 <pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
     where
         F: FnOnce() -&gt; T,
@@ -473,7 +548,9 @@ error: could not compile `hello` (bin "hello") due to 1 previous error
 }</code></pre>
 </figure>
 <p>ما همچنان از <code>()</code> پس از <code>FnOnce</code> استفاده می‌کنیم زیرا این <code>FnOnce</code> نشان‌دهنده یک Closure است که هیچ پارامتری نمی‌گیرد و نوع <code>()</code> را بازمی‌گرداند. درست مانند تعریف توابع، می‌توان نوع بازگشتی را از امضا حذف کرد، اما حتی اگر هیچ پارامتری نداشته باشیم، همچنان به پرانتزها نیاز داریم.</p>
-<p>دوباره، این ساده‌ترین پیاده‌سازی ممکن برای متد <code>execute</code> است: این متد هیچ کاری انجام نمی‌دهد، اما ما فقط تلاش می‌کنیم کد خود را کامپایل کنیم. بیایید دوباره کد را بررسی کنیم:</p>
+<p>دوباره، این ساده‌ترین پیاده‌سازی متد <code>execute</code> است: هیچ کاری انجام نمی‌دهد،
+اما هدف ما فقط این است که کدمان کامپایل شود.
+بیایید دوباره آن را بررسی کنیم:</p>
 <pre><code class="language-console">$ cargo check
     Checking hello v0.1.0 (file:///projects/hello)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s
@@ -482,10 +559,20 @@ error: could not compile `hello` (bin "hello") due to 1 previous error
 <blockquote>
 <p>نکته: یک ضرب‌المثل درباره زبان‌هایی با کامپایلرهای سخت‌گیر، مانند Haskell و Rust، این است که “اگر کد کامپایل شود، کار می‌کند.” اما این ضرب‌المثل همیشه درست نیست. پروژه ما کامپایل می‌شود، اما هیچ کاری انجام نمی‌دهد! اگر در حال ساخت یک پروژه واقعی و کامل بودیم، اکنون زمان خوبی برای شروع نوشتن تست‌های واحد بود تا بررسی کنیم که کد هم کامپایل می‌شود <em>و</em> رفتار مورد نظر ما را دارد.</p>
 </blockquote>
-<p><strong>توجه:</strong> اگر قصد داشتیم به جای یک Closure، یک <em>future</em> اجرا کنیم، چه تفاوتی در اینجا وجود داشت؟</p>
+<p>فرض کنید: اگر قرار بود به جای closure، یک future اجرا کنیم،
+چه تفاوت‌هایی در اینجا وجود داشت؟</p>
 <h4 id="اعتبارسنجی-تعداد-threadها-در-new"><a class="header" href="#اعتبارسنجی-تعداد-threadها-در-new">اعتبارسنجی تعداد Threadها در <code>new</code></a></h4>
-<p>در حال حاضر، ما هیچ کاری با پارامترهای <code>new</code> و <code>execute</code> انجام نمی‌دهیم. بیایید بدنه این توابع را با رفتار مورد نظر خود پیاده‌سازی کنیم. ابتدا، به تابع <code>new</code> فکر کنیم. قبلاً یک نوع عدد صحیح بدون علامت برای پارامتر <code>size</code> انتخاب کردیم، زیرا یک Pool با تعداد منفی Thread منطقی نیست. با این حال، یک Pool با صفر Thread نیز منطقی نیست، اما صفر یک مقدار معتبر برای <code>usize</code> است. کدی اضافه خواهیم کرد تا بررسی کند که مقدار <code>size</code> بیشتر از صفر باشد قبل از اینکه یک نمونه از <code>ThreadPool</code> بازگردانیم و در صورت دریافت مقدار صفر، برنامه با استفاده از ماکروی <code>assert!</code> متوقف شود، همان‌طور که در لیست ۲۱-۱۳ نشان داده شده است.</p>
-<figure class="listing">
+<p>فعلاً با پارامترهای <code>new</code> و <code>execute</code> کاری انجام نمی‌دهیم.
+بیایید بدنه‌ی این توابع را با رفتار مورد نظر پیاده‌سازی کنیم.
+برای شروع، به تابع <code>new</code> فکر کنیم.
+قبلاً برای پارامتر <code>size</code> نوع بدون علامت (unsigned) را انتخاب کردیم،
+چون یک pool با تعداد منفی thread منطقی نیست.
+اما یک pool با صفر thread نیز منطقی نیست،
+با این‌که صفر یک مقدار معتبر از نوع <code>usize</code> است.
+ما کدی اضافه خواهیم کرد که بررسی کند مقدار <code>size</code> بزرگ‌تر از صفر باشد،
+و اگر صفر دریافت شد، با استفاده از ماکروی <code>assert!</code> برنامه panic کند،
+همان‌طور که در لیستینگ 21-13 نشان داده شده است.</p>
+<figure class="listing" id="listing-21-13">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">pub struct ThreadPool;
 </span><span class="boring">
@@ -510,7 +597,7 @@ error: could not compile `hello` (bin "hello") due to 1 previous error
 </span><span class="boring">    {
 </span><span class="boring">    }
 </span>}</code></pre>
-<figcaption>Listing 21-13: پیاده‌سازی <code>ThreadPool::new</code> برای توقف برنامه در صورت صفر بودن <code>size</code></figcaption>
+<figcaption><a href="#listing-21-13">Listing 21-13</a>: پیاده‌سازی <code>ThreadPool::new</code> برای توقف برنامه در صورت صفر بودن <code>size</code></figcaption>
 </figure>
 <p>ما همچنین برخی مستندات برای <code>ThreadPool</code> خود با استفاده از نظرات داکیومنت (<em>doc comments</em>) اضافه کرده‌ایم. توجه داشته باشید که ما از اصول خوب مستندسازی پیروی کرده‌ایم و بخشی را اضافه کرده‌ایم که شرایطی که تابع ما ممکن است به وحشت بیفتد (<em>panic</em>) را توضیح می‌دهد، همان‌طور که در فصل ۱۴ مورد بحث قرار گرفت. دستور <code>cargo doc --open</code> را اجرا کنید و روی ساختار <code>ThreadPool</code> کلیک کنید تا ببینید مستندات تولیدشده برای <code>new</code> چگونه به نظر می‌رسند!</p>
 <p>به جای اضافه کردن ماکروی <code>assert!</code> همان‌طور که اینجا انجام دادیم، می‌توانستیم <code>new</code> را به <code>build</code> تغییر دهیم و یک <code>Result</code> بازگردانیم، مانند آنچه با <code>Config::build</code> در پروژه I/O در لیست ۱۲-۹ انجام دادیم. اما در این مورد تصمیم گرفته‌ایم که تلاش برای ایجاد یک Thread Pool بدون هیچ Threadی باید یک خطای غیرقابل بازیابی باشد. اگر احساس جاه‌طلبی می‌کنید، سعی کنید تابعی به نام <code>build</code> با امضای زیر بنویسید تا با تابع <code>new</code> مقایسه کنید:</p>
@@ -524,7 +611,7 @@ error: could not compile `hello` (bin "hello") due to 1 previous error
         T: Send + 'static,</code></pre>
 <p>تابع <code>spawn</code> یک <code>JoinHandle&lt;T&gt;</code> بازمی‌گرداند، جایی که <code>T</code> نوعی است که Closure بازمی‌گرداند. بیایید ما هم از <code>JoinHandle</code> استفاده کنیم و ببینیم چه اتفاقی می‌افتد. در مورد ما، Closureهایی که به Thread Pool ارسال می‌کنیم اتصال را مدیریت کرده و چیزی بازنمی‌گردانند، بنابراین <code>T</code> برابر با نوع واحد <code>()</code> خواهد بود.</p>
 <p>کد موجود در لیست ۲۱-۱۴ کامپایل می‌شود اما هنوز هیچ Threadی ایجاد نمی‌کند. ما تعریف <code>ThreadPool</code> را تغییر داده‌ایم تا یک بردار از نمونه‌های <code>thread::JoinHandle&lt;()&gt;</code> را نگه دارد، بردار را با ظرفیتی برابر با <code>size</code> مقداردهی اولیه کرده‌ایم، یک حلقه <code>for</code> تنظیم کرده‌ایم که کدی برای ایجاد Threadها اجرا می‌کند، و یک نمونه از <code>ThreadPool</code> که آن‌ها را در خود دارد بازمی‌گرداند.</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-14">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore not_desired_behavior">use std::thread;
 
@@ -560,25 +647,45 @@ impl ThreadPool {
 </span><span class="boring">    {
 </span><span class="boring">    }
 </span>}</code></pre>
-<figcaption>Listing 21-14: ایجاد یک بردار برای <code>ThreadPool</code> برای نگهداری Threadها</figcaption>
+<figcaption><a href="#listing-21-14">Listing 21-14</a>: ایجاد یک بردار برای <code>ThreadPool</code> برای نگهداری Threadها</figcaption>
 </figure>
-<p>ما <code>std::thread</code> را در crate کتابخانه‌ای وارد دامنه کرده‌ایم، زیرا از <code>thread::JoinHandle</code> به عنوان نوع آیتم‌های موجود در بردار در <code>ThreadPool</code> استفاده می‌کنیم.</p>
-<p>هنگامی که یک مقدار معتبر برای <code>size</code> دریافت شود، <code>ThreadPool</code> ما یک بردار جدید ایجاد می‌کند که می‌تواند <code>size</code> آیتم را در خود جای دهد. تابع <code>with_capacity</code> همان کار <code>Vec::new</code> را انجام می‌دهد اما با یک تفاوت مهم: فضای لازم را از قبل در بردار تخصیص می‌دهد. چون می‌دانیم که باید <code>size</code> عنصر را در بردار ذخیره کنیم، انجام این تخصیص از ابتدا کمی کارآمدتر از استفاده از <code>Vec::new</code> است که خودش در حین اضافه شدن عناصر تغییر اندازه می‌دهد.</p>
+<p>ما <code>std::thread</code> را در crate کتابخانه‌ای وارد حوزه کرده‌ایم،
+چون از <code>thread::JoinHandle</code> به‌عنوان نوع آیتم‌های موجود در بردار داخل <code>ThreadPool</code> استفاده می‌کنیم.</p>
+<p>پس از دریافت مقدار معتبر برای <code>size</code>، <code>ThreadPool</code> ما یک بردار جدید ایجاد می‌کند
+که می‌تواند <code>size</code> آیتم را در خود نگه دارد.
+تابع <code>with_capacity</code> همان کاری را انجام می‌دهد که <code>Vec::new</code> انجام می‌دهد،
+اما با یک تفاوت مهم: فضای لازم را از پیش در بردار تخصیص می‌دهد.
+از آن‌جایی که می‌دانیم باید <code>size</code> عنصر در بردار ذخیره کنیم،
+انجام این تخصیص پیشاپیش کمی کارآمدتر از استفاده از <code>Vec::new</code> است،
+که هنگام وارد کردن عناصر، اندازه‌ی خود را تغییر می‌دهد.</p>
 <p>وقتی دوباره <code>cargo check</code> را اجرا کنید، باید با موفقیت انجام شود.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id ="a-worker-struct-responsible-for-sending-code-from-the-threadpool-to-a-thread"></a></p>
 <h4 id="ساختار-worker-مسئول-ارسال-کد-از-threadpool-به-یک-thread"><a class="header" href="#ساختار-worker-مسئول-ارسال-کد-از-threadpool-به-یک-thread">ساختار <code>Worker</code> مسئول ارسال کد از <code>ThreadPool</code> به یک Thread</a></h4>
 <p>در حلقه <code>for</code> در لیست ۲۱-۱۴، نظری در مورد ایجاد Threadها گذاشتیم. در اینجا بررسی خواهیم کرد که چگونه واقعاً Threadها را ایجاد می‌کنیم. کتابخانه استاندارد <code>thread::spawn</code> را به عنوان روشی برای ایجاد Threadها ارائه می‌دهد، و <code>thread::spawn</code> انتظار دارد کدی دریافت کند که Thread بلافاصله پس از ایجاد اجرا کند. با این حال، در مورد ما، می‌خواهیم Threadها را ایجاد کنیم و آن‌ها را منتظر نگه داریم تا کدی که بعداً ارسال می‌کنیم را اجرا کنند. پیاده‌سازی Threadها در کتابخانه استاندارد هیچ راهی برای انجام این کار ارائه نمی‌دهد؛ بنابراین باید آن را به صورت دستی پیاده‌سازی کنیم.</p>
-<p>ما این رفتار را با معرفی یک ساختار داده جدید بین <code>ThreadPool</code> و Threadها که این رفتار جدید را مدیریت می‌کند، پیاده‌سازی خواهیم کرد. این ساختار داده جدید را <em>Worker</em> می‌نامیم که یک اصطلاح رایج در پیاده‌سازی‌های Pool است. Worker کدی را که باید اجرا شود دریافت می‌کند و آن را در Thread مربوط به Worker اجرا می‌کند. می‌توانید به افرادی که در آشپزخانه یک رستوران کار می‌کنند فکر کنید: Workerها منتظر می‌مانند تا سفارش‌هایی از مشتریان دریافت کنند، و سپس مسئول گرفتن این سفارش‌ها و انجام آن‌ها هستند.</p>
-<p>به جای ذخیره یک بردار از نمونه‌های <code>JoinHandle&lt;()&gt;</code> در Thread Pool، ما نمونه‌هایی از ساختار <code>Worker</code> را ذخیره خواهیم کرد. هر <code>Worker</code> یک نمونه <code>JoinHandle&lt;()&gt;</code> را نگه می‌دارد. سپس یک متد روی <code>Worker</code> پیاده‌سازی خواهیم کرد که یک Closure از کد برای اجرا بگیرد و آن را به Thread در حال اجرای Worker برای اجرا ارسال کند. همچنین به هر Worker یک <code>id</code> اختصاص می‌دهیم تا هنگام ثبت لاگ یا اشکال‌زدایی بتوانیم بین Workerهای مختلف در Pool تمایز قائل شویم.</p>
+<p>این رفتار را با معرفی یک ساختار داده‌ی جدید بین <code>ThreadPool</code> و threadها پیاده‌سازی می‌کنیم که این رفتار جدید را مدیریت کند.
+این ساختار داده را <em>Worker</em> می‌نامیم که اصطلاح رایجی در پیاده‌سازی‌های pooling است.
+<code>Worker</code> کدی که باید اجرا شود را دریافت می‌کند و آن را در thread خودش اجرا می‌کند.</p>
+<p>این را مانند افرادی در آشپزخانه‌ی یک رستوران تصور کنید:
+کارگران منتظر می‌مانند تا سفارش‌ها از مشتریان برسد،
+سپس مسئول پذیرش و آماده‌سازی آن سفارش‌ها هستند.</p>
+<p>به جای نگه‌داشتن یک بردار از نمونه‌های <code>JoinHandle&lt;()&gt;</code> در thread pool،
+نمونه‌های <code>Worker</code> را ذخیره خواهیم کرد.
+هر <code>Worker</code> یک نمونه‌ی تک <code>JoinHandle&lt;()&gt;</code> نگه می‌دارد.
+سپس متدی روی <code>Worker</code> پیاده‌سازی می‌کنیم که یک closure از کد برای اجرا بگیرد
+و آن را به thread در حال اجرای مربوطه برای اجرا ارسال کند.
+همچنین به هر <code>Worker</code> یک <code>id</code> اختصاص می‌دهیم تا بتوانیم هنگام لاگ‌گیری یا اشکال‌زدایی،
+بین نمونه‌های مختلف <code>Worker</code> در pool تمایز قائل شویم.</p>
 <p>این فرآیند جدیدی است که هنگام ایجاد یک <code>ThreadPool</code> اتفاق می‌افتد. کدی که Closure را به Thread ارسال می‌کند، پس از تنظیم <code>Worker</code> به این شکل پیاده‌سازی خواهد شد:</p>
-<ol>
-<li>تعریف یک ساختار <code>Worker</code> که یک <code>id</code> و یک <code>JoinHandle&lt;()&gt;</code> نگه می‌دارد.</li>
-<li>تغییر <code>ThreadPool</code> به طوری که یک بردار از نمونه‌های <code>Worker</code> را ذخیره کند.</li>
-<li>تعریف یک تابع <code>Worker::new</code> که یک عدد <code>id</code> می‌گیرد و یک نمونه <code>Worker</code> بازمی‌گرداند که شامل <code>id</code> و یک Thread ایجادشده با یک Closure خالی است.</li>
-<li>در <code>ThreadPool::new</code>، از شمارنده حلقه <code>for</code> برای تولید یک <code>id</code> استفاده کرده، یک <code>Worker</code> جدید با آن <code>id</code> ایجاد کرده و Worker را در بردار ذخیره می‌کنیم.</li>
-</ol>
+<p>۱. یک <code>struct</code> به نام <code>Worker</code> تعریف کنید که شامل یک فیلد <code>id</code> و یک <code>JoinHandle&lt;()&gt;</code> باشد.
+۲. ساختار <code>ThreadPool</code> را تغییر دهید تا یک بردار از نمونه‌های <code>Worker</code> نگه دارد.
+۳. تابعی به نام <code>Worker::new</code> تعریف کنید که یک شماره‌ی <code>id</code> بگیرد و یک نمونه <code>Worker</code> بازگرداند
+که شامل آن <code>id</code> و یک thread ساخته شده با یک closure خالی باشد.
+۴. در تابع <code>ThreadPool::new</code>، از شمارنده حلقه‌ی <code>for</code> برای تولید <code>id</code> استفاده کنید،
+یک <code>Worker</code> جدید با آن <code>id</code> بسازید و آن را در بردار ذخیره کنید.</p>
 <p>اگر آماده یک چالش هستید، سعی کنید این تغییرات را خودتان پیاده‌سازی کنید قبل از اینکه به کد موجود در لیست ۲۱-۱۵ نگاه کنید.</p>
 <p>آماده‌اید؟ در اینجا لیست ۲۱-۱۵ با یک روش برای انجام اصلاحات قبلی آورده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-15">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::thread;
 
@@ -627,7 +734,7 @@ impl Worker {
         Worker { id, thread }
     }
 }</code></pre>
-<figcaption>Listing 21-15: تغییر <code>ThreadPool</code> برای نگهداری نمونه‌های <code>Worker</code> به جای نگهداری مستقیم Threadها</figcaption>
+<figcaption><a href="#listing-21-15">Listing 21-15</a>: تغییر <code>ThreadPool</code> برای نگهداری نمونه‌های <code>Worker</code> به جای نگهداری مستقیم Threadها</figcaption>
 </figure>
 <p>ما نام فیلد موجود در <code>ThreadPool</code> را از <code>threads</code> به <code>workers</code> تغییر داده‌ایم زیرا اکنون نمونه‌های <code>Worker</code> را نگه می‌دارد، نه نمونه‌های <code>JoinHandle&lt;()&gt;</code>. از شمارنده حلقه <code>for</code> به عنوان آرگومان برای <code>Worker::new</code> استفاده می‌کنیم و هر <code>Worker</code> جدید را در بردار به نام <code>workers</code> ذخیره می‌کنیم.</p>
 <p>کد خارجی (مانند سرور ما در <em>src/main.rs</em>) نیازی ندارد جزئیات پیاده‌سازی مربوط به استفاده از ساختار <code>Worker</code> در داخل <code>ThreadPool</code> را بداند، بنابراین ساختار <code>Worker</code> و تابع <code>new</code> آن را خصوصی می‌کنیم. تابع <code>Worker::new</code> از <code>id</code> داده‌شده استفاده کرده و یک نمونه <code>JoinHandle&lt;()&gt;</code> ایجاد می‌کند که با ایجاد یک Thread جدید با یک Closure خالی تولید می‌شود.</p>
@@ -647,7 +754,7 @@ impl Worker {
 <li>در Thread خود، <code>Worker</code> بر receiver خود حلقه زده و Closureهای هر کاری که دریافت می‌کند را اجرا خواهد کرد.</li>
 </ol>
 <p>بیایید با ایجاد یک Channel در <code>ThreadPool::new</code> و نگهداری sender در نمونه <code>ThreadPool</code> شروع کنیم، همان‌طور که در لیست ۲۱-۱۶ نشان داده شده است. ساختار <code>Job</code> در حال حاضر چیزی نگه نمی‌دارد، اما نوع آیتمی خواهد بود که از طریق Channel ارسال می‌کنیم.</p>
-<figure class="listing">
+<figure class="listing" id="listing-21-16">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::{sync::mpsc, thread};
 
@@ -701,11 +808,14 @@ impl ThreadPool {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-16: تغییر <code>ThreadPool</code> برای ذخیره sender یک Channel که نمونه‌های <code>Job</code> را منتقل می‌کند</figcaption>
+<figcaption><a href="#listing-21-16">Listing 21-16</a>: تغییر <code>ThreadPool</code> برای ذخیره sender یک Channel که نمونه‌های <code>Job</code> را منتقل می‌کند</figcaption>
 </figure>
 <p>در <code>ThreadPool::new</code>، یک Channel جدید ایجاد می‌کنیم و Pool نگهدارنده sender خواهد بود. این کد با موفقیت کامپایل می‌شود.</p>
-<p>بیایید تلاش کنیم یک receiver از Channel را به هر Worker در هنگام ایجاد Channel توسط Thread Pool ارسال کنیم. می‌دانیم که می‌خواهیم receiver را در Threadی که Workerها ایجاد می‌کنند استفاده کنیم، بنابراین به پارامتر <code>receiver</code> در Closure ارجاع می‌دهیم. کد موجود در لیست ۲۱-۱۷ هنوز کاملاً کامپایل نخواهد شد.</p>
-<figure class="listing">
+<p>بیایید هنگام ایجاد کانال توسط thread pool، <code>receiver</code> کانال را به هر <code>Worker</code> ارسال کنیم.
+می‌دانیم که می‌خواهیم از <code>receiver</code> در threadی که نمونه‌های <code>Worker</code> ایجاد می‌کنند استفاده کنیم،
+پس در closure به پارامتر <code>receiver</code> رفرنس می‌دهیم.
+کد موجود در لیستینگ 21-17 هنوز به‌طور کامل کامپایل نمی‌شود.</p>
+<figure class="listing" id="listing-21-17">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{sync::mpsc, thread};
 </span><span class="boring">
@@ -764,7 +874,7 @@ impl ThreadPool {
         Worker { id, thread }
     }
 }</code></pre>
-<figcaption>Listing 21-17: ارسال receiver به Workerها</figcaption>
+<figcaption><a href="#listing-21-17">Listing 21-17</a>: ارسال <code>receiver</code> به هر <code>Worker</code></figcaption>
 </figure>
 <p>ما تغییرات کوچک و واضحی ایجاد کرده‌ایم: receiver را به <code>Worker::new</code> ارسال کرده‌ایم و سپس از آن در داخل Closure استفاده کرده‌ایم.</p>
 <p>هنگامی که تلاش می‌کنیم این کد را بررسی کنیم، با این خطا مواجه می‌شویم:</p>
@@ -796,13 +906,23 @@ help: consider moving the expression out of the loop so it is only moved once
 For more information about this error, try `rustc --explain E0382`.
 error: could not compile `hello` (lib) due to 1 previous error
 </code></pre>
-<p>کد در تلاش است <code>receiver</code> را به چندین نمونه <code>Worker</code> منتقل کند. این کار امکان‌پذیر نیست، همان‌طور که در فصل ۱۶ بحث شد: پیاده‌سازی کانال (channel) که Rust ارائه می‌دهد، از نوع چند تولیدکننده (<em>multiple producer</em>) و یک مصرف‌کننده (<em>single consumer</em>) است. این به این معنی است که نمی‌توانیم به سادگی بخش مصرف‌کننده کانال را برای رفع این کد کپی کنیم. همچنین نمی‌خواهیم یک پیام را چندین بار به چند مصرف‌کننده ارسال کنیم؛ بلکه می‌خواهیم یک لیست از پیام‌ها داشته باشیم که چندین Worker آن را پردازش کنند به‌گونه‌ای که هر پیام فقط یک بار پردازش شود.</p>
+<p>کد در تلاش است تا <code>receiver</code> را به چند نمونه‌ی مختلف از <code>Worker</code> ارسال کند.<br />
+این کار عملی نیست، همان‌طور که در فصل ۱۶ یاد گرفتیم: پیاده‌سازی کانال در Rust به صورت multiple <em>producer</em> و single <em>consumer</em> است.<br />
+یعنی نمی‌توانیم انتهای مصرف‌کننده‌ی کانال را clone کنیم تا این کد را اصلاح کنیم.<br />
+همچنین نمی‌خواهیم یک پیام را چند بار به چند مصرف‌کننده ارسال کنیم؛<br />
+هدف این است که یک لیست از پیام‌ها داشته باشیم که چند نمونه <code>Worker</code> آن را دریافت کنند،<br />
+طوری که هر پیام فقط یک بار پردازش شود.</p>
 <p>علاوه بر این، برداشتن یک کار از صف کانال شامل تغییر <code>receiver</code> می‌شود، بنابراین Threadها به یک روش امن برای اشتراک و تغییر <code>receiver</code> نیاز دارند؛ در غیر این صورت، ممکن است با شرایط رقابتی (<em>race conditions</em>) مواجه شویم (همان‌طور که در فصل ۱۶ توضیح داده شد).</p>
-<p>با یادآوری اشاره‌گر (Pointer)های هوشمند ایمن برای Threadها که در فصل ۱۶ معرفی شدند: برای اشتراک مالکیت میان چندین Thread و اجازه تغییر مقدار، نیاز به استفاده از <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> داریم. نوع <code>Arc</code> به چندین Worker اجازه می‌دهد مالکیت <code>receiver</code> را به اشتراک بگذارند و <code>Mutex</code> تضمین می‌کند که فقط یک Worker در هر لحظه یک کار را از <code>receiver</code> دریافت کند. لیست ۲۱-۱۸ تغییراتی را که باید اعمال کنیم نشان می‌دهد.</p>
-<figure class="listing">
+<p>به یاد بیاورید اشاره‌گرهای هوشمند ایمن در برابر thread که در فصل ۱۶ بحث شدند:
+برای اشتراک مالکیت بین چند thread و اجازه دادن به تغییر مقدار توسط threadها،
+باید از <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> استفاده کنیم.
+نوع <code>Arc</code> اجازه می‌دهد چند نمونه‌ی <code>Worker</code> مالک <code>receiver</code> باشند،
+و <code>Mutex</code> تضمین می‌کند که در هر لحظه فقط یک <code>Worker</code> بتواند از <code>receiver</code> یک کار دریافت کند.
+لیستینگ 21-18 تغییراتی را که باید انجام دهیم نشان می‌دهد.</p>
+<figure class="listing" id="listing-21-18">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground">use std::{
-    sync::{mpsc, Arc, Mutex},
+    sync::{Arc, Mutex, mpsc},
     thread,
 };
 // --snip--
@@ -865,16 +985,23 @@ error: could not compile `hello` (lib) due to 1 previous error
 </span><span class="boring">        Worker { id, thread }
 </span>    }
 }</code></pre>
-<figcaption>Listing 21-18: اشتراک‌گذاری <code>receiver</code> بین Workerها با استفاده از <code>Arc</code> و <code>Mutex</code></figcaption>
+<figcaption><a href="#listing-21-18">Listing 21-18</a>: اشتراک‌گذاری receiver بین نمونه‌های <code>Worker</code> با استفاده از <code>Arc</code> و <code>Mutex</code></figcaption>
 </figure>
-<p>در <code>ThreadPool::new</code>، <code>receiver</code> را در یک <code>Arc</code> و یک <code>Mutex</code> قرار می‌دهیم. برای هر Worker جدید، <code>Arc</code> را کپی می‌کنیم تا شمارنده مرجع افزایش یابد و Workerها بتوانند مالکیت <code>receiver</code> را به اشتراک بگذارند.</p>
+<p>در تابع <code>ThreadPool::new</code>، <code>receiver</code> را داخل یک <code>Arc</code> و یک <code>Mutex</code> قرار می‌دهیم.
+برای هر نمونه‌ی جدید از <code>Worker</code>، <code>Arc</code> را clone می‌کنیم تا شمارنده‌ی رفرنس افزایش یابد،
+به‌طوری که نمونه‌های <code>Worker</code> بتوانند مالکیت مشترک <code>receiver</code> را داشته باشند.</p>
 <p>با این تغییرات، کد کامپایل می‌شود! به نتیجه نزدیک‌تر می‌شویم!</p>
 <h4 id="پیادهسازی-متد-execute"><a class="header" href="#پیادهسازی-متد-execute">پیاده‌سازی متد <code>execute</code></a></h4>
-<p>در نهایت، بیایید متد <code>execute</code> را روی <code>ThreadPool</code> پیاده‌سازی کنیم. همچنین <code>Job</code> را از یک ساختار به یک نام مستعار نوع (<em>type alias</em>) برای یک شیء ویژگی تغییر خواهیم داد که نوع Closureی که <code>execute</code> دریافت می‌کند را نگه می‌دارد. همان‌طور که در بخش <a href="ch20-03-advanced-types.html#creating-type-synonyms-with-type-aliases">“ایجاد مترادف‌های نوع با نام مستعار”</a><!-- ignore --> از فصل ۲۰ بحث شد، نام‌های مستعار نوع به ما امکان می‌دهند تایپ‌های طولانی را برای استفاده آسان‌تر کوتاه کنیم. به لیست ۲۱-۱۹ نگاه کنید.</p>
-<figure class="listing">
+<p>بیایید در نهایت متد <code>execute</code> را روی <code>ThreadPool</code> پیاده‌سازی کنیم.<br />
+همچنین <code>Job</code> را از یک <code>struct</code> به یک type alias برای یک trait object تبدیل می‌کنیم<br />
+که نوع closure ای را که <code>execute</code> دریافت می‌کند نگه می‌دارد.<br />
+همان‌طور که در بخش <a href="ch20-03-advanced-types.html#creating-type-synonyms-with-type-aliases">“ایجاد مترادف‌های نوع با type alias”</a><!-- ignore --> در فصل ۲۰ بحث شد،<br />
+type alias به ما اجازه می‌دهد تا انواع طولانی را کوتاه‌تر کنیم و استفاده از آن‌ها را آسان‌تر سازیم.<br />
+به لیستینگ 21-19 نگاه کنید.</p>
+<figure class="listing" id="listing-21-19">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -938,14 +1065,18 @@ impl ThreadPool {
 </span><span class="boring">        Worker { id, thread }
 </span><span class="boring">    }
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 21-19: ایجاد یک نام مستعار <code>Job</code> برای یک <code>Box</code> که هر Closure را نگه می‌دارد و سپس ارسال کار از طریق کانال</figcaption>
+<figcaption><a href="#listing-21-19">Listing 21-19</a>: ایجاد یک نام مستعار <code>Job</code> برای یک <code>Box</code> که هر Closure را نگه می‌دارد و سپس ارسال کار از طریق کانال</figcaption>
 </figure>
 <p>پس از ایجاد یک نمونه جدید <code>Job</code> با استفاده از Closureی که در <code>execute</code> دریافت می‌کنیم، آن کار را از طریق بخش ارسال‌کننده کانال ارسال می‌کنیم. ما برای حالتی که ارسال شکست بخورد، روی <code>send</code> از <code>unwrap</code> استفاده می‌کنیم. این حالت ممکن است رخ دهد، اگر مثلاً همه Threadهای ما از اجرا متوقف شوند، به این معنی که بخش دریافت‌کننده دیگر پیام‌های جدید را دریافت نمی‌کند. در حال حاضر، نمی‌توانیم Threadهای خود را از اجرا متوقف کنیم: Threadهای ما تا زمانی که Pool وجود دارد اجرا می‌شوند. دلیل استفاده از <code>unwrap</code> این است که می‌دانیم حالت شکست رخ نخواهد داد، اما کامپایلر این موضوع را نمی‌داند.</p>
-<p>اما هنوز کاملاً کار تمام نشده است! در Worker، Closureی که به <code>thread::spawn</code> ارسال می‌شود همچنان فقط به بخش دریافت‌کننده کانال <em>اشاره می‌کند</em>. در عوض، باید Closure به طور مداوم حلقه بزند، از بخش دریافت‌کننده کانال درخواست یک کار کند و کار را هنگام دریافت اجرا کند. بیایید تغییرات نشان داده‌شده در لیست ۲۱-۲۰ را به <code>Worker::new</code> اعمال کنیم.</p>
-<figure class="listing">
+<p>اما هنوز کار تمام نشده است! در <code>Worker</code>، closure که به <code>thread::spawn</code> داده می‌شود<br />
+هنوز فقط به انتهای دریافت‌کننده‌ی کانال <em>رفرنس</em> می‌دهد.<br />
+در عوض، نیاز داریم که closure به‌طور پیوسته در حلقه‌ای بی‌نهایت اجرا شود،<br />
+از انتهای دریافت‌کننده‌ی کانال درخواست کار کند و هرگاه کار دریافت کرد آن را اجرا نماید.<br />
+بیایید تغییرات نشان‌داده شده در لیستینگ 21-20 را در <code>Worker::new</code> اعمال کنیم.</p>
+<figure class="listing" id="listing-21-20">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -999,18 +1130,20 @@ impl ThreadPool {
 
 impl Worker {
     fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
-        let thread = thread::spawn(move || loop {
-            let job = receiver.lock().unwrap().recv().unwrap();
+        let thread = thread::spawn(move || {
+            loop {
+                let job = receiver.lock().unwrap().recv().unwrap();
 
-            println!("Worker {id} got a job; executing.");
+                println!("Worker {id} got a job; executing.");
 
-            job();
+                job();
+            }
         });
 
         Worker { id, thread }
     }
 }</code></pre>
-<figcaption>Listing 21-20: دریافت و اجرای کارها در Thread مربوط به Worker</figcaption>
+<figcaption><a href="#listing-21-20">Listing 21-20</a>: دریافت و اجرای کارها در thread نمونه‌ی <code>Worker</code></figcaption>
 </figure>
 <p>در اینجا، ابتدا <code>lock</code> را روی <code>receiver</code> فراخوانی می‌کنیم تا mutex را به دست آوریم، و سپس <code>unwrap</code> را فراخوانی می‌کنیم تا در صورت بروز هرگونه خطا، برنامه متوقف شود. به دست آوردن یک قفل ممکن است شکست بخورد اگر mutex در یک وضعیت <em>poisoned</em> باشد، که ممکن است اتفاق بیفتد اگر یک Thread دیگر در حالی که قفل را نگه داشته است به جای آزاد کردن آن متوقف شده باشد. در این شرایط، فراخوانی <code>unwrap</code> برای متوقف کردن این Thread اقدام درستی است. می‌توانید این <code>unwrap</code> را به یک <code>expect</code> با یک پیام خطای معنادار برای خود تغییر دهید.</p>
 <p>اگر قفل روی mutex را به دست آوریم، <code>recv</code> را فراخوانی می‌کنیم تا یک <code>Job</code> را از کانال دریافت کنیم. یک <code>unwrap</code> نهایی نیز در اینجا هر گونه خطا را برطرف می‌کند، که ممکن است رخ دهد اگر Threadی که sender را نگه داشته است خاموش شود، مشابه نحوه‌ای که متد <code>send</code> در صورت خاموش شدن receiver یک <code>Err</code> بازمی‌گرداند.</p>
@@ -1060,14 +1193,17 @@ Worker 2 got a job; executing.
 </code></pre>
 <p>موفقیت! اکنون یک Thread Pool داریم که اتصالات را به صورت همزمان اجرا می‌کند. هرگز بیش از چهار Thread ایجاد نمی‌شود، بنابراین اگر سرور درخواست‌های زیادی دریافت کند، سیستم ما بارگذاری بیش از حد نخواهد شد. اگر یک درخواست به <em>/sleep</em> ارسال کنیم، سرور می‌تواند با استفاده از یک Thread دیگر به سایر درخواست‌ها پاسخ دهد.</p>
 <blockquote>
-<p>نکته: اگر <em>/sleep</em> را به طور همزمان در چندین پنجره مرورگر باز کنید، ممکن است یکی پس از دیگری در فواصل ۵ ثانیه‌ای بارگذاری شوند. برخی مرورگرهای وب به دلایل مربوط به کش، چندین نمونه از همان درخواست را به صورت متوالی اجرا می‌کنند. این محدودیت توسط وب سرور ما ایجاد نشده است.</p>
+<p>توجه: اگر مسیر <em>/sleep</em> را هم‌زمان در چندین پنجره‌ی مرورگر باز کنید، ممکن است درخواست‌ها به‌صورت پشت سر هم و با فاصله‌های پنج ثانیه‌ای بارگذاری شوند.
+برخی مرورگرها به دلایل کش، چندین نمونه از یک درخواست مشابه را به‌صورت ترتیبی اجرا می‌کنند.
+این محدودیت ناشی از سرور وب ما نیست.</p>
 </blockquote>
 <p>این زمان خوبی است که مکث کنیم و بررسی کنیم چگونه کدهای لیست‌های ۲۱-۱۸، ۲۱-۱۹ و ۲۱-۲۰ اگر به جای Closure از futures برای انجام کار استفاده می‌کردیم، متفاوت می‌بود. چه نوع‌هایی تغییر می‌کردند؟ آیا امضاهای متدها تغییر می‌کردند؟ کدام بخش‌های کد همان‌گونه باقی می‌ماندند؟</p>
-<p>پس از یادگیری حلقه <code>while let</code> در فصل‌های ۱۷ و ۱۸، ممکن است تعجب کنید چرا کد Thread Worker را مانند لیست ۲۱-۲۱ ننوشتیم.</p>
-<figure class="listing">
+<p>بعد از آشنایی با حلقه‌ی <code>while let</code> در فصل‌های ۱۷ و ۱۹،
+ممکن است این سؤال برایتان پیش آمده باشد که چرا کد thread مربوط به <code>Worker</code> را مانند آنچه در لیستینگ 21-21 نشان داده شده ننوشته‌ایم.</p>
+<figure class="listing" id="listing-21-21">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::{
-</span><span class="boring">    sync::{mpsc, Arc, Mutex},
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
 </span><span class="boring">    thread,
 </span><span class="boring">};
 </span><span class="boring">
@@ -1131,10 +1267,16 @@ impl Worker {
         Worker { id, thread }
     }
 }</code></pre>
-<figcaption>Listing 21-21: یک پیاده‌سازی جایگزین برای <code>Worker::new</code> با استفاده از <code>while let</code></figcaption>
+<figcaption><a href="#listing-21-21">Listing 21-21</a>: یک پیاده‌سازی جایگزین برای <code>Worker::new</code> با استفاده از <code>while let</code></figcaption>
 </figure>
 <p>این کد کامپایل می‌شود و اجرا می‌شود، اما منجر به رفتار مورد نظر برای threading نمی‌شود: یک درخواست کند همچنان باعث می‌شود سایر درخواست‌ها برای پردازش منتظر بمانند. دلیل آن کمی ظریف است: ساختار <code>Mutex</code> متد عمومی <code>unlock</code> ندارد، زیرا مالکیت قفل بر اساس طول عمر <code>MutexGuard&lt;T&gt;</code> درون <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code> که متد <code>lock</code> بازمی‌گرداند است. در زمان کامپایل، بررسی‌کننده وام می‌تواند این قانون را اعمال کند که منبعی که توسط یک <code>Mutex</code> محافظت می‌شود نمی‌تواند دسترسی پیدا کند مگر اینکه قفل را نگه داشته باشیم. با این حال، این پیاده‌سازی همچنین می‌تواند منجر به نگه‌داشتن قفل بیش از حد انتظار شود اگر به طول عمر <code>MutexGuard&lt;T&gt;</code> توجه نکنیم.</p>
-<p>کد موجود در لیست ۲۱-۲۰ که از <code>let job = receiver.lock().unwrap().recv().unwrap();</code> استفاده می‌کند کار می‌کند زیرا با <code>let</code>، هر مقدار موقتی استفاده‌شده در عبارت سمت راست علامت برابر بلافاصله پس از پایان دستور <code>let</code> حذف می‌شود. با این حال، <code>while let</code> (و همچنین <code>if let</code> و <code>match</code>) مقادیر موقتی را تا پایان بلوک مرتبط حذف نمی‌کند. در لیست ۲۱-۲۱، قفل در طول فراخوانی به <code>job()</code> نگه داشته می‌شود، به این معنی که سایر Workerها نمی‌توانند کار دریافت کنند.</p>
+<p>کدی که در لیستینگ 21-20 با عبارت
+<code>let job = receiver.lock().unwrap().recv().unwrap();</code> نوشته شده است، کار می‌کند زیرا در استفاده از <code>let</code>،
+هر مقدار موقتی که در سمت راست علامت مساوی به کار رفته باشد،
+بلافاصله پس از پایان دستور <code>let</code> رها (drop) می‌شود.
+اما در <code>while let</code> (و همچنین <code>if let</code> و <code>match</code>) مقدارهای موقتی تا پایان بلاک مربوطه رها نمی‌شوند.
+در لیستینگ 21-21، قفل (<code>lock</code>) تا پایان فراخوانی <code>job()</code> نگه داشته می‌شود،
+که این یعنی سایر نمونه‌های <code>Worker</code> نمی‌توانند در آن مدت کار دریافت کنند.</p>
 
                     </main>
 
@@ -1165,6 +1307,22 @@ impl Worker {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -1183,6 +1341,7 @@ impl Worker {
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

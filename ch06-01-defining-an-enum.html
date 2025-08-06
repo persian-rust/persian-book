@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html" class="active"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -186,7 +188,7 @@
 <p>بیایید نگاهی به یک موقعیت بیندازیم که ممکن است بخواهیم در کد بیان کنیم و ببینیم چرا Enumها مفیدتر و مناسب‌تر از Structها هستند. فرض کنید باید با آدرس‌های IP کار کنیم. در حال حاضر، دو استاندارد اصلی برای آدرس‌های IP وجود دارد: نسخه چهار و نسخه شش. از آنجا که این تنها حالت‌های ممکن برای آدرس‌های IP هستند که برنامه ما با آن‌ها مواجه خواهد شد، می‌توانیم تمام حالت‌های ممکن را شمارش کنیم، که همین موضوع اساس نام‌گذاری Enumها است.</p>
 <p>هر آدرس IP می‌تواند یا نسخه چهار یا نسخه شش باشد، اما نمی‌تواند به‌طور همزمان هر دو باشد. این ویژگی آدرس‌های IP استفاده از ساختار داده Enum را مناسب می‌کند زیرا مقدار یک Enum می‌تواند فقط یکی از حالت‌هایش باشد. هر دو آدرس نسخه چهار و نسخه شش همچنان اساساً آدرس IP هستند، بنابراین باید هنگام کار با کدی که به هر نوع آدرس IP اعمال می‌شود، به‌عنوان یک نوع یکسان رفتار شوند.</p>
 <p>ما می‌توانیم این مفهوم را در کد با تعریف یک Enumeration به نام <code>IpAddrKind</code> و فهرست کردن انواع ممکن یک آدرس IP، یعنی <code>V4</code> و <code>V6</code>، بیان کنیم. این‌ها حالت‌های Enum هستند:</p>
-<pre><pre class="playground"><code class="language-rust edition2021">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024">enum IpAddrKind {
     V4,
     V6,
 }
@@ -203,7 +205,7 @@
 <p>اکنون <code>IpAddrKind</code> یک نوع داده سفارشی است که می‌توانیم در قسمت‌های دیگر کد خود استفاده کنیم.</p>
 <h3 id="مقادیر-enum"><a class="header" href="#مقادیر-enum">مقادیر Enum</a></h3>
 <p>می‌توانیم نمونه‌هایی از هر یک از دو حالت <code>IpAddrKind</code> را به این صورت ایجاد کنیم:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -218,7 +220,7 @@
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p>توجه داشته باشید که حالت‌های Enum تحت شناسه آن نام‌گذاری شده‌اند و برای جدا کردن دو حالت از یکدیگر از دو نقطه استفاده می‌کنیم. این ویژگی مفید است زیرا اکنون هر دو مقدار <code>IpAddrKind::V4</code> و <code>IpAddrKind::V6</code> از نوع یکسان <code>IpAddrKind</code> هستند. سپس می‌توانیم به عنوان مثال یک تابع تعریف کنیم که هر نوع <code>IpAddrKind</code> را به عنوان ورودی بپذیرد:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -233,7 +235,7 @@
 </span><span class="boring">
 </span>fn route(ip_kind: IpAddrKind) {}</code></pre></pre>
 <p>و می‌توانیم این تابع را با هر دو حالت فراخوانی کنیم:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">enum IpAddrKind {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
 </span><span class="boring">    V4,
 </span><span class="boring">    V6,
 </span><span class="boring">}
@@ -248,8 +250,8 @@
 </span><span class="boring">
 </span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre></pre>
 <p>استفاده از Enumها مزایای بیشتری دارد. اگر بیشتر به نوع آدرس IP خود فکر کنیم، متوجه می‌شویم که در حال حاضر راهی برای ذخیره داده‌های واقعی آدرس IP نداریم؛ فقط می‌دانیم که چه نوعی است. با توجه به اینکه به‌تازگی درباره Structها در فصل 5 یاد گرفته‌اید، ممکن است وسوسه شوید این مشکل را با Structها همانطور که در فهرست 6-1 نشان داده شده است، حل کنید.</p>
-<figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<figure class="listing" id="listing-6-1">
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddrKind {
         V4,
         V6,
@@ -270,11 +272,11 @@
         address: String::from("::1"),
     };
 <span class="boring">}</span></code></pre></pre>
-<figcaption>Listing 6-1: ذخیره داده‌ها و حالت <code>IpAddrKind</code> یک آدرس IP با استفاده از یک <code>struct</code></figcaption>
+<figcaption><a href="#listing-6-1">Listing 6-1</a>: ذخیره داده‌ها و حالت <code>IpAddrKind</code> یک آدرس IP با استفاده از یک <code>struct</code></figcaption>
 </figure>
 <p>در اینجا ما یک Struct به نام <code>IpAddr</code> تعریف کرده‌ایم که دو فیلد دارد: یک فیلد <code>kind</code> که از نوع <code>IpAddrKind</code> است (همان Enum که قبلاً تعریف کردیم) و یک فیلد <code>address</code> از نوع <code>String</code>. ما دو نمونه از این Struct داریم. اولین مورد <code>home</code> نام دارد و مقدار <code>IpAddrKind::V4</code> به‌عنوان <code>kind</code> با داده‌های آدرس مرتبط <code>127.0.0.1</code> دارد. نمونه دوم <code>loopback</code> نام دارد. این نمونه حالت دیگر Enum یعنی <code>V6</code> را به‌عنوان مقدار <code>kind</code> دارد و آدرس مرتبط <code>::1</code> است. ما از یک Struct برای بسته‌بندی مقادیر <code>kind</code> و <code>address</code> با هم استفاده کرده‌ایم، بنابراین اکنون حالت با مقدار مرتبط شده است.</p>
 <p>با این حال، نمایش همان مفهوم با استفاده از فقط یک Enum مختصرتر است: به‌جای استفاده از Enum داخل یک Struct، می‌توانیم داده‌ها را مستقیماً به هر حالت Enum متصل کنیم. این تعریف جدید Enum <code>IpAddr</code> نشان می‌دهد که هر دو حالت <code>V4</code> و <code>V6</code> مقادیر <code>String</code> مرتبط دارند:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(String),
         V6(String),
@@ -286,7 +288,7 @@
 <span class="boring">}</span></code></pre></pre>
 <p>ما داده‌ها را مستقیماً به هر حالت Enum متصل کرده‌ایم، بنابراین نیازی به یک Struct اضافی نیست. در اینجا همچنین می‌توان جزئیات دیگری از نحوه عملکرد Enumها را مشاهده کرد: نام هر حالت Enum که تعریف می‌کنیم به‌صورت یک تابع تبدیل می‌شود که نمونه‌ای از Enum ایجاد می‌کند. یعنی <code>IpAddr::V4()</code> یک فراخوانی تابع است که یک آرگومان از نوع <code>String</code> می‌گیرد و نمونه‌ای از نوع <code>IpAddr</code> برمی‌گرداند. این تابع سازنده به‌طور خودکار به‌عنوان نتیجه تعریف Enum تعریف می‌شود.</p>
 <p>یک مزیت دیگر استفاده از Enum به‌جای Struct این است که هر حالت می‌تواند انواع و مقادیر داده مرتبط متفاوتی داشته باشد. آدرس‌های IP نسخه چهار همیشه چهار مؤلفه عددی خواهند داشت که مقادیرشان بین 0 و 255 است. اگر بخواهیم آدرس‌های <code>V4</code> را به‌صورت چهار مقدار <code>u8</code> ذخیره کنیم اما همچنان آدرس‌های <code>V6</code> را به‌صورت یک مقدار <code>String</code> بیان کنیم، با یک Struct نمی‌توانیم این کار را انجام دهیم. Enumها به‌راحتی این حالت را مدیریت می‌کنند:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    enum IpAddr {
         V4(u8, u8, u8, u8),
         V6(String),
@@ -297,7 +299,7 @@
     let loopback = IpAddr::V6(String::from("::1"));
 <span class="boring">}</span></code></pre></pre>
 <p>ما چندین روش مختلف برای تعریف ساختارهای داده برای ذخیره آدرس‌های IP نسخه چهار و نسخه شش نشان داده‌ایم. با این حال، همان‌طور که مشخص است، ذخیره آدرس‌های IP و کدگذاری نوع آن‌ها به‌قدری رایج است که <a href="https://doc.rust-lang.org/std/net/enum.IpAddr.html">کتابخانه استاندارد تعریفی برای این کار ارائه می‌دهد!</a><!-- ignore --> بیایید نگاهی به نحوه تعریف <code>IpAddr</code> در کتابخانه استاندارد بیندازیم: این کتابخانه دارای همان Enum و حالت‌هایی است که ما تعریف کرده و استفاده کرده‌ایم، اما داده‌های آدرس را به‌صورت داخلی در حالت‌ها در قالب دو Struct مختلف تعبیه کرده است، که به‌طور متفاوت برای هر حالت تعریف شده‌اند:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct Ipv4Addr {
     // --snip--
@@ -315,8 +317,8 @@ enum IpAddr {
 <p>این کد نشان می‌دهد که شما می‌توانید هر نوع داده‌ای مانند رشته‌ها، انواع عددی، یا Structها را داخل حالت‌های Enum قرار دهید. حتی می‌توانید یک Enum دیگر را نیز شامل کنید! همچنین، انواع استاندارد کتابخانه معمولاً خیلی پیچیده‌تر از چیزی نیستند که ممکن است خودتان ارائه دهید.</p>
 <p>توجه داشته باشید که با وجود اینکه کتابخانه استاندارد تعریفی برای <code>IpAddr</code> دارد، ما همچنان می‌توانیم تعریف خودمان را ایجاد و استفاده کنیم بدون اینکه تضادی پیش بیاید زیرا تعریف کتابخانه استاندارد را به محدوده خود وارد نکرده‌ایم. ما در فصل 7 درباره وارد کردن انواع به محدوده بیشتر صحبت خواهیم کرد.</p>
 <p>بیایید به مثال دیگری از یک Enum در فهرست 6-2 نگاه کنیم: این مورد دارای انواع متنوعی از داده‌های جاسازی‌شده در حالت‌های خود است.</p>
-<figure class="listing">
-<pre><pre class="playground"><code class="language-rust edition2021">enum Message {
+<figure class="listing" id="listing-6-2">
+<pre><pre class="playground"><code class="language-rust edition2024">enum Message {
     Quit,
     Move { x: i32, y: i32 },
     Write(String),
@@ -324,17 +326,17 @@ enum IpAddr {
 }
 <span class="boring">
 </span><span class="boring">fn main() {}</span></code></pre></pre>
-<figcaption>Listing 6-2: یک Enum به نام <code>Message</code> که هر یک از حالت‌های آن مقادیر متفاوتی ذخیره می‌کنند</figcaption>
+<figcaption><a href="#listing-6-2">Listing 6-2</a>: یک Enum به نام <code>Message</code> که هر یک از حالت‌های آن مقادیر متفاوتی ذخیره می‌کنند</figcaption>
 </figure>
 <p>این Enum دارای چهار حالت با انواع مختلف است:</p>
 <ul>
-<li><code>Quit</code> هیچ داده‌ای با آن مرتبط نیست.</li>
-<li><code>Move</code> دارای فیلدهای نام‌گذاری شده، شبیه به یک Struct است.</li>
-<li><code>Write</code> شامل یک مقدار <code>String</code> است.</li>
-<li><code>ChangeColor</code> شامل سه مقدار <code>i32</code> است.</li>
+<li><code>Quit</code>: هیچ داده‌ای همراه خود ندارد</li>
+<li><code>Move</code>: دارای فیلدهای نام‌گذاری‌شده است، مانند یک <code>struct</code></li>
+<li><code>Write</code>: شامل یک <code>String</code> واحد است</li>
+<li><code>ChangeColor</code>: شامل سه مقدار از نوع <code>i32</code> است</li>
 </ul>
 <p>تعریف یک Enum با حالت‌هایی مانند حالت‌های فهرست 6-2 مشابه تعریف انواع مختلف ساختارها است، با این تفاوت که Enum از کلمه کلیدی <code>struct</code> استفاده نمی‌کند و تمام حالت‌ها تحت نوع <code>Message</code> گروه‌بندی شده‌اند. ساختارهای زیر می‌توانند همان داده‌هایی را نگه دارند که حالت‌های Enum قبلی نگه می‌دارند:</p>
-<pre><pre class="playground"><code class="language-rust edition2021">struct QuitMessage; // unit struct
+<pre><pre class="playground"><code class="language-rust edition2024">struct QuitMessage; // unit struct
 struct MoveMessage {
     x: i32,
     y: i32,
@@ -345,7 +347,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 </span><span class="boring">fn main() {}</span></code></pre></pre>
 <p>اما اگر از ساختارهای مختلفی استفاده کنیم که هر یک نوع خاص خود را دارند، نمی‌توانیم به‌راحتی یک تابع تعریف کنیم که بتواند هر یک از این انواع پیام‌ها را مانند چیزی که با Enum <code>Message</code> تعریف‌شده در فهرست 6-2 امکان‌پذیر است، دریافت کند.</p>
 <p>یک شباهت دیگر بین Enumها و ساختارها این است: همان‌طور که می‌توانیم متدها را با استفاده از <code>impl</code> برای ساختارها تعریف کنیم، می‌توانیم متدها را برای Enumها نیز تعریف کنیم. اینجا یک متد به نام <code>call</code> است که می‌توانیم برای Enum <code>Message</code> خود تعریف کنیم:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span><span class="boring">    enum Message {
 </span><span class="boring">        Quit,
 </span><span class="boring">        Move { x: i32, y: i32 },
@@ -368,14 +370,15 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <p>این بخش به مطالعه موردی <code>Option</code> می‌پردازد که یکی دیگر از Enumهای تعریف شده در کتابخانه استاندارد است. نوع <code>Option</code> سناریوی بسیار رایجی را نشان می‌دهد که در آن یک مقدار می‌تواند وجود داشته باشد یا هیچ مقداری وجود نداشته باشد.</p>
 <p>به عنوان مثال، اگر اولین مورد را در یک لیست غیر خالی درخواست کنید، مقداری دریافت خواهید کرد. اگر اولین مورد را در یک لیست خالی درخواست کنید، هیچ مقداری دریافت نخواهید کرد. بیان این مفهوم در قالب سیستم نوع به کامپایلر امکان می‌دهد تا بررسی کند آیا تمام مواردی که باید مدیریت شوند را در نظر گرفته‌اید؛ این ویژگی می‌تواند از بروز باگ‌هایی که در دیگر زبان‌های برنامه‌نویسی بسیار رایج هستند جلوگیری کند.</p>
 <p>طراحی زبان‌های برنامه‌نویسی اغلب از نظر ویژگی‌هایی که شامل می‌شوند بررسی می‌شود، اما ویژگی‌هایی که کنار گذاشته می‌شوند نیز مهم هستند. Rust ویژگی null را که بسیاری از زبان‌های دیگر دارند، ندارد. <em>Null</em> یک مقدار است که به معنای وجود نداشتن مقدار می‌باشد. در زبان‌هایی که دارای null هستند، متغیرها می‌توانند همیشه در یکی از دو حالت باشند: null یا not-null.</p>
-<p>در ارائه سال 2009 خود به نام “Null References: The Billion Dollar Mistake”، تونی هور، مخترع null، چنین می‌گوید:</p>
+<p>در ارائه‌ی سال ۲۰۰۹ خود با عنوان «ارجاعات تهی: اشتباه میلیارد دلاری»(Null References: The Billion Dollar Mistake,”)، تونی هوار،
+مخترع <code>null</code>، این سخن را بیان کرد:</p>
 <blockquote>
 <p>من آن را اشتباه میلیارد دلاری خود می‌نامم. در آن زمان، من در حال طراحی اولین سیستم نوع جامع برای مراجع در یک زبان شیءگرا بودم. هدف من اطمینان از این بود که تمام استفاده‌های از مراجع کاملاً امن باشند، با بررسی‌هایی که به‌طور خودکار توسط کامپایلر انجام می‌شوند. اما نتوانستم در برابر وسوسه قرار دادن یک مرجع null مقاومت کنم، فقط به این دلیل که پیاده‌سازی آن بسیار آسان بود. این منجر به خطاها، آسیب‌پذیری‌ها، و خرابی‌های سیستم‌های بی‌شماری شده است که احتمالاً باعث یک میلیارد دلار درد و ضرر در چهل سال گذشته شده‌اند.</p>
 </blockquote>
 <p>مشکل مقادیر null این است که اگر بخواهید از یک مقدار null به‌عنوان یک مقدار not-null استفاده کنید، نوعی خطا دریافت خواهید کرد. از آنجا که خاصیت null یا not-null فراگیر است، بسیار آسان است که این نوع خطا را مرتکب شوید.</p>
 <p>با این حال، مفهومی که null سعی در بیان آن دارد همچنان مفید است: null یک مقدار است که در حال حاضر به دلایلی نامعتبر یا غایب است.</p>
 <p>مشکل واقعاً با مفهوم نیست، بلکه با پیاده‌سازی خاص است. به این ترتیب، Rust مقادیر null ندارد، اما یک Enum دارد که می‌تواند مفهوم وجود داشتن یا نداشتن یک مقدار را کدگذاری کند. این Enum <code>Option&lt;T&gt;</code> است که به صورت زیر توسط کتابخانه استاندارد تعریف شده است:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>enum Option&lt;T&gt; {
     None,
@@ -384,7 +387,7 @@ struct ChangeColorMessage(i32, i32, i32); // tuple struct
 <span class="boring">}</span></code></pre></pre>
 <p>Enum <code>Option&lt;T&gt;</code> آن‌قدر مفید است که حتی در بخش پیش‌فرض (Prelude) گنجانده شده است؛ نیازی نیست که به‌طور صریح آن را به محدوده بیاورید. حالت‌های آن نیز در بخش پیش‌فرض هستند: می‌توانید مستقیماً از <code>Some</code> و <code>None</code> بدون پیشوند <code>Option::</code> استفاده کنید. Enum <code>Option&lt;T&gt;</code> همچنان یک Enum معمولی است، و <code>Some(T)</code> و <code>None</code> همچنان حالت‌هایی از نوع <code>Option&lt;T&gt;</code> هستند.</p>
 <p>سینتکس <code>&lt;T&gt;</code> یک ویژگی از Rust است که هنوز درباره آن صحبت نکرده‌ایم. این یک پارامتر نوع عمومی (Generic) است و ما در فصل 10 به جزئیات بیشتری درباره آن خواهیم پرداخت. برای حالا، تنها چیزی که باید بدانید این است که <code>&lt;T&gt;</code> به این معنا است که حالت <code>Some</code> از Enum <code>Option</code> می‌تواند یک قطعه داده از هر نوعی را نگه دارد، و هر نوع مشخصی که به جای <code>T</code> استفاده شود، کل نوع <code>Option&lt;T&gt;</code> را به یک نوع متفاوت تبدیل می‌کند. در اینجا چند مثال از استفاده از مقادیر <code>Option</code> برای نگه‌داری انواع عددی و کاراکتری آورده شده است:</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
 </span>    let some_number = Some(5);
     let some_char = Some('e');
 
@@ -410,8 +413,8 @@ error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
   |
   = help: the trait `Add&lt;Option&lt;i8&gt;&gt;` is not implemented for `i8`
   = help: the following other types implement trait `Add&lt;Rhs&gt;`:
-            `&amp;'a i8` implements `Add&lt;i8&gt;`
-            `&amp;i8` implements `Add&lt;&amp;i8&gt;`
+            `&amp;i8` implements `Add&lt;i8&gt;`
+            `&amp;i8` implements `Add`
             `i8` implements `Add&lt;&amp;i8&gt;`
             `i8` implements `Add`
 
@@ -453,6 +456,22 @@ error: could not compile `enums` (bin "enums") due to 1 previous error
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -471,6 +490,7 @@ error: could not compile `enums` (bin "enums") due to 1 previous error
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

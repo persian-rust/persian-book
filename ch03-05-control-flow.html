@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html" class="active"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -187,7 +189,7 @@
 <p>یک عبارت <code>if</code> به شما امکان می‌دهد کد خود را بسته به شرایطی شاخه‌بندی کنید. شما یک شرط مشخص می‌کنید و سپس می‌گویید: «اگر این شرط برقرار بود، این بلوک کد اجرا شود. اگر شرط برقرار نبود، این بلوک کد اجرا نشود.»</p>
 <p>یک پروژه جدید به نام <em>branches</em> در دایرکتوری <em>projects</em> خود ایجاد کنید تا عبارت <code>if</code> را بررسی کنید. در فایل <em>src/main.rs</em> کد زیر را وارد کنید:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 3;
 
     if number &lt; 5 {
@@ -245,7 +247,7 @@ error: could not compile `branches` (bin "branches") due to 1 previous error
 </code></pre>
 <p>خطا نشان می‌دهد که راست انتظار یک <code>bool</code> داشت اما یک عدد صحیح دریافت کرد. برخلاف زبان‌هایی مانند Ruby و JavaScript، راست به‌صورت خودکار تلاش نمی‌کند انواع غیر <code>bool</code> را به یک <code>bool</code> تبدیل کند. شما باید صریح باشید و همیشه یک <code>bool</code> را به‌عنوان شرط به <code>if</code> بدهید. اگر می‌خواهید بلوک کد <code>if</code> فقط زمانی اجرا شود که یک عدد برابر <code>0</code> نباشد، می‌توانید عبارت <code>if</code> را به این صورت تغییر دهید:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 3;
 
     if number != 0 {
@@ -256,7 +258,7 @@ error: could not compile `branches` (bin "branches") due to 1 previous error
 <h4 id="مدیریت-شرایط-متعدد-با-else-if"><a class="header" href="#مدیریت-شرایط-متعدد-با-else-if">مدیریت شرایط متعدد با <code>else if</code></a></h4>
 <p>شما می‌توانید با ترکیب <code>if</code> و <code>else</code> در یک عبارت <code>else if</code>، شرایط متعددی را مدیریت کنید. به عنوان مثال:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let number = 6;
 
     if number % 4 == 0 {
@@ -280,15 +282,15 @@ number is divisible by 3
 <p>استفاده از تعداد زیادی عبارت <code>else if</code> می‌تواند کد شما را شلوغ کند، بنابراین اگر بیش از یک مورد دارید، ممکن است بخواهید کد خود را بازنویسی کنید. فصل 6 یک ساختار شاخه‌بندی قدرتمند در راست به نام <code>match</code> را برای این موارد توضیح می‌دهد.</p>
 <h4 id="استفاده-از-if-در-یک-عبارت-let"><a class="header" href="#استفاده-از-if-در-یک-عبارت-let">استفاده از <code>if</code> در یک عبارت <code>let</code></a></h4>
 <p>از آنجایی که <code>if</code> یک عبارت است، می‌توانیم از آن در سمت راست یک عبارت <code>let</code> برای تخصیص نتیجه به یک متغیر استفاده کنیم، همان‌طور که در لیست 3-2 نشان داده شده است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-2">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let condition = true;
     let number = if condition { 5 } else { 6 };
 
     println!("The value of number is: {number}");
 }</code></pre></pre>
-<figcaption>Listing 3-2: تخصیص نتیجه یک عبارت <code>if</code> به یک متغیر</figcaption>
+<figcaption><a href="#listing-3-2">Listing 3-2</a>: تخصیص نتیجه یک عبارت <code>if</code> به یک متغیر</figcaption>
 </figure>
 <p>متغیر <code>number</code> به مقداری بر اساس نتیجه عبارت <code>if</code> متصل خواهد شد. این کد را اجرا کنید تا ببینید چه اتفاقی می‌افتد:</p>
 <pre><code class="language-console">$ cargo run
@@ -349,12 +351,16 @@ again!
 again!
 ^Cagain!
 </code></pre>
-<p>نماد <code>^C</code> نشان می‌دهد که شما <kbd>ctrl</kbd>-<kbd>c</kbd> را فشار داده‌اید. ممکن است کلمه <code>again!</code> پس از <code>^C</code> چاپ شود یا نشود، بسته به اینکه کد در حلقه در چه مرحله‌ای بوده است که سیگنال قطع دریافت شده است.</p>
+<p>نماد <code>^C</code> نشان‌دهنده جایی است که کلیدهای <kbd>ctrl</kbd>-<kbd>c</kbd>
+را فشار داده‌اید.</p>
+<p>ممکن است پس از <code>^C</code> کلمه‌ی <code>again!</code> چاپ شود یا نشود،
+بسته به این که کد در کدام قسمت از حلقه هنگام دریافت سیگنال
+قطع اجرا قرار داشته باشد.</p>
 <p>خوشبختانه، Rust همچنین روشی برای خروج از یک حلقه با استفاده از کد ارائه می‌دهد. شما می‌توانید کلمه کلیدی <code>break</code> را درون حلقه قرار دهید تا به برنامه بگویید که چه زمانی اجرای حلقه را متوقف کند. به یاد داشته باشید که این کار را در بازی حدس عدد در بخش <a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">“خروج پس از یک حدس درست”</a><!-- ignore --> در فصل 2 انجام دادیم تا زمانی که کاربر با حدس درست بازی را برنده شد، برنامه خاتمه یابد.</p>
 <p>ما همچنین از <code>continue</code> در بازی حدس عدد استفاده کردیم که در یک حلقه به برنامه می‌گوید هر کد باقی‌مانده در این تکرار حلقه را نادیده بگیرد و به تکرار بعدی برود.</p>
 <h4 id="بازگرداندن-مقادیر-از-حلقهها"><a class="header" href="#بازگرداندن-مقادیر-از-حلقهها">بازگرداندن مقادیر از حلقه‌ها</a></h4>
 <p>یکی از کاربردهای <code>loop</code> این است که یک عملیات را که ممکن است شکست بخورد دوباره امتحان کنید، مثلاً بررسی کنید که آیا یک نخ (thread) کار خود را تمام کرده است یا نه. همچنین ممکن است نیاز داشته باشید نتیجه این عملیات را از حلقه به بقیه کد خود منتقل کنید. برای انجام این کار، می‌توانید مقداری که می‌خواهید برگردانده شود را پس از عبارت <code>break</code> اضافه کنید. این مقدار از حلقه بازگردانده می‌شود تا بتوانید از آن استفاده کنید، همان‌طور که در اینجا نشان داده شده است:</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut counter = 0;
 
     let result = loop {
@@ -371,7 +377,7 @@ again!
 <p>شما همچنین می‌توانید از داخل یک حلقه <code>return</code> استفاده کنید. در حالی که <code>break</code> فقط از حلقه جاری خارج می‌شود، <code>return</code> همیشه از تابع جاری خارج می‌شود.</p>
 <h4 id="برچسب-حلقهها-برای-رفع-ابهام-بین-چندین-حلقه"><a class="header" href="#برچسب-حلقهها-برای-رفع-ابهام-بین-چندین-حلقه">برچسب حلقه‌ها برای رفع ابهام بین چندین حلقه</a></h4>
 <p>اگر حلقه‌هایی تو در تو داشته باشید، <code>break</code> و <code>continue</code> به حلقه داخلی‌ترین حلقه در آن نقطه اعمال می‌شوند. به طور اختیاری می‌توانید یک <em>برچسب حلقه</em> روی یک حلقه مشخص کنید که سپس می‌توانید از آن برچسب با <code>break</code> یا <code>continue</code> استفاده کنید تا مشخص کنید که این کلمات کلیدی به حلقه برچسب‌دار اعمال می‌شوند نه حلقه داخلی‌ترین. برچسب‌های حلقه باید با یک آپاستروف شروع شوند. در اینجا یک مثال با دو حلقه تو در تو آمده است:</p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut count = 0;
     'counting_up: loop {
         println!("count = {count}");
@@ -409,9 +415,9 @@ End count = 2
 </code></pre>
 <h4 id="حلقههای-شرطی-با-while"><a class="header" href="#حلقههای-شرطی-با-while">حلقه‌های شرطی با <code>while</code></a></h4>
 <p>یک برنامه اغلب نیاز دارد که یک شرط را درون یک حلقه ارزیابی کند. تا زمانی که شرط <code>true</code> باشد، حلقه اجرا می‌شود. زمانی که شرط دیگر <code>true</code> نباشد، برنامه با فراخوانی <code>break</code>، حلقه را متوقف می‌کند. امکان پیاده‌سازی چنین رفتاری با استفاده از ترکیب <code>loop</code>، <code>if</code>، <code>else</code> و <code>break</code> وجود دارد. می‌توانید این را اکنون در یک برنامه امتحان کنید، اگر مایل هستید. با این حال، این الگو آن‌قدر رایج است که Rust یک سازه زبان داخلی برای آن دارد که به آن حلقه <code>while</code> گفته می‌شود. در Listing 3-3، از <code>while</code> برای اجرای برنامه سه بار، شمارش معکوس در هر بار، و سپس چاپ یک پیام و خروج از حلقه استفاده می‌کنیم.</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-3">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let mut number = 3;
 
     while number != 0 {
@@ -422,14 +428,17 @@ End count = 2
 
     println!("LIFTOFF!!!");
 }</code></pre></pre>
-<figcaption>Listing 3-3: استفاده از یک حلقه <code>while</code> برای اجرای کد تا زمانی که شرط برقرار باشد</figcaption>
+<figcaption><a href="#listing-3-3">Listing 3-3</a>: استفاده از حلقه‌ی <code>while</code> برای اجرای کد تا زمانی که شرط مقدار <code>true</code> داشته باشد</figcaption>
 </figure>
 <p>این سازه مقدار زیادی از تو در تویی که در صورت استفاده از <code>loop</code>، <code>if</code>، <code>else</code> و <code>break</code> لازم بود را حذف می‌کند و واضح‌تر است. تا زمانی که یک شرط به مقدار <code>true</code> ارزیابی شود، کد اجرا می‌شود؛ در غیر این صورت، حلقه متوقف می‌شود.</p>
 <h4 id="تکرار-از-طریق-یک-مجموعه-با-for"><a class="header" href="#تکرار-از-طریق-یک-مجموعه-با-for">تکرار از طریق یک مجموعه با <code>for</code></a></h4>
-<p>شما همچنین می‌توانید از ساختار <code>while</code> برای تکرار در عناصر یک مجموعه مانند یک آرایه استفاده کنید. به عنوان مثال، حلقه در Listing 3-4 هر عنصر در آرایه <code>a</code> را چاپ می‌کند.</p>
-<figure class="listing">
+<p>می‌توانید از ساختار <code>while</code> برای تکرار روی عناصر
+یک مجموعه، مانند آرایه، استفاده کنید. به‌عنوان مثال،
+حلقه‌ی موجود در فهرست 3-4، هر عنصر موجود در آرایه
+<code>a</code> را چاپ می‌کند.</p>
+<figure class="listing" id="listing-3-4">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
     let mut index = 0;
 
@@ -439,7 +448,7 @@ End count = 2
         index += 1;
     }
 }</code></pre></pre>
-<figcaption>Listing 3-4: تکرار در هر عنصر یک مجموعه با استفاده از حلقه <code>while</code></figcaption>
+<figcaption><a href="#listing-3-4">Listing 3-4</a>: تکرار در هر عنصر یک مجموعه با استفاده از حلقه <code>while</code></figcaption>
 </figure>
 <p>در اینجا، کد از طریق عناصر آرایه شمارش می‌کند. از اندیس (index)<code>0</code> شروع می‌کند و سپس تا زمانی که به آخرین اندیس (index)در آرایه برسد (یعنی وقتی که <code>index &lt; 5</code> دیگر <code>true</code> نباشد) حلقه می‌زند. اجرای این کد هر عنصر در آرایه را چاپ می‌کند:</p>
 <pre><code class="language-console">$ cargo run
@@ -455,23 +464,30 @@ the value is: 50
 <p>همه پنج مقدار آرایه همانطور که انتظار می‌رود در ترمینال ظاهر می‌شوند. حتی اگر <code>index</code> در نهایت به مقدار <code>5</code> برسد، حلقه قبل از تلاش برای گرفتن مقدار ششم از آرایه متوقف می‌شود.</p>
 <p>با این حال، این روش مستعد خطاست؛ ما می‌توانیم باعث شویم برنامه در صورت اشتباه بودن مقدار اندیس (index)یا شرط آزمایشی متوقف شود. به عنوان مثال، اگر تعریف آرایه <code>a</code> را به چهار عنصر تغییر دهید اما فراموش کنید شرط را به <code>while index &lt; 4</code> به‌روزرسانی کنید، کد متوقف خواهد شد. همچنین این روش کند است، زیرا کامپایلر کد زمان اجرا را برای انجام بررسی شرطی در مورد اینکه آیا اندیس (index)در محدوده آرایه است یا نه در هر تکرار حلقه اضافه می‌کند.</p>
 <p>به عنوان یک جایگزین مختصرتر، می‌توانید از حلقه <code>for</code> استفاده کنید و برای هر مورد در یک مجموعه، کدی اجرا کنید. یک حلقه <code>for</code> شبیه کدی در Listing 3-5 است.</p>
-<figure class="listing">
+<figure class="listing" id="listing-3-5">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     let a = [10, 20, 30, 40, 50];
 
     for element in a {
         println!("the value is: {element}");
     }
 }</code></pre></pre>
-<figcaption>Listing 3-5: تکرار در هر عنصر یک مجموعه با استفاده از حلقه <code>for</code></figcaption>
+<figcaption><a href="#listing-3-5">Listing 3-5</a>: تکرار در هر عنصر یک مجموعه با استفاده از حلقه <code>for</code></figcaption>
 </figure>
-<p>وقتی این کد را اجرا می‌کنیم، خروجی مشابه Listing 3-4 را مشاهده خواهیم کرد. مهم‌تر اینکه، اکنون ایمنی کد را افزایش داده‌ایم و احتمال خطاهایی که ممکن است ناشی از فراتر رفتن از انتهای آرایه یا عدم دسترسی به برخی از آیتم‌ها باشد را حذف کرده‌ایم.</p>
+<p>وقتی این کد را اجرا کنیم، خروجی مشابه فهرست 3-4
+را خواهیم دید. مهم‌تر اینکه، اکنون ایمنی کد افزایش
+یافته و احتمال بروز خطاهایی که ممکن است از دسترسی
+فراتر از انتهای آرایه یا عدم پیمایش کامل عناصر
+نشأت بگیرند، حذف شده است. همچنین، کد ماشینی که
+از حلقه‌های <code>for</code> تولید می‌شود می‌تواند کارآمدتر
+باشد، زیرا در هر تکرار نیازی به مقایسه‌ی اندیس با
+طول آرایه نیست.</p>
 <p>با استفاده از حلقه <code>for</code>، نیازی به به خاطر سپردن تغییر کد دیگری ندارید اگر تعداد مقادیر در آرایه را تغییر دهید، همانطور که با روش استفاده شده در Listing 3-4 باید انجام می‌دادید.</p>
 <p>ایمنی و مختصر بودن حلقه‌های <code>for</code> آنها را به رایج‌ترین سازه حلقه‌ای در Rust تبدیل کرده است. حتی در موقعیت‌هایی که می‌خواهید کدی را تعداد مشخصی از دفعات اجرا کنید، مانند مثال شمارش معکوس که از حلقه <code>while</code> در Listing 3-3 استفاده می‌کرد، اکثر برنامه‌نویسان Rust از حلقه <code>for</code> استفاده می‌کنند. روش انجام این کار استفاده از <code>Range</code>، که توسط کتابخانه استاندارد ارائه می‌شود، است که تمام اعداد را به ترتیب از یک عدد شروع کرده و قبل از عدد دیگری به پایان می‌رساند.</p>
 <p>این چیزی است که شمارش معکوس با استفاده از یک حلقه <code>for</code> و روش دیگری که هنوز در مورد آن صحبت نکرده‌ایم، یعنی <code>rev</code> برای معکوس کردن محدوده، به نظر می‌رسد:</p>
 <p><span class="filename">Filename: src/main.rs</span></p>
-<pre><pre class="playground"><code class="language-rust edition2021">fn main() {
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
     for number in (1..4).rev() {
         println!("{number}!");
     }
@@ -516,6 +532,22 @@ the value is: 50
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -534,6 +566,7 @@ the value is: 50
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="fa" class="light" dir="rtl">
+<html lang="fa" class="light sidebar-visible" dir="rtl">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,9 +24,9 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="ferris.css">
@@ -35,20 +35,35 @@
         <link rel="stylesheet" href="theme/listing.css">
         <link rel="stylesheet" href="theme/custom.css">
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -62,70 +77,51 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">زبان برنامه‌نویسی راست</a></li><li class="chapter-item expanded affix "><a href="foreword.html">پیش‌گفتار</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">مقدمه</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> شروع کار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> نصب</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> سلام، دنیا!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> سلام، Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> برنامه‌نویسی یک بازی حدس زدن</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> مفاهیم رایج برنامه‌نویسی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> متغیرها و تغییرپذیری</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> انواع داده</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> توابع</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> کامنت‌ها</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> کنترل جریان</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> درک مالکیت</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> مالکیت چیست؟</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> ارجاعات و قرض گرفتن</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> نوع Slice</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> استفاده از Structها برای سازماندهی داده‌های مرتبط</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> تعریف و نمونه‌سازی Structها</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> یک برنامه نمونه با استفاده از Structها</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> متد</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> شمارنده‌ها و تطابق الگو</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> تعریف یک Enum</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> ساختار جریان کنترل match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> جریان کنترل مختصر با if let و let else</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> مدیریت پروژه‌های در حال رشد با پکیج‌ها، جعبه‌ها (crates)، و ماژول‌ها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> پکیج‌ها و جعبه‌ها (crates)</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> تعریف ماژول‌ها برای کنترل دامنه و حریم خصوصی</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> مسیرها برای ارجاع به یک آیتم در درخت ماژول</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> وارد کردن مسیرها با کلمه کلیدی use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> جداسازی ماژول‌ها به فایل‌های مختلف</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> مجموعه‌های رایج</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> ذخیره لیست مقادیر با بردارها</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> ذخیره متن رمزگذاری‌شده UTF-8 با رشته‌ها</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> ذخیره کلیدها با مقادیر مرتبط در نقشه‌های هش</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> مدیریت خطاها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> خطاهای غیرقابل بازیابی با panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> خطاهای قابل بازیابی با Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> آیا از panic! استفاده کنیم یا نه؟</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> انواع جنریک، صفت‌ها، و طول عمرها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> انواع داده جنریک</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> صفت‌ها: تعریف رفتارهای مشترک</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> اعتبارسنجی ارجاعات با طول عمرها</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> نوشتن تست‌های خودکار</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> چگونه تست بنویسیم</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> کنترل نحوه اجرای تست‌ها</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> سازماندهی تست‌ها</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> یک پروژه I/O: ساخت یک برنامه خط فرمان</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> پذیرش آرگومان‌های خط فرمان</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> خواندن یک فایل</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html"><strong aria-hidden="true">12.3.</strong> بازسازی برای بهبود ماژولاریت و مدیریت خطا</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> توسعه قابلیت‌های کتابخانه با توسعه مبتنی بر تست</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> کار با متغیرهای محیطی</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> نوشتن پیام‌های خطا به خروجی خطا به جای خروجی استاندارد</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> ویژگی‌های زبان‌های تابعی: Iteratorها و Closureها</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Closureها: توابع ناشناخته که محیط خود را می‌گیرند</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> پردازش یک سری آیتم با Iteratorها</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> بهبود پروژه I/O ما</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> مقایسه عملکرد: حلقه‌ها در مقابل Iteratorها</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> بیشتر درباره Cargo و Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> سفارشی‌سازی بیلدها با پروفایل‌های انتشار</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html" class="active"><strong aria-hidden="true">14.2.</strong> منتشر کردن یک crate در Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> محیط‌های کاری Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> نصب باینری‌ها از Crates.io با cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> گسترش Cargo با دستورات سفارشی</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> اشاره‌گر (Pointer)های هوشمند</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> استفاده از Box&lt;T&gt; برای اشاره به داده‌ها در Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> رفتار اشاره‌گر (Pointer)های هوشمند مانند ارجاعات معمولی با صفت Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> اجرای کد هنگام پاک‌سازی با صفت Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;، اشاره‌گر (Pointer) هوشمند با شمارش ارجاعات</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; و الگوی تغییرپذیری داخلی</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> چرخه‌های ارجاع می‌توانند باعث نشت حافظه شوند</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> همزمانی بدون ترس</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> استفاده از نخ‌ها برای اجرای همزمان کد</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> استفاده از پیام‌رسانی برای انتقال داده بین نخ‌ها</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> همزمانی با وضعیت مشترک</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> همزمانی قابل گسترش با صفت‌های Sync و Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-async-await.html"><strong aria-hidden="true">17.</strong> Async و Await</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-futures-and-syntax.html"><strong aria-hidden="true">17.1.</strong> Futures و نحو Async</a></li><li class="chapter-item expanded "><a href="ch17-02-concurrency-with-async.html"><strong aria-hidden="true">17.2.</strong> همزمانی با Async</a></li><li class="chapter-item expanded "><a href="ch17-03-more-futures.html"><strong aria-hidden="true">17.3.</strong> کار با تعداد دلخواهی از Futures</a></li><li class="chapter-item expanded "><a href="ch17-04-streams.html"><strong aria-hidden="true">17.4.</strong> Streams</a></li><li class="chapter-item expanded "><a href="ch17-05-traits-for-async.html"><strong aria-hidden="true">17.5.</strong> بررسی عمیق صفت‌ها برای Async</a></li><li class="chapter-item expanded "><a href="ch17-06-futures-tasks-threads.html"><strong aria-hidden="true">17.6.</strong> Futures، Tasks، و Threads</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-oop.html"><strong aria-hidden="true">18.</strong> ویژگی‌های برنامه‌نویسی شی‌گرا در Rust</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-what-is-oo.html"><strong aria-hidden="true">18.1.</strong> ویژگی‌های زبان‌های شی‌گرا</a></li><li class="chapter-item expanded "><a href="ch18-02-trait-objects.html"><strong aria-hidden="true">18.2.</strong> استفاده از صفت‌های شی‌گرا برای مقادیر از تایپ‌های مختلف</a></li><li class="chapter-item expanded "><a href="ch18-03-oo-design-patterns.html"><strong aria-hidden="true">18.3.</strong> پیاده‌سازی یک الگوی طراحی شی‌گرا</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-patterns.html"><strong aria-hidden="true">19.</strong> الگوها و تطبیق</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-all-the-places-for-patterns.html"><strong aria-hidden="true">19.1.</strong> تمام مکان‌هایی که می‌توان از الگوها استفاده کرد</a></li><li class="chapter-item expanded "><a href="ch19-02-refutability.html"><strong aria-hidden="true">19.2.</strong> قابلیت رد: آیا ممکن است یک الگو با مقدار مطابقت نداشته باشد؟</a></li><li class="chapter-item expanded "><a href="ch19-03-pattern-syntax.html"><strong aria-hidden="true">19.3.</strong> نحو الگوها</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-advanced-features.html"><strong aria-hidden="true">20.</strong> ویژگی‌های پیشرفته</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-unsafe-rust.html"><strong aria-hidden="true">20.1.</strong> Rust ناایمن</a></li><li class="chapter-item expanded "><a href="ch20-02-advanced-traits.html"><strong aria-hidden="true">20.2.</strong> Traits پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-03-advanced-types.html"><strong aria-hidden="true">20.3.</strong> تایپ‌های پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-04-advanced-functions-and-closures.html"><strong aria-hidden="true">20.4.</strong> توابع و Closures پیشرفته</a></li><li class="chapter-item expanded "><a href="ch20-05-macros.html"><strong aria-hidden="true">20.5.</strong> ماکروها</a></li></ol></li><li class="chapter-item expanded "><a href="ch21-00-final-project-a-web-server.html"><strong aria-hidden="true">21.</strong> پروژه نهایی: ساخت یک وب‌سرور چندنخی</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch21-01-single-threaded.html"><strong aria-hidden="true">21.1.</strong> ساخت یک وب‌سرور single-threaded</a></li><li class="chapter-item expanded "><a href="ch21-02-multithreaded.html"><strong aria-hidden="true">21.2.</strong> تبدیل وب‌سرور تک‌نخی به وب‌سرور چندنخی</a></li><li class="chapter-item expanded "><a href="ch21-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">21.3.</strong> خاموشی ملایم و پاک‌سازی</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">22.</strong> ضمیمه</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">22.1.</strong> الف - کلمات کلیدی</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">22.2.</strong> ب - عملگرها و نمادها</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">22.3.</strong> ج - صفت‌های قابل اشتقاق</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">22.4.</strong> د - ابزارهای توسعه مفید</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">22.5.</strong> ه - نسخه‌ها</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">22.6.</strong> و - ترجمه‌های کتاب</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">22.7.</strong> ی - چگونه Rust ساخته می‌شود و "Nightly Rust"</a></li></ol></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -135,13 +131,14 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -161,7 +158,12 @@
 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -187,7 +189,7 @@
 <h3 id="ایجاد-نظرات-مستندات-مفید"><a class="header" href="#ایجاد-نظرات-مستندات-مفید">ایجاد نظرات مستندات مفید</a></h3>
 <p>مستندسازی دقیق پکیج‌های شما به دیگر کاربران کمک می‌کند بدانند چگونه و چه زمانی از آن‌ها استفاده کنند، بنابراین ارزش دارد که وقت خود را برای نوشتن مستندات صرف کنید. در فصل 3، نحوه اضافه کردن نظرات به کد Rust با استفاده از دو اسلش <code>//</code> را بررسی کردیم. Rust همچنین نوع خاصی از نظرات برای مستندات دارد که به نام <em>نظرات مستندات</em> شناخته می‌شود و مستندات HTML تولید می‌کند. این مستندات HTML محتوای نظرات مستندات را برای آیتم‌های عمومی API نمایش می‌دهد که برای برنامه‌نویسانی که به دنبال دانستن چگونگی <em>استفاده از</em> crate شما هستند، طراحی شده است و نه چگونگی <em>پیاده‌سازی</em> crate شما.</p>
 <p>نظرات مستندات به جای دو اسلش از سه اسلش <code>///</code> استفاده می‌کنند و از نشانه‌گذاری Markdown برای قالب‌بندی متن پشتیبانی می‌کنند. نظرات مستندات را درست قبل از آیتمی که قرار است مستندسازی شود قرار دهید. لیستینگ 14-1 نظرات مستندات برای یک تابع <code>add_one</code> در یک crate به نام <code>my_crate</code> را نشان می‌دهد.</p>
-<figure class="listing">
+<figure class="listing" id="listing-14-1">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">/// Adds one to the number given.
 ///
@@ -202,10 +204,31 @@
 pub fn add_one(x: i32) -&gt; i32 {
     x + 1
 }</code></pre>
-<figcaption>Listing 14-1: یک نظر مستند برای یک تابع</figcaption>
+<figcaption><a href="#listing-14-1">Listing 14-1</a>: یک نظر مستند برای یک تابع</figcaption>
 </figure>
 <p>اینجا، ما توضیحی درباره عملکرد تابع <code>add_one</code> می‌دهیم، بخشی با عنوان <code>Examples</code> شروع می‌کنیم، و سپس کدی که نشان می‌دهد چگونه از تابع <code>add_one</code> استفاده کنیم ارائه می‌دهیم. می‌توانیم مستندات HTML را از این نظر مستند با اجرای دستور <code>cargo doc</code> تولید کنیم. این دستور ابزار <code>rustdoc</code> که با Rust توزیع شده را اجرا می‌کند و مستندات HTML تولیدشده را در دایرکتوری <em>target/doc</em> قرار می‌دهد.</p>
+<h1 id="head"><a class="header" href="#head">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>برای راحتی، اجرای دستور <code>cargo doc --open</code> مستندات HTML را برای crate فعلی شما (و همچنین مستندات همه وابستگی‌های crate شما) می‌سازد و نتیجه را در مرورگر وب باز می‌کند. به تابع <code>add_one</code> بروید و خواهید دید که چگونه متن موجود در نظرات مستندات نمایش داده می‌شود، همانطور که در شکل 14-1 نشان داده شده است:</p>
+<p>For convenience, running <code>cargo doc --open</code> will build the HTML for your
+current crate’s documentation (as well as the documentation for all of your
+crate’s dependencies) and open the result in a web browser. Navigate to the
+<code>add_one</code> function and you’ll see how the text in the documentation comments is
+rendered, as shown in Figure 14-1.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <img alt="مستندات HTML تولیدشده برای تابع `add_one` از `my_crate`" src="img/trpl14-01.png" class="center" />
 <p><span class="caption">شکل 14-1: مستندات HTML برای تابع <code>add_one</code></span></p>
 <h4 id="بخشهای-متداول-مورد-استفاده"><a class="header" href="#بخشهای-متداول-مورد-استفاده">بخش‌های متداول مورد استفاده</a></h4>
@@ -217,7 +240,35 @@ pub fn add_one(x: i32) -&gt; i32 {
 </ul>
 <p>بیشتر نظرات مستندات به همه این بخش‌ها نیاز ندارند، اما این یک چک‌لیست خوب برای یادآوری جنبه‌هایی از کد شما است که کاربران علاقه‌مند به دانستن آن هستند.</p>
 <h4 id="نظرات-مستندات-به-عنوان-تست"><a class="header" href="#نظرات-مستندات-به-عنوان-تست">نظرات مستندات به عنوان تست</a></h4>
+<h1 id="head-1"><a class="header" href="#head-1">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>اضافه کردن بلوک‌های کد مثال به نظرات مستندات شما می‌تواند به نمایش نحوه استفاده از کتابخانه شما کمک کند، و انجام این کار یک مزیت اضافی دارد: اجرای دستور <code>cargo test</code>، مثال‌های کد در مستندات شما را به عنوان تست اجرا خواهد کرد! هیچ چیزی بهتر از مستندات با مثال نیست. اما هیچ چیزی بدتر از مثال‌هایی نیست که کار نمی‌کنند زیرا کد از زمان نوشته شدن مستندات تغییر کرده است. اگر <code>cargo test</code> را با مستندات تابع <code>add_one</code> از لیستینگ 14-1 اجرا کنیم، بخشی در نتایج تست مانند زیر خواهیم دید:</p>
+<p>Adding example code blocks in your documentation comments can help demonstrate
+how to use your library, and doing so has an additional bonus: running <code>cargo test</code> will run the code examples in your documentation as tests! Nothing is
+better than documentation with examples. But nothing is worse than examples
+that don’t work because the code has changed since the documentation was
+written. If we run <code>cargo test</code> with the documentation for the <code>add_one</code>
+function from Listing 14-1, we will see a section in the test results that looks
+like this:</p>
+<!-- manual-regeneration
+cd listings/ch14-more-about-cargo/listing-14-01/
+cargo test
+copy just the doc-tests section below
+-->
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <pre><code class="language-text">   Doc-tests my_crate
 
 running 1 test
@@ -225,11 +276,54 @@ test src/lib.rs - add_one (line 5) ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
 </code></pre>
+<h1 id="head-2"><a class="header" href="#head-2">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>اکنون، اگر تابع یا مثال را تغییر دهیم به طوری که <code>assert_eq!</code> در مثال باعث panic شود و دوباره <code>cargo test</code> را اجرا کنیم، خواهیم دید که تست‌های مستندات تشخیص می‌دهند که مثال و کد با یکدیگر همگام نیستند!</p>
+<p>Now, if we change either the function or the example so the <code>assert_eq!</code> in the
+example panics, and run <code>cargo test</code> again, we’ll see that the doc tests catch
+that the example and the code are out of sync with each other!</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <h4 id="مستندسازی-آیتمهای-شامل-شده"><a class="header" href="#مستندسازی-آیتمهای-شامل-شده">مستندسازی آیتم‌های شامل شده</a></h4>
-<p>سبک نظر مستند <code>//!</code> مستندات را به آیتمی که نظرات را شامل می‌شود اضافه می‌کند، به جای آیتم‌هایی که بعد از نظرات قرار دارند. ما معمولاً از این نظرات مستند در فایل اصلی crate (<em>src/lib.rs</em> بر اساس قرارداد) یا در داخل یک ماژول برای مستندسازی کل crate یا ماژول استفاده می‌کنیم.</p>
-<p>برای مثال، برای اضافه کردن مستنداتی که هدف crate <code>my_crate</code> را که شامل تابع <code>add_one</code> است توضیح می‌دهد، نظرات مستندی که با <code>//!</code> شروع می‌شوند را به ابتدای فایل <em>src/lib.rs</em> اضافه می‌کنیم، همان‌طور که در لیستینگ 14-2 نشان داده شده است:</p>
-<figure class="listing">
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+سبک نظر مستند <code>//!</code> مستندات را به آیتمی که نظرات را شامل می‌شود اضافه می‌کند، به جای آیتم‌هایی که بعد از نظرات قرار دارند. ما معمولاً از این نظرات مستند در فایل اصلی crate (<em>src/lib.rs</em> بر اساس قرارداد) یا در داخل یک ماژول برای مستندسازی کل crate یا ماژول استفاده می‌کنیم.</p>
+<h1 id="برای-مثال-برای-اضافه-کردن-مستنداتی-که-هدف-crate-my_crate-را-که-شامل-تابع-add_one-است-توضیح-میدهد-نظرات-مستندی-که-با--شروع-میشوند-را-به-ابتدای-فایل-srclibrs-اضافه-میکنیم-همانطور-که-در-لیستینگ-14-2-نشان-داده-شده-است"><a class="header" href="#برای-مثال-برای-اضافه-کردن-مستنداتی-که-هدف-crate-my_crate-را-که-شامل-تابع-add_one-است-توضیح-میدهد-نظرات-مستندی-که-با--شروع-میشوند-را-به-ابتدای-فایل-srclibrs-اضافه-میکنیم-همانطور-که-در-لیستینگ-14-2-نشان-داده-شده-است">برای مثال، برای اضافه کردن مستنداتی که هدف crate <code>my_crate</code> را که شامل تابع <code>add_one</code> است توضیح می‌دهد، نظرات مستندی که با <code>//!</code> شروع می‌شوند را به ابتدای فایل <em>src/lib.rs</em> اضافه می‌کنیم، همان‌طور که در لیستینگ 14-2 نشان داده شده است:</a></h1>
+<p>The style of doc comment <code>//!</code> adds documentation to the item that <em>contains</em>
+the comments rather than to the items <em>following</em> the comments. We typically use
+these doc comments inside the crate root file (<em>src/lib.rs</em> by convention) or
+inside a module to document the crate or the module as a whole.</p>
+<p>For example, to add documentation that describes the purpose of the <code>my_crate</code>
+crate that contains the <code>add_one</code> function, we add documentation comments that
+start with <code>//!</code> to the beginning of the <em>src/lib.rs</em> file, as shown in Listing
+14-2.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="listing" id="listing-14-2">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">//! # My Crate
 //!
@@ -250,19 +344,71 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; fini
 </span><span class="boring">pub fn add_one(x: i32) -&gt; i32 {
 </span><span class="boring">    x + 1
 </span><span class="boring">}</span></code></pre>
-<figcaption>Listing 14-2: مستندات برای کل crate <code>my_crate</code></figcaption>
+<figcaption><a href="#listing-14-2">Listing 14-2</a>: مستندات برای کل crate <code>my_crate</code></figcaption>
 </figure>
 <p>توجه داشته باشید که هیچ کدی بعد از آخرین خطی که با <code>//!</code> شروع می‌شود وجود ندارد. چون ما نظرات را با <code>//!</code> شروع کرده‌ایم به جای <code>///</code>، ما در حال مستندسازی آیتمی هستیم که این نظر را شامل می‌شود به جای آیتمی که بعد از این نظر قرار دارد. در این مورد، آن آیتم فایل <em>src/lib.rs</em> است که ریشه crate است. این نظرات کل crate را توضیح می‌دهند.</p>
+<h1 id="head-3"><a class="header" href="#head-3">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>وقتی <code>cargo doc --open</code> را اجرا می‌کنیم، این نظرات در صفحه اول مستندات crate <code>my_crate</code> بالای لیست آیتم‌های عمومی در crate نمایش داده می‌شوند، همان‌طور که در شکل 14-2 نشان داده شده است:</p>
+<p>When we run <code>cargo doc --open</code>, these comments will display on the front
+page of the documentation for <code>my_crate</code> above the list of public items in the
+crate, as shown in Figure 14-2.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <img alt="Rendered HTML documentation with a comment for the crate as a whole" src="img/trpl14-02.png" class="center" />
 <p><span class="caption">شکل 14-2: مستندات تولید شده برای <code>my_crate</code>، شامل توضیحات در مورد کل crate</span></p>
 <p>نظرات مستندات داخل آیتم‌ها به ویژه برای توصیف crates و ماژول‌ها مفید هستند. از آن‌ها برای توضیح هدف کلی container استفاده کنید تا به کاربران خود در درک سازمان‌دهی crate کمک کنید.</p>
 <h3 id="صادرات-یک-api-عمومی-کارآمد-با-استفاده-از-pub-use"><a class="header" href="#صادرات-یک-api-عمومی-کارآمد-با-استفاده-از-pub-use">صادرات یک API عمومی کارآمد با استفاده از <code>pub use</code></a></h3>
 <p>ساختار API عمومی شما یک موضوع مهم هنگام انتشار یک crate است. افرادی که از crate شما استفاده می‌کنند، کمتر از شما با ساختار آن آشنا هستند و ممکن است در یافتن قسمت‌هایی که می‌خواهند استفاده کنند، اگر crate شما دارای یک سلسله‌مراتب ماژول بزرگ باشد، دچار مشکل شوند.</p>
-<p>در فصل 7، نحوه عمومی کردن آیتم‌ها با استفاده از کلمه کلیدی <code>pub</code> و آوردن آیتم‌ها به یک scope با استفاده از کلمه کلیدی <code>use</code> را پوشش دادیم. با این حال، ساختاری که هنگام توسعه یک crate برای شما منطقی به نظر می‌رسد ممکن است برای کاربران شما چندان مناسب نباشد. ممکن است بخواهید ساختارهای خود را در یک سلسله‌مراتب با چندین سطح سازماندهی کنید، اما سپس افرادی که می‌خواهند از یک نوع تعریف‌شده عمیق در سلسله‌مراتب استفاده کنند ممکن است در پیدا کردن آن نوع دچار مشکل شوند. همچنین ممکن است مجبور شوند به جای <code>use my_crate::UsefulType;</code>، چیزی مانند <code>use my_crate::some_module::another_module::UsefulType;</code> بنویسند که ناخوشایند است.</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+در فصل 7، نحوه عمومی کردن آیتم‌ها با استفاده از کلمه کلیدی <code>pub</code> و آوردن آیتم‌ها به یک scope با استفاده از کلمه کلیدی <code>use</code> را پوشش دادیم. با این حال، ساختاری که هنگام توسعه یک crate برای شما منطقی به نظر می‌رسد ممکن است برای کاربران شما چندان مناسب نباشد. ممکن است بخواهید ساختارهای خود را در یک سلسله‌مراتب با چندین سطح سازماندهی کنید، اما سپس افرادی که می‌خواهند از یک نوع تعریف‌شده عمیق در سلسله‌مراتب استفاده کنند ممکن است در پیدا کردن آن نوع دچار مشکل شوند. همچنین ممکن است مجبور شوند به جای <code>use my_crate::UsefulType;</code>، چیزی مانند <code>use my_crate::some_module::another_module::UsefulType;</code> بنویسند که ناخوشایند است.</p>
 <p>خبر خوب این است که اگر ساختار <em>برای دیگران راحت نیست</em>، نیازی نیست سازمان‌دهی داخلی خود را دوباره بچینید: به جای آن می‌توانید آیتم‌ها را با استفاده از <code>pub use</code> مجدداً صادر کنید تا یک ساختار عمومی متفاوت از ساختار خصوصی خود ایجاد کنید. صادرات مجدد یک آیتم عمومی در یک مکان را می‌گیرد و آن را در یک مکان دیگر عمومی می‌کند، گویی که در مکان دیگر تعریف شده است.</p>
-<p>برای مثال، فرض کنید ما یک کتابخانه به نام <code>art</code> برای مدل‌سازی مفاهیم هنری ایجاد کرده‌ایم. در این کتابخانه دو ماژول وجود دارند: یک ماژول <code>kinds</code> که شامل دو enum به نام‌های <code>PrimaryColor</code> و <code>SecondaryColor</code> است و یک ماژول <code>utils</code> که شامل یک تابع به نام <code>mix</code> است، همان‌طور که در لیستینگ 14-3 نشان داده شده است:</p>
-<figure class="listing">
+<h1 id="برای-مثال-فرض-کنید-ما-یک-کتابخانه-به-نام-art-برای-مدلسازی-مفاهیم-هنری-ایجاد-کردهایم-در-این-کتابخانه-دو-ماژول-وجود-دارند-یک-ماژول-kinds-که-شامل-دو-enum-به-نامهای-primarycolor-و-secondarycolor-است-و-یک-ماژول-utils-که-شامل-یک-تابع-به-نام-mix-است-همانطور-که-در-لیستینگ-14-3-نشان-داده-شده-است"><a class="header" href="#برای-مثال-فرض-کنید-ما-یک-کتابخانه-به-نام-art-برای-مدلسازی-مفاهیم-هنری-ایجاد-کردهایم-در-این-کتابخانه-دو-ماژول-وجود-دارند-یک-ماژول-kinds-که-شامل-دو-enum-به-نامهای-primarycolor-و-secondarycolor-است-و-یک-ماژول-utils-که-شامل-یک-تابع-به-نام-mix-است-همانطور-که-در-لیستینگ-14-3-نشان-داده-شده-است">برای مثال، فرض کنید ما یک کتابخانه به نام <code>art</code> برای مدل‌سازی مفاهیم هنری ایجاد کرده‌ایم. در این کتابخانه دو ماژول وجود دارند: یک ماژول <code>kinds</code> که شامل دو enum به نام‌های <code>PrimaryColor</code> و <code>SecondaryColor</code> است و یک ماژول <code>utils</code> که شامل یک تابع به نام <code>mix</code> است، همان‌طور که در لیستینگ 14-3 نشان داده شده است:</a></h1>
+<p>In Chapter 7, we covered how to make items public using the <code>pub</code> keyword, and
+how to bring items into a scope with the <code>use</code> keyword. However, the structure
+that makes sense to you while you’re developing a crate might not be very
+convenient for your users. You might want to organize your structs in a
+hierarchy containing multiple levels, but then people who want to use a type
+you’ve defined deep in the hierarchy might have trouble finding out that type
+exists. They might also be annoyed at having to enter <code>use my_crate::some_module::another_module::UsefulType;</code> rather than <code>use my_crate::UsefulType;</code>.</p>
+<p>The good news is that if the structure <em>isn’t</em> convenient for others to use
+from another library, you don’t have to rearrange your internal organization:
+instead, you can re-export items to make a public structure that’s different
+from your private structure by using <code>pub use</code>. <em>Re-exporting</em> takes a public
+item in one location and makes it public in another location, as if it were
+defined in the other location instead.</p>
+<p>For example, say we made a library named <code>art</code> for modeling artistic concepts.
+Within this library are two modules: a <code>kinds</code> module containing two enums
+named <code>PrimaryColor</code> and <code>SecondaryColor</code> and a <code>utils</code> module containing a
+function named <code>mix</code>, as shown in Listing 14-3.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="listing" id="listing-14-3">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust noplayground test_harness">//! # Art
 //!
@@ -294,14 +440,52 @@ pub mod utils {
 <span class="boring">        unimplemented!();
 </span>    }
 }</code></pre>
-<figcaption>Listing 14-3: یک کتابخانه <code>art</code> با آیتم‌هایی که در ماژول‌های <code>kinds</code> و <code>utils</code> سازماندهی شده‌اند</figcaption>
+<figcaption><a href="#listing-14-3">Listing 14-3</a>: یک کتابخانه <code>art</code> با آیتم‌هایی که در ماژول‌های <code>kinds</code> و <code>utils</code> سازماندهی شده‌اند</figcaption>
 </figure>
+<h1 id="head-4"><a class="header" href="#head-4">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>شکل 14-3 نشان می‌دهد که صفحه اول مستندات این crate که توسط <code>cargo doc</code> تولید شده است چگونه به نظر می‌رسد:</p>
+<p>Figure 14-3 shows what the front page of the documentation for this crate
+generated by <code>cargo doc</code> would look like.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <img alt="مستندات تولید شده برای crate `art` که ماژول‌های `kinds` و `utils` را لیست می‌کند" src="img/trpl14-03.png" class="center" />
 <p><span class="caption">شکل 14-3: صفحه اول مستندات crate <code>art</code> که ماژول‌های <code>kinds</code> و <code>utils</code> را لیست می‌کند</span></p>
 <p>توجه کنید که انواع <code>PrimaryColor</code> و <code>SecondaryColor</code> در صفحه اول لیست نشده‌اند، و تابع <code>mix</code> نیز لیست نشده است. برای دیدن آن‌ها باید روی <code>kinds</code> و <code>utils</code> کلیک کنیم.</p>
+<h1 id="head-5"><a class="header" href="#head-5">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>یک crate دیگر که به این کتابخانه وابسته است نیاز دارد که بیانیه‌های <code>use</code> مشخص کنند که آیتم‌ها را از <code>art</code> به scope می‌آورند، و ساختار ماژول تعریف‌شده کنونی را بیان کنند. لیستینگ 14-4 یک مثال از crate‌ای که آیتم‌های <code>PrimaryColor</code> و <code>mix</code> را از crate <code>art</code> استفاده می‌کند نشان می‌دهد:</p>
-<figure class="listing">
+<p>Another crate that depends on this library would need <code>use</code> statements that
+bring the items from <code>art</code> into scope, specifying the module structure that’s
+currently defined. Listing 14-4 shows an example of a crate that uses the
+<code>PrimaryColor</code> and <code>mix</code> items from the <code>art</code> crate.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="listing" id="listing-14-4">
 <span class="file-name">Filename: src/main.rs</span>
 <pre><code class="language-rust ignore">use art::kinds::PrimaryColor;
 use art::utils::mix;
@@ -311,11 +495,30 @@ fn main() {
     let yellow = PrimaryColor::Yellow;
     mix(red, yellow);
 }</code></pre>
-<figcaption>Listing 14-4: A crate using the <code>art</code> crate’s items with its internal structure exported</figcaption>
+<figcaption><a href="#listing-14-4">Listing 14-4</a>: A crate using the <code>art</code> crate’s items with its internal structure exported</figcaption>
 </figure>
 <p>نویسنده کدی که در لیستینگ 14-4 نشان داده شده و از crate <code>art</code> استفاده می‌کند، مجبور بوده متوجه شود که <code>PrimaryColor</code> در ماژول <code>kinds</code> و <code>mix</code> در ماژول <code>utils</code> قرار دارد. ساختار ماژول crate <code>art</code> بیشتر برای توسعه‌دهندگانی که روی این crate کار می‌کنند مرتبط است تا کسانی که از آن استفاده می‌کنند. ساختار داخلی اطلاعات مفیدی برای کسی که می‌خواهد نحوه استفاده از crate <code>art</code> را بفهمد ارائه نمی‌دهد، بلکه بیشتر باعث سردرگمی می‌شود، زیرا توسعه‌دهندگانی که از آن استفاده می‌کنند باید بفهمند کجا را باید جستجو کنند و نام‌های ماژول را در بیانیه‌های <code>use</code> مشخص کنند.</p>
+<h1 id="head-6"><a class="header" href="#head-6">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>برای حذف سازمان‌دهی داخلی از API عمومی، می‌توانیم کد crate <code>art</code> را در لیستینگ 14-3 تغییر دهیم تا بیانیه‌های <code>pub use</code> را برای صادرات مجدد آیتم‌ها در سطح بالا اضافه کنیم، همان‌طور که در لیستینگ 14-5 نشان داده شده است:</p>
-<figure class="listing">
+<p>To remove the internal organization from the public API, we can modify the
+<code>art</code> crate code in Listing 14-3 to add <code>pub use</code> statements to re-export the
+items at the top level, as shown in Listing 14-5.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="listing" id="listing-14-5">
 <span class="file-name">Filename: src/lib.rs</span>
 <pre><code class="language-rust ignore">//! # Art
 //!
@@ -352,16 +555,35 @@ pub mod utils {
 </span><span class="boring">        SecondaryColor::Orange
 </span><span class="boring">    }
 </span>}</code></pre>
-<figcaption>Listing 14-5: افزودن بیانیه‌های <code>pub use</code> برای صادرات مجدد آیتم‌ها</figcaption>
+<figcaption><a href="#listing-14-5">Listing 14-5</a>: افزودن بیانیه‌های <code>pub use</code> برای صادرات مجدد آیتم‌ها</figcaption>
 </figure>
 <p>مستندات API که <code>cargo doc</code> برای این crate تولید می‌کند اکنون صادرات‌های مجدد را در صفحه اول لیست کرده و به آن‌ها لینک می‌دهد، همان‌طور که در شکل 14-4 نشان داده شده است. این کار پیدا کردن انواع <code>PrimaryColor</code> و <code>SecondaryColor</code> و تابع <code>mix</code> را آسان‌تر می‌کند.</p>
 <img alt="مستندات تولیدشده برای crate `art` با صادرات‌های مجدد در صفحه اول" src="img/trpl14-04.png" class="center" />
 <p><span class="caption">شکل 14-4: صفحه اول مستندات برای crate <code>art</code> که صادرات‌های مجدد را لیست می‌کند</span></p>
+<h1 id="head-7"><a class="header" href="#head-7">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>کاربران crate <code>art</code> همچنان می‌توانند ساختار داخلی را از لیستینگ 14-3 ببینند و استفاده کنند، همان‌طور که در لیستینگ 14-4 نشان داده شده است، یا می‌توانند از ساختار راحت‌تر در لیستینگ 14-5 استفاده کنند، همان‌طور که در لیستینگ 14-6 نشان داده شده است:</p>
-<figure class="listing">
+<p>The <code>art</code> crate users can still see and use the internal structure from Listing
+14-3 as demonstrated in Listing 14-4, or they can use the more convenient
+structure in Listing 14-5, as shown in Listing 14-6.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<figure class="listing" id="listing-14-6">
 <span class="file-name">Filename: src/main.rs</span>
-<pre><code class="language-rust ignore">use art::mix;
-use art::PrimaryColor;
+<pre><code class="language-rust ignore">use art::PrimaryColor;
+use art::mix;
 
 fn main() {
     // --snip--
@@ -369,7 +591,7 @@ fn main() {
 </span><span class="boring">    let yellow = PrimaryColor::Yellow;
 </span><span class="boring">    mix(red, yellow);
 </span>}</code></pre>
-<figcaption>Listing 14-6: یک برنامه که از آیتم‌های صادرات‌شده مجدد crate <code>art</code> استفاده می‌کند</figcaption>
+<figcaption><a href="#listing-14-6">Listing 14-6</a>: یک برنامه که از آیتم‌های صادرات‌شده مجدد crate <code>art</code> استفاده می‌کند</figcaption>
 </figure>
 <p>در مواردی که ماژول‌های تو در تو زیادی وجود دارند، صادرات مجدد انواع در سطح بالا با <code>pub use</code> می‌تواند تفاوت بزرگی در تجربه افرادی که از crate استفاده می‌کنند ایجاد کند. یکی دیگر از استفاده‌های رایج <code>pub use</code>، صادرات مجدد تعاریف یک وابستگی در crate فعلی برای تبدیل تعاریف آن به بخشی از API عمومی crate شما است.</p>
 <p>ایجاد یک ساختار API عمومی مفید بیشتر شبیه یک هنر است تا یک علم، و می‌توانید با آزمون و خطا API‌ای پیدا کنید که بهترین کارکرد را برای کاربران شما داشته باشد. انتخاب <code>pub use</code> به شما انعطاف می‌دهد که چگونه crate خود را به صورت داخلی ساختار دهید و آن ساختار داخلی را از چیزی که به کاربران خود ارائه می‌دهید جدا کنید. به برخی از کدهای crate‌هایی که نصب کرده‌اید نگاهی بیندازید تا ببینید آیا ساختار داخلی آن‌ها با API عمومی آن‌ها تفاوت دارد یا خیر.</p>
@@ -378,7 +600,28 @@ fn main() {
 <pre><code class="language-console">$ cargo login
 abcdefghijklmnopqrstuvwxyz012345
 </code></pre>
+<h1 id="head-8"><a class="header" href="#head-8">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>این دستور Cargo را از توکن API شما مطلع کرده و آن را به صورت محلی در فایل <em>~/.cargo/credentials</em> ذخیره می‌کند. توجه داشته باشید که این توکن یک <em>راز</em> است: آن را با هیچ‌کس دیگری به اشتراک نگذارید. اگر به هر دلیلی این توکن را با کسی به اشتراک گذاشتید، باید آن را لغو کنید و یک توکن جدید در <a href="https://crates.io/">crates.io</a><!-- ignore --> ایجاد کنید.</p>
+<p>This command will inform Cargo of your API token and store it locally in
+<em>~/.cargo/credentials.toml</em>. Note that this token is a <em>secret</em>: do not share
+it with anyone else. If you do share it with anyone for any reason, you should
+revoke it and generate a new token on <a href="https://crates.io/">crates.io</a><!-- ignore
+-->.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <h3 id="افزودن-متادیتا-به-یک-crate-جدید"><a class="header" href="#افزودن-متادیتا-به-یک-crate-جدید">افزودن متادیتا به یک Crate جدید</a></h3>
 <p>فرض کنید یک crate دارید که می‌خواهید منتشر کنید. قبل از انتشار، نیاز دارید که برخی متادیتا را در بخش <code>[package]</code> فایل <em>Cargo.toml</em> crate خود اضافه کنید.</p>
 <p>crate شما باید یک نام منحصر به فرد داشته باشد. در حالی که به صورت محلی روی یک crate کار می‌کنید، می‌توانید هر نامی که دوست دارید برای crate خود انتخاب کنید. با این حال، نام‌های crate در <a href="https://crates.io/">crates.io</a><!-- ignore --> به صورت اولین درخواست‌کننده تخصیص داده می‌شوند. هنگامی که یک نام برای یک crate گرفته شود، هیچ کس دیگری نمی‌تواند یک crate با آن نام منتشر کند. قبل از تلاش برای انتشار یک crate، جستجو کنید که نامی که می‌خواهید استفاده کنید در دسترس است یا خیر. اگر نام استفاده شده باشد، باید یک نام دیگر پیدا کنید و فیلد <code>name</code> را در فایل <em>Cargo.toml</em> در زیر بخش <code>[package]</code> ویرایش کنید تا از نام جدید برای انتشار استفاده کنید، مانند زیر:</p>
@@ -386,7 +629,31 @@ abcdefghijklmnopqrstuvwxyz012345
 <pre><code class="language-toml">[package]
 name = "guessing_game"
 </code></pre>
+<h1 id="head-9"><a class="header" href="#head-9">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>حتی اگر یک نام منحصر به فرد انتخاب کرده باشید، زمانی که <code>cargo publish</code> را برای انتشار crate در این مرحله اجرا کنید، یک هشدار و سپس یک خطا دریافت خواهید کرد:</p>
+<p>Even if you’ve chosen a unique name, when you run <code>cargo publish</code> to publish
+the crate at this point, you’ll get a warning and then an error:</p>
+<!-- manual-regeneration
+Create a new package with an unregistered name, making no further modifications
+  to the generated package, so it is missing the description and license fields.
+cargo publish
+copy just the relevant lines below
+-->
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <pre><code class="language-console">$ cargo publish
     Updating crates.io index
 warning: manifest has no description, license, license-file, documentation, homepage or repository.
@@ -395,9 +662,33 @@ See https://doc.rust-lang.org/cargo/reference/manifest.html#package-metadata for
 error: failed to publish to registry at https://crates.io
 
 Caused by:
-  the remote server responded with an error (status 400 Bad Request): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for more information on configuring these field
+  the remote server responded with an error (status 400 Bad Request): missing or empty metadata fields: description, license. Please see https://doc.rust-lang.org/cargo/reference/manifest.html for more information on configuring these fields
 </code></pre>
+<h1 id="head-10"><a class="header" href="#head-10">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>این خطا به دلیل این است که شما برخی اطلاعات حیاتی را از دست داده‌اید: یک توضیح و یک مجوز مورد نیاز است تا افراد بدانند crate شما چه کاری انجام می‌دهد و تحت چه شرایطی می‌توانند از آن استفاده کنند. در فایل <em>Cargo.toml</em>، یک توضیح اضافه کنید که فقط یک یا دو جمله باشد، زیرا این توضیح همراه crate شما در نتایج جستجو ظاهر خواهد شد. برای فیلد <code>license</code>، باید یک <em>مقدار شناسگر مجوز</em> ارائه دهید. <a href="http://spdx.org/licenses/">پروژه Software Package Data Exchange (SPDX)</a> لیستی از شناسگرهایی که می‌توانید برای این مقدار استفاده کنید را ارائه می‌دهد. برای مثال، برای مشخص کردن اینکه crate خود را با استفاده از مجوز MIT منتشر کرده‌اید، شناسگر <code>MIT</code> را اضافه کنید:</p>
+<p>This results in an error because you’re missing some crucial information: a
+description and license are required so people will know what your crate does
+and under what terms they can use it. In <em>Cargo.toml</em>, add a description that’s
+just a sentence or two, because it will appear with your crate in search
+results. For the <code>license</code> field, you need to give a <em>license identifier value</em>.
+The <a href="https://spdx.org/licenses/">Linux Foundation’s Software Package Data Exchange (SPDX)</a> lists the
+identifiers you can use for this value. For example, to specify that you’ve
+licensed your crate using the MIT License, add the <code>MIT</code> identifier:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <p><span class="filename">Filename: Cargo.toml</span></p>
 <pre><code class="language-toml">[package]
 name = "guessing_game"
@@ -410,16 +701,58 @@ license = "MIT"
 <pre><code class="language-toml">[package]
 name = "guessing_game"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 description = "A fun game where you guess what number the computer has chosen."
 license = "MIT OR Apache-2.0"
 
 [dependencies]
 </code></pre>
+<h1 id="head-11"><a class="header" href="#head-11">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p><a href="https://doc.rust-lang.org/cargo/">مستندات Cargo</a> سایر متادیتاهایی که می‌توانید مشخص کنید تا دیگران بتوانند crate شما را راحت‌تر پیدا کرده و استفاده کنند توضیح می‌دهد.</p>
+<p><a href="https://doc.rust-lang.org/cargo/">Cargo’s documentation</a> describes other
+metadata you can specify to ensure that others can discover and use your crate
+more easily.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <h3 id="انتشار-در-cratesio"><a class="header" href="#انتشار-در-cratesio">انتشار در Crates.io</a></h3>
 <p>اکنون که یک حساب ایجاد کرده‌اید، توکن API خود را ذخیره کرده‌اید، نامی برای crate خود انتخاب کرده‌اید، و متادیتای مورد نیاز را مشخص کرده‌اید، آماده انتشار هستید! انتشار یک crate نسخه‌ای خاص از آن را در <a href="https://crates.io/">crates.io</a><!-- ignore --> آپلود می‌کند تا دیگران بتوانند از آن استفاده کنند.</p>
+<h1 id="head-12"><a class="header" href="#head-12">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
 <p>دقت کنید، زیرا انتشار <em>دائمی</em> است. نسخه هرگز نمی‌تواند بازنویسی شود، و کد نمی‌تواند حذف شود. یکی از اهداف اصلی <a href="https://crates.io/">crates.io</a><!-- ignore --> این است که به عنوان یک آرشیو دائمی از کد عمل کند، به طوری که ساخت‌های همه پروژه‌هایی که به crates از <a href="https://crates.io/">crates.io</a><!-- ignore --> وابسته هستند، همچنان کار کنند. اجازه حذف نسخه‌ها تحقق این هدف را غیرممکن می‌کند. با این حال، هیچ محدودیتی برای تعداد نسخه‌های crate که می‌توانید منتشر کنید وجود ندارد.</p>
+<p>Be careful, because a publish is <em>permanent</em>. The version can never be
+overwritten, and the code cannot be deleted except in certain circumstances.
+One major goal of Crates.io is to act as a permanent archive of code so that
+builds of all projects that depend on crates from
+<a href="https://crates.io/">crates.io</a><!-- ignore --> will continue to work. Allowing
+version deletions would make fulfilling that goal impossible. However, there is
+no limit to the number of crate versions you can publish.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>دستور <code>cargo publish</code> را دوباره اجرا کنید. اکنون باید موفق شود:</p>
 <!-- manual-regeneration
 go to some valid crate, publish a new version
@@ -429,20 +762,71 @@ copy just the relevant lines below
 <pre><code class="language-console">$ cargo publish
     Updating crates.io index
    Packaging guessing_game v0.1.0 (file:///projects/guessing_game)
+    Packaged 6 files, 1.2KiB (895.0B compressed)
    Verifying guessing_game v0.1.0 (file:///projects/guessing_game)
    Compiling guessing_game v0.1.0
 (file:///projects/guessing_game/target/package/guessing_game-0.1.0)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.19s
    Uploading guessing_game v0.1.0 (file:///projects/guessing_game)
+    Uploaded guessing_game v0.1.0 to registry `crates-io`
+note: waiting for `guessing_game v0.1.0` to be available at registry
+`crates-io`.
+You may press ctrl-c to skip waiting; the crate should be available shortly.
+   Published guessing_game v0.1.0 at registry `crates-io`
 </code></pre>
 <p>تبریک می‌گویم! شما اکنون کد خود را با جامعه Rust به اشتراک گذاشته‌اید و هر کسی می‌تواند به راحتی crate شما را به عنوان یک وابستگی به پروژه خود اضافه کند.</p>
 <h3 id="انتشار-نسخه-جدیدی-از-یک-crate-موجود"><a class="header" href="#انتشار-نسخه-جدیدی-از-یک-crate-موجود">انتشار نسخه جدیدی از یک Crate موجود</a></h3>
-<p>وقتی تغییراتی در crate خود ایجاد کرده‌اید و آماده انتشار یک نسخه جدید هستید، مقدار <code>version</code> مشخص‌شده در فایل <em>Cargo.toml</em> خود را تغییر داده و دوباره منتشر کنید. از <a href="http://semver.org/">قوانین نسخه‌بندی معنایی (Semantic Versioning)</a> استفاده کنید تا تصمیم بگیرید که بر اساس نوع تغییراتی که ایجاد کرده‌اید، چه شماره نسخه‌ای مناسب است. سپس دستور <code>cargo publish</code> را اجرا کنید تا نسخه جدید آپلود شود.</p>
+<h1 id="head-13"><a class="header" href="#head-13">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</a></h1>
+<p>وقتی تغییراتی در crate خود ایجاد کرده‌اید و آماده انتشار یک نسخه جدید هستید، مقدار <code>version</code> مشخص‌شده در فایل <em>Cargo.toml</em> خود را تغییر داده و دوباره منتشر کنید. از <a href="https://semver.org/">قوانین نسخه‌بندی معنایی (Semantic Versioning)</a> استفاده کنید تا تصمیم بگیرید که بر اساس نوع تغییراتی که ایجاد کرده‌اید، چه شماره نسخه‌ای مناسب است. سپس دستور <code>cargo publish</code> را اجرا کنید تا نسخه جدید آپلود شود.</p>
+<p>When you’ve made changes to your crate and are ready to release a new version,
+you change the <code>version</code> value specified in your <em>Cargo.toml</em> file and
+republish. Use the <a href="https://semver.org/">Semantic Versioning rules</a> to decide what an
+appropriate next version number is, based on the kinds of changes you’ve made.
+Then run <code>cargo publish</code> to upload the new version.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <!-- لینک قدیمی، حذف نکنید -->
 <p><a id="removing-versions-from-cratesio-with-cargo-yank"></a></p>
 <h3 id="از-رده-خارج-کردن-نسخهها-از-cratesio-با-استفاده-از-cargo-yank"><a class="header" href="#از-رده-خارج-کردن-نسخهها-از-cratesio-با-استفاده-از-cargo-yank">از رده خارج کردن نسخه‌ها از Crates.io با استفاده از <code>cargo yank</code></a></h3>
-<p>اگرچه نمی‌توانید نسخه‌های قبلی یک crate را حذف کنید، می‌توانید از اضافه شدن آن‌ها به عنوان وابستگی جدید در پروژه‌های آینده جلوگیری کنید. این ویژگی زمانی مفید است که یک نسخه از crate به هر دلیلی خراب باشد. در چنین مواردی، Cargo از <em>یَنک کردن</em> (yanking) یک نسخه از crate پشتیبانی می‌کند.</p>
-<p>یَنک کردن یک نسخه باعث می‌شود که پروژه‌های جدید نتوانند به آن نسخه وابسته شوند، در حالی که تمام پروژه‌های موجود که به آن نسخه وابسته هستند به کار خود ادامه می‌دهند. به طور خلاصه، یَنک به این معناست که تمام پروژه‌هایی که دارای فایل <em>Cargo.lock</em> هستند شکسته نخواهند شد و هر فایل <em>Cargo.lock</em> جدیدی که تولید شود از نسخه یَنک‌شده استفاده نخواهد کرد.</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+اگرچه نمی‌توانید نسخه‌های قبلی یک crate را حذف کنید، می‌توانید از اضافه شدن آن‌ها به عنوان وابستگی جدید در پروژه‌های آینده جلوگیری کنید. این ویژگی زمانی مفید است که یک نسخه از crate به هر دلیلی خراب باشد. در چنین مواردی، Cargo از <em>یَنک کردن</em> (yanking) یک نسخه از crate پشتیبانی می‌کند.</p>
+<h1 id="یَنک-کردن-یک-نسخه-باعث-میشود-که-پروژههای-جدید-نتوانند-به-آن-نسخه-وابسته-شوند-در-حالی-که-تمام-پروژههای-موجود-که-به-آن-نسخه-وابسته-هستند-به-کار-خود-ادامه-میدهند-به-طور-خلاصه-یَنک-به-این-معناست-که-تمام-پروژههایی-که-دارای-فایل-cargolock-هستند-شکسته-نخواهند-شد-و-هر-فایل-cargolock-جدیدی-که-تولید-شود-از-نسخه-یَنکشده-استفاده-نخواهد-کرد"><a class="header" href="#یَنک-کردن-یک-نسخه-باعث-میشود-که-پروژههای-جدید-نتوانند-به-آن-نسخه-وابسته-شوند-در-حالی-که-تمام-پروژههای-موجود-که-به-آن-نسخه-وابسته-هستند-به-کار-خود-ادامه-میدهند-به-طور-خلاصه-یَنک-به-این-معناست-که-تمام-پروژههایی-که-دارای-فایل-cargolock-هستند-شکسته-نخواهند-شد-و-هر-فایل-cargolock-جدیدی-که-تولید-شود-از-نسخه-یَنکشده-استفاده-نخواهد-کرد">یَنک کردن یک نسخه باعث می‌شود که پروژه‌های جدید نتوانند به آن نسخه وابسته شوند، در حالی که تمام پروژه‌های موجود که به آن نسخه وابسته هستند به کار خود ادامه می‌دهند. به طور خلاصه، یَنک به این معناست که تمام پروژه‌هایی که دارای فایل <em>Cargo.lock</em> هستند شکسته نخواهند شد و هر فایل <em>Cargo.lock</em> جدیدی که تولید شود از نسخه یَنک‌شده استفاده نخواهد کرد.</a></h1>
+<p>Although you can’t remove previous versions of a crate, you can prevent any
+future projects from adding them as a new dependency. This is useful when a
+crate version is broken for one reason or another. In such situations, Cargo
+supports yanking a crate version.</p>
+<p><em>Yanking</em> a version prevents new projects from depending on that version while
+allowing all existing projects that depend on it to continue. Essentially, a
+yank means that all projects with a <em>Cargo.lock</em> will not break, and any future
+<em>Cargo.lock</em> files generated will not use the yanked version.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>upstream/main</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>برای یَنک کردن یک نسخه از یک crate، در دایرکتوری crate‌ای که قبلاً منتشر کرده‌اید، دستور <code>cargo yank</code> را اجرا کرده و نسخه‌ای که می‌خواهید یَنک کنید را مشخص کنید. به عنوان مثال، اگر ما یک crate به نام <code>guessing_game</code> نسخه 1.0.1 منتشر کرده باشیم و بخواهیم آن را یَنک کنیم، در دایرکتوری پروژه <code>guessing_game</code> این دستور را اجرا می‌کنیم:</p>
 <pre><code class="language-console">$ cargo yank --vers 1.0.1
     Updating crates.io index
@@ -484,6 +868,22 @@ copy just the relevant lines below
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
@@ -502,6 +902,7 @@ copy just the relevant lines below
 
         <!-- Custom JS scripts -->
         <script src="ferris.js"></script>
+
 
 
     </div>
